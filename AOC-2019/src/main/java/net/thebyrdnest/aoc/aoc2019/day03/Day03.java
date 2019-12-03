@@ -1,18 +1,19 @@
 package net.thebyrdnest.aoc.aoc2019.day03;
 
 public class Day03 {
-    char[][] grid = null;
-    int maxX = 10;
-    int maxY = 10;
-    int initX = 1;
-    int initY = 1;
+    char[][] grid = new char[20000][20000];
+    int maxX;
+    int maxY;
+    int initX;
+    int initY;
+    int manhatanDistance;
 
     public Day03(int maxX, int maxY, int initX, int initY) {
-        grid = new char[maxY][maxX];
         this.maxX = maxX;
         this.maxY = maxY;
         this.initX = initX;
         this.initY = initY;
+        manhatanDistance = maxX + maxY + 10;
 
         for (int x = 0; x < maxX; x++) {
             for (int y = 0; y < maxY; y++) {
@@ -51,6 +52,20 @@ public class Day03 {
             // do nothing
         } else if (grid[y][x] == otherLineMark) {
             grid[y][x] = 'X';
+
+            int newDist = 0;
+            if (y < initY)
+                newDist = (initY - y);
+            else
+                newDist = (y - initY);
+
+            if (x < initX)
+                newDist = newDist + (initX - x);
+            else
+                newDist = newDist + (x - initX);
+
+            if (newDist < manhatanDistance)
+                manhatanDistance = newDist;
         } else {
             grid[y][x] = lineMark;
         }
@@ -62,15 +77,43 @@ public class Day03 {
         int y = initY;
 
         for (int index = 0; index < steps.length; index++) {
-            String direction = steps[index].substring(1, 2);
-            int length = Integer.parseInt(steps[index].substring(2));
+            //System.out.println(printGrid());
+            String direction = steps[index].substring(0, 1);
+            int length = Integer.parseInt(steps[index].substring(1));
 
             switch(direction) {
                 case "R":
                     for (int count = 0; count < length; count++) {
+                        x++;
                         markGrid(x, y, lineMark, otherLineMark);
                     }
+                    break;
+                case "L":
+                    for (int count = 0; count < length; count++) {
+                        x--;
+                        markGrid(x, y, lineMark, otherLineMark);
+                    }
+                    break;
+                case "U":
+                    for (int count = 0; count < length; count++) {
+                        y++;
+                        markGrid(x, y, lineMark, otherLineMark);
+                    }
+                    break;
+                case "D":
+                    for (int count = 0; count < length; count++) {
+                        y--;
+                        markGrid(x, y, lineMark, otherLineMark);
+                    }
+                    break;
             }
         }
+    }
+
+    public int solve1(String line1, String line2) {
+        drawLine(line1, '1', '2');
+        drawLine(line2, '2', '1');
+
+        return manhatanDistance;
     }
 }

@@ -1,10 +1,13 @@
 package net.thebyrdnest.aoc.utils;
 
+import java.util.Arrays;
+
 public class IntCodeComputer {
     private int[] memory = {};
 
     public void initMemory(int[] values) {
-        memory = values;
+        // gotta do a deep copy
+        memory = Arrays.copyOf(values, values.length);
     }
 
     public int program(int noun, int verb) {

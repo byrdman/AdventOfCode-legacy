@@ -45,6 +45,7 @@ Your puzzle answer was 225.
 The first half of this puzzle is complete! It provides one gold star: *
 
 --- Part Two ---
+
 It turns out that this circuit is very timing-sensitive; you actually need to minimize the signal delay.
 
 To do this, calculate the number of steps each wire takes to reach each intersection; choose the intersection where the sum of both wires' steps is lowest. If a wire visits a position on the grid multiple times, use the steps value from the first time it visits that position when calculating the total value of a specific intersection.

@@ -21,7 +21,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.thebyrdnest.aoc</groupId>
+            <groupId>net.thebyrdnest.aoc.utils</groupId>
             <artifactId>aoc-utils</artifactId>
             <version>2019.0.0</version>
         </dependency>

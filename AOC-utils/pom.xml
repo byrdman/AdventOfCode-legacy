@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.thebyrdnest.aoc.aoc2019</groupId>
+    <groupId>net.thebyrdnest.aoc.utils</groupId>
     <artifactId>aoc-utils</artifactId>
     <packaging>jar</packaging>
     <name>Advent of Code - utils</name>

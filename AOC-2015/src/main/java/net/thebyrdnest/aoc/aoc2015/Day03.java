@@ -1,6 +1,6 @@
-package net.thebyrdnest.aoc.aoc2015.day03;
+package net.thebyrdnest.aoc.aoc2015;
 
-public class Problem {
+public class Day03 {
     char[][] map = new char[1000][1000];
 
     private void resetMap() {

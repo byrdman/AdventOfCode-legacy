@@ -1,6 +1,6 @@
-package net.thebyrdnest.aoc.aoc2019.tests.day03;
+package net.thebyrdnest.aoc.aoc2019.tests;
 
-import net.thebyrdnest.aoc.aoc2019.day03.*;
+import net.thebyrdnest.aoc.aoc2019.Day03;
 import org.junit.jupiter.api.*;
 
 public class Day03Test {

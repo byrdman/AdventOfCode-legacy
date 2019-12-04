@@ -1,4 +1,4 @@
-package net.thebyrdnest.aoc.aoc2019.day02;
+package net.thebyrdnest.aoc.aoc2019;
 
 import net.thebyrdnest.aoc.utils.IntCodeComputer;
 

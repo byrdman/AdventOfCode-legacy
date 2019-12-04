@@ -1,6 +1,6 @@
-package net.thebyrdnest.aoc.aoc2015.day02;
+package net.thebyrdnest.aoc.aoc2015;
 
-public class Problem {
+public class Day02 {
     public int calcArea(int l, int w, int h) {
         return 2*l*w + 2*w*h + 2*h*l;
     }

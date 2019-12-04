@@ -1,4 +1,4 @@
-package net.thebyrdnest.aoc.aoc2019.day01;
+package net.thebyrdnest.aoc.aoc2019;
 
 public class Day01 {
     public int calcFuel(int mass) {

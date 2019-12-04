@@ -1,4 +1,4 @@
-package net.thebyrdnest.aoc.aoc2019.day04;
+package net.thebyrdnest.aoc.aoc2019;
 
 public class Day04 {
 

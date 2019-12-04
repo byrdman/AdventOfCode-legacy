@@ -1,9 +1,7 @@
-package net.thebyrdnest.aoc.aoc2019.tests.day02;
+package net.thebyrdnest.aoc.aoc2019.tests;
 
-import net.thebyrdnest.aoc.aoc2019.day02.Day02;
+import net.thebyrdnest.aoc.aoc2019.Day02;
 import org.junit.jupiter.api.*;
-
-import java.util.concurrent.ExecutionException;
 
 public class Day02Test {
     Day02 day02;

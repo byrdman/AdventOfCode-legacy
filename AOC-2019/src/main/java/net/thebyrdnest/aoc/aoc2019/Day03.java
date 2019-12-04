@@ -1,4 +1,4 @@
-package net.thebyrdnest.aoc.aoc2019.day03;
+package net.thebyrdnest.aoc.aoc2019;
 
 import java.util.ArrayList;
 import java.util.HashMap;

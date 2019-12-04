@@ -1,6 +1,6 @@
-package net.thebyrdnest.aoc.aoc2015.day01;
+package net.thebyrdnest.aoc.aoc2015;
 
-public class Problem {
+public class Day01 {
 
     public int solve1(String trip) {
         int floor = 0;

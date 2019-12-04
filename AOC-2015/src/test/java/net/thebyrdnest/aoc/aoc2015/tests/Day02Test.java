@@ -1,11 +1,11 @@
-package net.thebyrdnest.aoc.aoc2015.tests.day02;
+package net.thebyrdnest.aoc.aoc2015.tests;
 
-import net.thebyrdnest.aoc.aoc2015.day02.Problem;
+import net.thebyrdnest.aoc.aoc2015.Day02;
 import org.junit.jupiter.api.*;
 
-public class ProblemTest {
+public class Day02Test {
 
-    Problem prob;
+    Day02 prob;
 
     @BeforeAll
     public static void setupBeforeClass() throws Exception {
@@ -19,7 +19,7 @@ public class ProblemTest {
 
     @BeforeEach
     public void setupBeforeEach() throws Exception {
-        prob = new Problem();
+        prob = new Day02();
 
     }
 

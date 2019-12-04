@@ -60,6 +60,10 @@
 
 	<modules>
         <module>AOC-utils</module>
+		<module>AOC-2015</module>
+		<module>AOC-2016</module>
+		<module>AOC-2017</module>
+		<module>AOC-2018</module>
         <module>AOC-2019</module>
 	</modules>
 

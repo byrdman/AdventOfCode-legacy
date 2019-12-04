@@ -3,6 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AdventOfCode.iml" filepath="$PROJECT_DIR$/AdventOfCode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AOC-2015/aoc-2015.iml" filepath="$PROJECT_DIR$/AOC-2015/aoc-2015.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AOC-2017/aoc-2015 (1).iml" filepath="$PROJECT_DIR$/AOC-2017/aoc-2015 (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/AOC-2018/aoc-2015 (2).iml" filepath="$PROJECT_DIR$/AOC-2018/aoc-2015 (2).iml" />
+      <module fileurl="file://$PROJECT_DIR$/AOC-2018/aoc-2015 (3).iml" filepath="$PROJECT_DIR$/AOC-2018/aoc-2015 (3).iml" />
+      <module fileurl="file://$PROJECT_DIR$/AOC-2016/aoc-2016.iml" filepath="$PROJECT_DIR$/AOC-2016/aoc-2016.iml" />
       <module fileurl="file://$PROJECT_DIR$/AOC-2019/aoc-2019.iml" filepath="$PROJECT_DIR$/AOC-2019/aoc-2019.iml" />
       <module fileurl="file://$PROJECT_DIR$/AOC-utils/aoc-utils.iml" filepath="$PROJECT_DIR$/AOC-utils/aoc-utils.iml" />
     </modules>

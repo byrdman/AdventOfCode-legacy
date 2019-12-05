@@ -1,1011 +1,11 @@
 package net.thebyrdnest.aoc.aoc2015.tests;
 
-import net.thebyrdnest.aoc.aoc2015.Day05;
+import net.thebyrdnest.aoc.aoc2015.*;
 import org.junit.jupiter.api.*;
 
 public class Day07Test {
 
-    Day05 solver;
-    String myInput = "sszojmmrrkwuftyv\n" +
-            "isaljhemltsdzlum\n" +
-            "fujcyucsrxgatisb\n" +
-            "qiqqlmcgnhzparyg\n" +
-            "oijbmduquhfactbc\n" +
-            "jqzuvtggpdqcekgk\n" +
-            "zwqadogmpjmmxijf\n" +
-            "uilzxjythsqhwndh\n" +
-            "gtssqejjknzkkpvw\n" +
-            "wrggegukhhatygfi\n" +
-            "vhtcgqzerxonhsye\n" +
-            "tedlwzdjfppbmtdx\n" +
-            "iuvrelxiapllaxbg\n" +
-            "feybgiimfthtplui\n" +
-            "qxmmcnirvkzfrjwd\n" +
-            "vfarmltinsriqxpu\n" +
-            "oanqfyqirkraesfq\n" +
-            "xilodxfuxphuiiii\n" +
-            "yukhnchvjkfwcbiq\n" +
-            "bdaibcbzeuxqplop\n" +
-            "ivegnnpbiyxqsion\n" +
-            "ybahkbzpditgwdgt\n" +
-            "dmebdomwabxgtctu\n" +
-            "ibtvimgfaeonknoh\n" +
-            "jsqraroxudetmfyw\n" +
-            "dqdbcwtpintfcvuz\n" +
-            "tiyphjunlxddenpj\n" +
-            "fgqwjgntxagidhah\n" +
-            "nwenhxmakxqkeehg\n" +
-            "zdoheaxqpcnlhnen\n" +
-            "tfetfqojqcdzlpbm\n" +
-            "qpnxkuldeiituggg\n" +
-            "xwttlbdwxohahwar\n" +
-            "hjkwzadmtrkegzye\n" +
-            "koksqrqcfwcaxeof\n" +
-            "wulwmrptktliyxeq\n" +
-            "gyufbedqhhyqgqzj\n" +
-            "txpunzodohikzlmj\n" +
-            "jloqfuejfkemcrvu\n" +
-            "amnflshcheuddqtc\n" +
-            "pdvcsduggcogbiia\n" +
-            "yrioavgfmeafjpcz\n" +
-            "uyhbtmbutozzqfvq\n" +
-            "mwhgfwsgyuwcdzik\n" +
-            "auqylgxhmullxpaa\n" +
-            "lgelzivplaeoivzh\n" +
-            "uyvcepielfcmswoa\n" +
-            "qhirixgwkkccuzlp\n" +
-            "zoonniyosmkeejfg\n" +
-            "iayfetpixkedyana\n" +
-            "ictqeyzyqswdskiy\n" +
-            "ejsgqteafvmorwxe\n" +
-            "lhaiqrlqqwfbrqdx\n" +
-            "ydjyboqwhfpqfydc\n" +
-            "dwhttezyanrnbybv\n" +
-            "edgzkqeqkyojowvr\n" +
-            "rmjfdwsqamjqehdq\n" +
-            "ozminkgnkwqctrxz\n" +
-            "bztjhxpjthchhfcd\n" +
-            "vrtioawyxkivrpiq\n" +
-            "dpbcsznkpkaaclyy\n" +
-            "vpoypksymdwttpvz\n" +
-            "hhdlruwclartkyap\n" +
-            "bqkrcbrksbzcggbo\n" +
-            "jerbbbnxlwfvlaiw\n" +
-            "dwkasufidwjrjfbf\n" +
-            "kkfxtjhbnmqbmfwf\n" +
-            "vmnfziwqxmioukmj\n" +
-            "rqxvcultipkecdtu\n" +
-            "fhmfdibhtjzkiqsd\n" +
-            "hdpjbuzzbyafqrpd\n" +
-            "emszboysjuvwwvts\n" +
-            "msyigmwcuybfiooq\n" +
-            "druyksfnbluvnwoh\n" +
-            "fvgstvynnfbvxhsx\n" +
-            "bmzalvducnqtuune\n" +
-            "lzwkzfzttsvpllei\n" +
-            "olmplpvjamynfyfd\n" +
-            "padcwfkhystsvyfb\n" +
-            "wjhbvxkwtbfqdilb\n" +
-            "hruaqjwphonnterf\n" +
-            "bufjobjtvxtzjpmj\n" +
-            "oiedrjvmlbtwyyuy\n" +
-            "sgiemafwfztwsyju\n" +
-            "nsoqqfudrtwszyqf\n" +
-            "vonbxquiiwxnazyl\n" +
-            "yvnmjxtptujwqudn\n" +
-            "rrnybqhvrcgwvrkq\n" +
-            "taktoxzgotzxntfu\n" +
-            "quffzywzpxyaepxa\n" +
-            "rfvjebfiddcfgmwv\n" +
-            "iaeozntougqwnzoh\n" +
-            "scdqyrhoqmljhoil\n" +
-            "bfmqticltmfhxwld\n" +
-            "brbuktbyqlyfpsdl\n" +
-            "oidnyhjkeqenjlhd\n" +
-            "kujsaiqojopvrygg\n" +
-            "vebzobmdbzvjnjtk\n" +
-            "uunoygzqjopwgmbg\n" +
-            "piljqxgicjzgifso\n" +
-            "ikgptwcjzywswqnw\n" +
-            "pujqsixoisvhdvwi\n" +
-            "trtuxbgigogfsbbk\n" +
-            "mplstsqclhhdyaqk\n" +
-            "gzcwflvmstogdpvo\n" +
-            "tfjywbkmimyyqcjd\n" +
-            "gijutvhruqcsiznq\n" +
-            "ibxkhjvzzxgavkha\n" +
-            "btnxeqvznkxjsgmq\n" +
-            "tjgofgauxaelmjoq\n" +
-            "sokshvyhlkxerjrv\n" +
-            "ltogbivktqmtezta\n" +
-            "uduwytzvqvfluyuf\n" +
-            "msuckpthtgzhdxan\n" +
-            "fqmcglidvhvpirzr\n" +
-            "gwztkqpcwnutvfga\n" +
-            "bsjfgsrntdhlpqbx\n" +
-            "xloczbqybxmiopwt\n" +
-            "orvevzyjliomkkgu\n" +
-            "mzjbhmfjjvaziget\n" +
-            "tlsdxuhwdmghdyjb\n" +
-            "atoecyjhwmznaewi\n" +
-            "pyxpyvvipbqibiox\n" +
-            "ajbfmpqqobfsmesj\n" +
-            "siknbzefjblnohgd\n" +
-            "eqfhgewbblwdfkmc\n" +
-            "opylbscrotckkrbk\n" +
-            "lbwxbofgjkzdxkle\n" +
-            "ceixfjstaptdomvm\n" +
-            "hnkrqxifjmmjktie\n" +
-            "aqykzeuzvvetoygd\n" +
-            "fouahjimfcisxima\n" +
-            "prkzhutbqsyrhjzx\n" +
-            "qqwliakathnsbzne\n" +
-            "sayhgqtlcqqidqhj\n" +
-            "ygduolbysehdudra\n" +
-            "zricvxhdzznuxuce\n" +
-            "ucvzakslykpgsixd\n" +
-            "udirhgcttmyspgsb\n" +
-            "yuwzppjzfsjhhdzi\n" +
-            "gtqergjiuwookwre\n" +
-            "xvxexbjyjkxovvwf\n" +
-            "mlpaqhnnkqxrmwmm\n" +
-            "ezuqbrjozwuqafhb\n" +
-            "mcarusdthcbsonoq\n" +
-            "weeguqeheeiigrue\n" +
-            "pngtfugozxofaqxv\n" +
-            "copphvbjcmfspenv\n" +
-            "jiyahihykjjkdaya\n" +
-            "gdqnmesvptuyrfwp\n" +
-            "vbdscfywqmfxbohh\n" +
-            "crtrfuxyjypzubrg\n" +
-            "seihvevtxywxhflp\n" +
-            "fvvpmgttnapklwou\n" +
-            "qmqaqsajmqwhetpk\n" +
-            "zetxvrgjmblxvakr\n" +
-            "kpvwblrizaabmnhz\n" +
-            "mwpvvzaaicntrkcp\n" +
-            "clqyjiegtdsswqfm\n" +
-            "ymrcnqgcpldgfwtm\n" +
-            "nzyqpdenetncgnwq\n" +
-            "cmkzevgacnmdkqro\n" +
-            "kzfdsnamjqbeirhi\n" +
-            "kpxrvgvvxapqlued\n" +
-            "rzskbnfobevzrtqu\n" +
-            "vjoahbfwtydugzap\n" +
-            "ykbbldkoijlvicbl\n" +
-            "mfdmroiztsgjlasb\n" +
-            "quoigfyxwtwprmdr\n" +
-            "ekxjqafwudgwfqjm\n" +
-            "obtvyjkiycxfcdpb\n" +
-            "lhoihfnbuqelthof\n" +
-            "eydwzitgxryktddt\n" +
-            "rxsihfybacnpoyny\n" +
-            "bsncccxlplqgygtw\n" +
-            "rvmlaudsifnzhcqh\n" +
-            "huxwsyjyebckcsnn\n" +
-            "gtuqzyihwhqvjtes\n" +
-            "zreeyomtngvztveq\n" +
-            "nwddzjingsarhkxb\n" +
-            "nuqxqtctpoldrlsh\n" +
-            "wkvnrwqgjooovhpf\n" +
-            "kwgueyiyffudtbyg\n" +
-            "tpkzapnjxefqnmew\n" +
-            "ludwccvkihagvxal\n" +
-            "lfdtzhfadvabghna\n" +
-            "njqmlsnrkcfhtvbb\n" +
-            "cajzbqleghhnlgap\n" +
-            "vmitdcozzvqvzatp\n" +
-            "eelzefwqwjiywbcz\n" +
-            "uyztcuptfqvymjpi\n" +
-            "aorhnrpkjqqtgnfo\n" +
-            "lfrxfdrduoeqmwwp\n" +
-            "vszpjvbctblplinh\n" +
-            "zexhadgpqfifcqrz\n" +
-            "ueirfnshekpemqua\n" +
-            "qfremlntihbwabtb\n" +
-            "nwznunammfexltjc\n" +
-            "zkyieokaaogjehwt\n" +
-            "vlrxgkpclzeslqkq\n" +
-            "xrqrwfsuacywczhs\n" +
-            "olghlnfjdiwgdbqc\n" +
-            "difnlxnedpqcsrdf\n" +
-            "dgpuhiisybjpidsj\n" +
-            "vlwmwrikmitmoxbt\n" +
-            "sazpcmcnviynoktm\n" +
-            "pratafauetiknhln\n" +
-            "ilgteekhzwlsfwcn\n" +
-            "ywvwhrwhkaubvkbl\n" +
-            "qlaxivzwxyhvrxcf\n" +
-            "hbtlwjdriizqvjfb\n" +
-            "nrmsononytuwslsa\n" +
-            "mpxqgdthpoipyhjc\n" +
-            "mcdiwmiqeidwcglk\n" +
-            "vfbaeavmjjemfrmo\n" +
-            "qzcbzmisnynzibrc\n" +
-            "shzmpgxhehhcejhb\n" +
-            "wirtjadsqzydtyxd\n" +
-            "qjlrnjfokkqvnpue\n" +
-            "dxawdvjntlbxtuqc\n" +
-            "wttfmnrievfestog\n" +
-            "eamjfvsjhvzzaobg\n" +
-            "pbvfcwzjgxahlrag\n" +
-            "omvmjkqqnobvnzkn\n" +
-            "lcwmeibxhhlxnkzv\n" +
-            "uiaeroqfbvlazegs\n" +
-            "twniyldyuonfyzqw\n" +
-            "wgjkmsbwgfotdabi\n" +
-            "hnomamxoxvrzvtew\n" +
-            "ycrcfavikkrxxfgw\n" +
-            "isieyodknagzhaxy\n" +
-            "mgzdqwikzullzyco\n" +
-            "mumezgtxjrrejtrs\n" +
-            "nwmwjcgrqiwgfqel\n" +
-            "wjgxmebfmyjnxyyp\n" +
-            "durpspyljdykvzxf\n" +
-            "zuslbrpooyetgafh\n" +
-            "kuzrhcjwbdouhyme\n" +
-            "wyxuvbciodscbvfm\n" +
-            "kbnpvuqwmxwfqtqe\n" +
-            "zddzercqogdpxmft\n" +
-            "sigrdchxtgavzzjh\n" +
-            "lznjolnorbuddgcs\n" +
-            "ycnqabxlcajagwbt\n" +
-            "bnaudeaexahdgxsj\n" +
-            "rlnykxvoctfwanms\n" +
-            "jngyetkoplrstfzt\n" +
-            "tdpxknwacksotdub\n" +
-            "yutqgssfoptvizgr\n" +
-            "lzmqnxeqjfnsxmsa\n" +
-            "iqpgfsfmukovsdgu\n" +
-            "qywreehbidowtjyz\n" +
-            "iozamtgusdctvnkw\n" +
-            "ielmujhtmynlwcfd\n" +
-            "hzxnhtbnmmejlkyf\n" +
-            "ftbslbzmiqkzebtd\n" +
-            "bcwdqgiiizmohack\n" +
-            "dqhfkzeddjzbdlxu\n" +
-            "mxopokqffisxosci\n" +
-            "vciatxhtuechbylk\n" +
-            "khtkhcvelidjdena\n" +
-            "blatarwzfqcapkdt\n" +
-            "elamngegnczctcck\n" +
-            "xeicefdbwrxhuxuf\n" +
-            "sawvdhjoeahlgcdr\n" +
-            "kmdcimzsfkdfpnir\n" +
-            "axjayzqlosrduajb\n" +
-            "mfhzreuzzumvoggr\n" +
-            "iqlbkbhrkptquldb\n" +
-            "xcvztvlshiefuhgb\n" +
-            "pkvwyqmyoazocrio\n" +
-            "ajsxkdnerbmhyxaj\n" +
-            "tudibgsbnpnizvsi\n" +
-            "cxuiydkgdccrqvkh\n" +
-            "cyztpjesdzmbcpot\n" +
-            "nnazphxpanegwitx\n" +
-            "uphymczbmjalmsct\n" +
-            "yyxiwnlrogyzwqmg\n" +
-            "gmqwnahjvvdyhnfa\n" +
-            "utolskxpuoheugyl\n" +
-            "mseszdhyzoyavepd\n" +
-            "ycqknvbuvcjfgmlc\n" +
-            "sknrxhxbfpvpeorn\n" +
-            "zqxqjetooqcodwml\n" +
-            "sesylkpvbndrdhsy\n" +
-            "fryuxvjnsvnjrxlw\n" +
-            "mfxusewqurscujnu\n" +
-            "mbitdjjtgzchvkfv\n" +
-            "ozwlyxtaalxofovd\n" +
-            "wdqcduaykxbunpie\n" +
-            "rlnhykxiraileysk\n" +
-            "wgoqfrygttlamobg\n" +
-            "kflxzgxvcblkpsbz\n" +
-            "tmkisflhativzhde\n" +
-            "owsdrfgkaamogjzd\n" +
-            "gaupjkvkzavhfnes\n" +
-            "wknkurddcknbdleg\n" +
-            "lltviwincmbtduap\n" +
-            "qwzvspgbcksyzzmb\n" +
-            "ydzzkumecryfjgnk\n" +
-            "jzvmwgjutxoysaam\n" +
-            "icrwpyhxllbardkr\n" +
-            "jdopyntshmvltrve\n" +
-            "afgkigxcuvmdbqou\n" +
-            "mfzzudntmvuyhjzt\n" +
-            "duxhgtwafcgrpihc\n" +
-            "tsnhrkvponudumeb\n" +
-            "sqtvnbeiigdzbjgv\n" +
-            "eczmkqwvnsrracuo\n" +
-            "mhehsgqwiczaiaxv\n" +
-            "kaudmfvifovrimpd\n" +
-            "lupikgivechdbwfr\n" +
-            "mwaaysrndiutuiqx\n" +
-            "aacuiiwgaannunmm\n" +
-            "tjqjbftaqitukwzp\n" +
-            "lrcqyskykbjpaekn\n" +
-            "lirrvofbcqpjzxmr\n" +
-            "jurorvzpplyelfml\n" +
-            "qonbllojmloykjqe\n" +
-            "sllkzqujfnbauuqp\n" +
-            "auexjwsvphvikali\n" +
-            "usuelbssqmbrkxyc\n" +
-            "wyuokkfjexikptvv\n" +
-            "wmfedauwjgbrgytl\n" +
-            "sfwvtlzzebxzmuvw\n" +
-            "rdhqxuechjsjcvaf\n" +
-            "kpavhqkukugocsxu\n" +
-            "ovnjtumxowbxduts\n" +
-            "zgerpjufauptxgat\n" +
-            "pevvnzjfwhjxdoxq\n" +
-            "pmmfwxajgfziszcs\n" +
-            "difmeqvaghuitjhs\n" +
-            "icpwjbzcmlcterwm\n" +
-            "ngqpvhajttxuegyh\n" +
-            "mosjlqswdngwqsmi\n" +
-            "frlvgpxrjolgodlu\n" +
-            "eazwgrpcxjgoszeg\n" +
-            "bbtsthgkjrpkiiyk\n" +
-            "tjonoglufuvsvabe\n" +
-            "xhkbcrofytmbzrtk\n" +
-            "kqftfzdmpbxjynps\n" +
-            "kmeqpocbnikdtfyv\n" +
-            "qjjymgqxhnjwxxhp\n" +
-            "dmgicrhgbngdtmjt\n" +
-            "zdxrhdhbdutlawnc\n" +
-            "afvoekuhdboxghvx\n" +
-            "hiipezngkqcnihty\n" +
-            "bbmqgheidenweeov\n" +
-            "suprgwxgxwfsgjnx\n" +
-            "adeagikyamgqphrj\n" +
-            "zzifqinoeqaorjxg\n" +
-            "adhgppljizpaxzld\n" +
-            "lvxyieypvvuqjiyc\n" +
-            "nljoakatwwwoovzn\n" +
-            "fcrkfxclcacshhmx\n" +
-            "ownnxqtdhqbgthch\n" +
-            "lmfylrcdmdkgpwnj\n" +
-            "hlwjfbvlswbzpbjr\n" +
-            "mkofhdtljdetcyvp\n" +
-            "synyxhifbetzarpo\n" +
-            "agnggugngadrcxoc\n" +
-            "uhttadmdmhidpyjw\n" +
-            "ohfwjfhunalbubpr\n" +
-            "pzkkkkwrlvxiuysn\n" +
-            "kmidbxmyzkjrwjhu\n" +
-            "egtitdydwjxmajnw\n" +
-            "civoeoiuwtwgbqqs\n" +
-            "dfptsguzfinqoslk\n" +
-            "tdfvkreormspprer\n" +
-            "zvnvbrmthatzztwi\n" +
-            "ffkyddccrrfikjde\n" +
-            "hrrmraevdnztiwff\n" +
-            "qaeygykcpbtjwjbr\n" +
-            "purwhitkmrtybslh\n" +
-            "qzziznlswjaussel\n" +
-            "dfcxkvdpqccdqqxj\n" +
-            "tuotforulrrytgyn\n" +
-            "gmtgfofgucjywkev\n" +
-            "wkyoxudvdkbgpwhd\n" +
-            "qbvktvfvipftztnn\n" +
-            "otckgmojziezmojb\n" +
-            "inxhvzbtgkjxflay\n" +
-            "qvxapbiatuudseno\n" +
-            "krpvqosbesnjntut\n" +
-            "oqeukkgjsfuqkjbb\n" +
-            "prcjnyymnqwqksiz\n" +
-            "vuortvjxgckresko\n" +
-            "orqlyobvkuwgathr\n" +
-            "qnpyxlnazyfuijox\n" +
-            "zwlblfkoklqmqzkw\n" +
-            "hmwurwtpwnrcsanl\n" +
-            "jzvxohuakopuzgpf\n" +
-            "sfcpnxrviphhvxmx\n" +
-            "qtwdeadudtqhbely\n" +
-            "dbmkmloasqphnlgj\n" +
-            "olylnjtkxgrubmtk\n" +
-            "nxsdbqjuvwrrdbpq\n" +
-            "wbabpirnpcsmpipw\n" +
-            "hjnkyiuxpqrlvims\n" +
-            "enzpntcjnxdpuqch\n" +
-            "vvvqhlstzcizyimn\n" +
-            "triozhqndbttglhv\n" +
-            "fukvgteitwaagpzx\n" +
-            "uhcvukfbmrvskpen\n" +
-            "tizcyupztftzxdmt\n" +
-            "vtkpnbpdzsaluczz\n" +
-            "wodfoyhoekidxttm\n" +
-            "otqocljrmwfqbxzu\n" +
-            "linfbsnfvixlwykn\n" +
-            "vxsluutrwskslnye\n" +
-            "zbshygtwugixjvsi\n" +
-            "zdcqwxvwytmzhvoo\n" +
-            "wrseozkkcyctrmei\n" +
-            "fblgtvogvkpqzxiy\n" +
-            "opueqnuyngegbtnf\n" +
-            "qxbovietpacqqxok\n" +
-            "zacrdrrkohfygddn\n" +
-            "gbnnvjqmkdupwzpq\n" +
-            "qgrgmsxeotozvcak\n" +
-            "hnppukzvzfmlokid\n" +
-            "dzbheurndscrrtcl\n" +
-            "wbgdkadtszebbrcw\n" +
-            "fdmzppzphhpzyuiz\n" +
-            "bukomunhrjrypohj\n" +
-            "ohodhelegxootqbj\n" +
-            "rsplgzarlrknqjyh\n" +
-            "punjjwpsxnhpzgvu\n" +
-            "djdfahypfjvpvibm\n" +
-            "mlgrqsmhaozatsvy\n" +
-            "xwktrgyuhqiquxgn\n" +
-            "wvfaoolwtkbrisvf\n" +
-            "plttjdmguxjwmeqr\n" +
-            "zlvvbwvlhauyjykw\n" +
-            "cigwkbyjhmepikej\n" +
-            "masmylenrusgtyxs\n" +
-            "hviqzufwyetyznze\n" +
-            "nzqfuhrooswxxhus\n" +
-            "pdbdetaqcrqzzwxf\n" +
-            "oehmvziiqwkzhzib\n" +
-            "icgpyrukiokmytoy\n" +
-            "ooixfvwtiafnwkce\n" +
-            "rvnmgqggpjopkihs\n" +
-            "wywualssrmaqigqk\n" +
-            "pdbvflnwfswsrirl\n" +
-            "jeaezptokkccpbuj\n" +
-            "mbdwjntysntsaaby\n" +
-            "ldlgcawkzcwuxzpz\n" +
-            "lwktbgrzswbsweht\n" +
-            "ecspepmzarzmgpjm\n" +
-            "qmfyvulkmkxjncai\n" +
-            "izftypvwngiukrns\n" +
-            "zgmnyjfeqffbooww\n" +
-            "nyrkhggnprhedows\n" +
-            "yykzzrjmlevgffah\n" +
-            "mavaemfxhlfejfki\n" +
-            "cmegmfjbkvpncqwf\n" +
-            "zxidlodrezztcrij\n" +
-            "fseasudpgvgnysjv\n" +
-            "fupcimjupywzpqzp\n" +
-            "iqhgokavirrcvyys\n" +
-            "wjmkcareucnmfhui\n" +
-            "nftflsqnkgjaexhq\n" +
-            "mgklahzlcbapntgw\n" +
-            "kfbmeavfxtppnrxn\n" +
-            "nuhyvhknlufdynvn\n" +
-            "nviogjxbluwrcoec\n" +
-            "tyozixxxaqiuvoys\n" +
-            "kgwlvmvgtsvxojpr\n" +
-            "moeektyhyonfdhrb\n" +
-            "kahvevmmfsmiiqex\n" +
-            "xcywnqzcdqtvhiwd\n" +
-            "fnievhiyltbvtvem\n" +
-            "jlmndqufirwgtdxd\n" +
-            "muypbfttoeelsnbs\n" +
-            "rypxzbnujitfwkou\n" +
-            "ubmmjbznskildeoj\n" +
-            "ofnmizdeicrmkjxp\n" +
-            "rekvectjbmdnfcib\n" +
-            "yohrojuvdexbctdh\n" +
-            "gwfnfdeibynzjmhz\n" +
-            "jfznhfcqdwlpjull\n" +
-            "scrinzycfhwkmmso\n" +
-            "mskutzossrwoqqsi\n" +
-            "rygoebkzgyzushhr\n" +
-            "jpjqiycflqkexemx\n" +
-            "arbufysjqmgaapnl\n" +
-            "dbjerflevtgweeoj\n" +
-            "snybnnjlmwjvhois\n" +
-            "fszuzplntraprmbj\n" +
-            "mkvaatolvuggikvg\n" +
-            "zpuzuqygoxesnuyc\n" +
-            "wnpxvmxvllxalulm\n" +
-            "eivuuafkvudeouwy\n" +
-            "rvzckdyixetfuehr\n" +
-            "qgmnicdoqhveahyx\n" +
-            "miawwngyymshjmpj\n" +
-            "pvckyoncpqeqkbmx\n" +
-            "llninfenrfjqxurv\n" +
-            "kzbjnlgsqjfuzqtp\n" +
-            "rveqcmxomvpjcwte\n" +
-            "bzotkawzbopkosnx\n" +
-            "ktqvpiribpypaymu\n" +
-            "wvlzkivbukhnvram\n" +
-            "uohntlcoguvjqqdo\n" +
-            "ajlsiksjrcnzepkt\n" +
-            "xsqatbldqcykwusd\n" +
-            "ihbivgzrwpmowkop\n" +
-            "vfayesfojmibkjpb\n" +
-            "uaqbnijtrhvqxjtb\n" +
-            "hhovshsfmvkvymba\n" +
-            "jerwmyxrfeyvxcgg\n" +
-            "hncafjwrlvdcupma\n" +
-            "qyvigggxfylbbrzt\n" +
-            "hiiixcyohmvnkpgk\n" +
-            "mmitpwopgxuftdfu\n" +
-            "iaxderqpceboixoa\n" +
-            "zodfmjhuzhnsqfcb\n" +
-            "sthtcbadrclrazsi\n" +
-            "bkkkkcwegvypbrio\n" +
-            "wmpcofuvzemunlhj\n" +
-            "gqwebiifvqoeynro\n" +
-            "juupusqdsvxcpsgv\n" +
-            "rbhdfhthxelolyse\n" +
-            "kjimpwnjfrqlqhhz\n" +
-            "rcuigrjzarzpjgfq\n" +
-            "htxcejfyzhydinks\n" +
-            "sxucpdxhvqjxxjwf\n" +
-            "omsznfcimbcwaxal\n" +
-            "gufmtdlhgrsvcosb\n" +
-            "bssshaqujtmluerz\n" +
-            "uukotwjkstgwijtr\n" +
-            "kbqkneobbrdogrxk\n" +
-            "ljqopjcjmelgrakz\n" +
-            "rwtfnvnzryujwkfb\n" +
-            "dedjjbrndqnilbeh\n" +
-            "nzinsxnpptzagwlb\n" +
-            "lwqanydfirhnhkxy\n" +
-            "hrjuzfumbvfccxno\n" +
-            "okismsadkbseumnp\n" +
-            "sfkmiaiwlktxqvwa\n" +
-            "hauwpjjwowbunbjj\n" +
-            "nowkofejwvutcnui\n" +
-            "bqzzppwoslaeixro\n" +
-            "urpfgufwbtzenkpj\n" +
-            "xgeszvuqwxeykhef\n" +
-            "yxoldvkyuikwqyeq\n" +
-            "onbbhxrnmohzskgg\n" +
-            "qcikuxakrqeugpoa\n" +
-            "lnudcqbtyzhlpers\n" +
-            "nxduvwfrgzaailgl\n" +
-            "xniuwvxufzxjjrwz\n" +
-            "ljwithcqmgvntjdj\n" +
-            "awkftfagrfzywkhs\n" +
-            "uedtpzxyubeveuek\n" +
-            "bhcqdwidbjkqqhzl\n" +
-            "iyneqjdmlhowwzxx\n" +
-            "kvshzltcrrururty\n" +
-            "zgfpiwajegwezupo\n" +
-            "tkrvyanujjwmyyri\n" +
-            "ercsefuihcmoaiep\n" +
-            "ienjrxpmetinvbos\n" +
-            "jnwfutjbgenlipzq\n" +
-            "bgohjmrptfuamzbz\n" +
-            "rtsyamajrhxbcncw\n" +
-            "tfjdssnmztvbnscs\n" +
-            "bgaychdlmchngqlp\n" +
-            "kfjljiobynhwfkjo\n" +
-            "owtdxzcpqleftbvn\n" +
-            "ltjtimxwstvzwzjj\n" +
-            "wbrvjjjajuombokf\n" +
-            "zblpbpuaqbkvsxye\n" +
-            "gwgdtbpnlhyqspdi\n" +
-            "abipqjihjqfofmkx\n" +
-            "nlqymnuvjpvvgova\n" +
-            "avngotmhodpoufzn\n" +
-            "qmdyivtzitnrjuae\n" +
-            "xfwjmqtqdljuerxi\n" +
-            "csuellnlcyqaaamq\n" +
-            "slqyrcurcyuoxquo\n" +
-            "dcjmxyzbzpohzprl\n" +
-            "uqfnmjwniyqgsowb\n" +
-            "rbmxpqoblyxdocqc\n" +
-            "ebjclrdbqjhladem\n" +
-            "ainnfhxnsgwqnmyo\n" +
-            "eyytjjwhvodtzquf\n" +
-            "iabjgmbbhilrcyyp\n" +
-            "pqfnehkivuelyccc\n" +
-            "xgjbyhfgmtseiimt\n" +
-            "jwxyqhdbjiqqqeyy\n" +
-            "gxsbrncqkmvaryln\n" +
-            "vhjisxjkinaejytk\n" +
-            "seexagcdmaedpcvh\n" +
-            "lvudfgrcpjxzdpvd\n" +
-            "fxtegyrqjzhmqean\n" +
-            "dnoiseraqcoossmc\n" +
-            "nwrhmwwbykvwmgep\n" +
-            "udmzskejvizmtlce\n" +
-            "hbzvqhvudfdlegaa\n" +
-            "cghmlfqejbxewskv\n" +
-            "bntcmjqfwomtbwsb\n" +
-            "qezhowyopjdyhzng\n" +
-            "todzsocdkgfxanbz\n" +
-            "zgjkssrjlwxuhwbk\n" +
-            "eibzljqsieriyrzr\n" +
-            "wamxvzqyycrxotjp\n" +
-            "epzvfkispwqynadu\n" +
-            "dwlpfhtrafrxlyie\n" +
-            "qhgzujhgdruowoug\n" +
-            "girstvkahaemmxvh\n" +
-            "baitcrqmxhazyhbl\n" +
-            "xyanqcchbhkajdmc\n" +
-            "gfvjmmcgfhvgnfdq\n" +
-            "tdfdbslwncbnkzyz\n" +
-            "jojuselkpmnnbcbb\n" +
-            "hatdslkgxtqpmavj\n" +
-            "dvelfeddvgjcyxkj\n" +
-            "gnsofhkfepgwltse\n" +
-            "mdngnobasfpewlno\n" +
-            "qssnbcyjgmkyuoga\n" +
-            "glvcmmjytmprqwvn\n" +
-            "gwrixumjbcdffsdl\n" +
-            "lozravlzvfqtsuiq\n" +
-            "sicaflbqdxbmdlch\n" +
-            "inwfjkyyqbwpmqlq\n" +
-            "cuvszfotxywuzhzi\n" +
-            "igfxyoaacoarlvay\n" +
-            "ucjfhgdmnjvgvuni\n" +
-            "rvvkzjsytqgiposh\n" +
-            "jduinhjjntrmqroz\n" +
-            "yparkxbgsfnueyll\n" +
-            "lyeqqeisxzfsqzuj\n" +
-            "woncskbibjnumydm\n" +
-            "lltucklragtjmxtl\n" +
-            "ubiyvmyhlesfxotj\n" +
-            "uecjseeicldqrqww\n" +
-            "xxlxkbcthufnjbnm\n" +
-            "lhqijovvhlffpxga\n" +
-            "fzdgqpzijitlogjz\n" +
-            "efzzjqvwphomxdpd\n" +
-            "jvgzvuyzobeazssc\n" +
-            "hejfycgxywfjgbfw\n" +
-            "yhjjmvkqfbnbliks\n" +
-            "sffvfyywtlntsdsz\n" +
-            "dwmxqudvxqdenrur\n" +
-            "asnukgppdemxrzaz\n" +
-            "nwqfnumblwvdpphx\n" +
-            "kqsmkkspqvxzuket\n" +
-            "cpnraovljzqiquaz\n" +
-            "qrzgrdlyyzbyykhg\n" +
-            "opoahcbiydyhsmqe\n" +
-            "hjknnfdauidjeydr\n" +
-            "hczdjjlygoezadow\n" +
-            "rtflowzqycimllfv\n" +
-            "sfsrgrerzlnychhq\n" +
-            "bpahuvlblcolpjmj\n" +
-            "albgnjkgmcrlaicl\n" +
-            "pijyqdhfxpaxzdex\n" +
-            "eeymiddvcwkpbpux\n" +
-            "rqwkqoabywgggnln\n" +
-            "vckbollyhgbgmgwh\n" +
-            "ylzlgvnuvpynybkm\n" +
-            "hpmbxtpfosbsjixt\n" +
-            "ocebeihnhvkhjfqz\n" +
-            "tvctyxoujdgwayze\n" +
-            "efvhwxtuhapqxjen\n" +
-            "rusksgefyidldmpo\n" +
-            "nkmtjvddfmhirmzz\n" +
-            "whvtsuadwofzmvrt\n" +
-            "iiwjqvsdxudhdzzk\n" +
-            "gucirgxaxgcassyo\n" +
-            "rmhfasfzexeykwmr\n" +
-            "hynlxcvsbgosjbis\n" +
-            "huregszrcaocueen\n" +
-            "pifezpoolrnbdqtv\n" +
-            "unatnixzvdbqeyox\n" +
-            "xtawlpduxgacchfe\n" +
-            "bdvdbflqfphndduf\n" +
-            "xtdsnjnmzccfptyt\n" +
-            "nkhsdkhqtzqbphhg\n" +
-            "aqcubmfkczlaxiyb\n" +
-            "moziflxpsfubucmv\n" +
-            "srdgnnjtfehiimqx\n" +
-            "pwfalehdfyykrohf\n" +
-            "sysxssmvewyfjrve\n" +
-            "brsemdzosgqvvlxe\n" +
-            "bimbjoshuvflkiat\n" +
-            "hkgjasmljkpkwwku\n" +
-            "sbnmwjvodygobpqc\n" +
-            "bbbqycejueruihhd\n" +
-            "corawswvlvneipyc\n" +
-            "gcyhknmwsczcxedh\n" +
-            "kppakbffdhntmcqp\n" +
-            "ynulzwkfaemkcefp\n" +
-            "pyroowjekeurlbii\n" +
-            "iwksighrswdcnmxf\n" +
-            "glokrdmugreygnsg\n" +
-            "xkmvvumnfzckryop\n" +
-            "aesviofpufygschi\n" +
-            "csloawlirnegsssq\n" +
-            "fkqdqqmlzuxbkzbc\n" +
-            "uzlhzcfenxdfjdzp\n" +
-            "poaaidrktteusvyf\n" +
-            "zrlyfzmjzfvivcfr\n" +
-            "qwjulskbniitgqtx\n" +
-            "gjeszjksbfsuejki\n" +
-            "vczdejdbfixbduaq\n" +
-            "knjdrjthitjxluth\n" +
-            "jweydeginrnicirl\n" +
-            "bottrfgccqhyycsl\n" +
-            "eiquffofoadmbuhk\n" +
-            "lbqfutmzoksscswf\n" +
-            "xfmdvnvfcnzjprba\n" +
-            "uvugkjbkhlaoxmyx\n" +
-            "wadlgtpczgvcaqqv\n" +
-            "inzrszbtossflsxk\n" +
-            "dbzbtashaartczrj\n" +
-            "qbjiqpccefcfkvod\n" +
-            "hluujmokjywotvzy\n" +
-            "thwlliksfztcmwzh\n" +
-            "arahybspdaqdexrq\n" +
-            "nuojrmsgyipdvwyx\n" +
-            "hnajdwjwmzattvst\n" +
-            "sulcgaxezkprjbgu\n" +
-            "rjowuugwdpkjtypw\n" +
-            "oeugzwuhnrgiaqga\n" +
-            "wvxnyymwftfoswij\n" +
-            "pqxklzkjpcqscvde\n" +
-            "tuymjzknntekglqj\n" +
-            "odteewktugcwlhln\n" +
-            "exsptotlfecmgehc\n" +
-            "eeswfcijtvzgrqel\n" +
-            "vjhrkiwmunuiwqau\n" +
-            "zhlixepkeijoemne\n" +
-            "pavfsmwesuvebzdd\n" +
-            "jzovbklnngfdmyws\n" +
-            "nbajyohtzfeoiixz\n" +
-            "ciozmhrsjzrwxvhz\n" +
-            "gwucrxieqbaqfjuv\n" +
-            "uayrxrltnohexawc\n" +
-            "flmrbhwsfbcquffm\n" +
-            "gjyabmngkitawlxc\n" +
-            "rwwtggvaygfbovhg\n" +
-            "xquiegaisynictjq\n" +
-            "oudzwuhexrwwdbyy\n" +
-            "lengxmguyrwhrebb\n" +
-            "uklxpglldbgqsjls\n" +
-            "dbmvlfeyguydfsxq\n" +
-            "zspdwdqcrmtmdtsc\n" +
-            "mqfnzwbfqlauvrgc\n" +
-            "amcrkzptgacywvhv\n" +
-            "ndxmskrwrqysrndf\n" +
-            "mwjyhsufeqhwisju\n" +
-            "srlrukoaenyevykt\n" +
-            "tnpjtpwawrxbikct\n" +
-            "geczalxmgxejulcv\n" +
-            "tvkcbqdhmuwcxqci\n" +
-            "tiovluvwezwwgaox\n" +
-            "zrjhtbgajkjqzmfo\n" +
-            "vcrywduwsklepirs\n" +
-            "lofequdigsszuioy\n" +
-            "wxsdzomkjqymlzat\n" +
-            "iabaczqtrfbmypuy\n" +
-            "ibdlmudbajikcncr\n" +
-            "rqcvkzsbwmavdwnv\n" +
-            "ypxoyjelhllhbeog\n" +
-            "fdnszbkezyjbttbg\n" +
-            "uxnhrldastpdjkdz\n" +
-            "xfrjbehtxnlyzcka\n" +
-            "omjyfhbibqwgcpbv\n" +
-            "eguucnoxaoprszmp\n" +
-            "xfpypldgcmcllyzz\n" +
-            "aypnmgqjxjqceelv\n" +
-            "mgzharymejlafvgf\n" +
-            "tzowgwsubbaigdok\n" +
-            "ilsehjqpcjwmylxc\n" +
-            "pfmouwntfhfnmrwk\n" +
-            "csgokybgdqwnduwp\n" +
-            "eaxwvxvvwbrovypz\n" +
-            "nmluqvobbbmdiwwb\n" +
-            "lnkminvfjjzqbmio\n" +
-            "mjiiqzycqdhfietz\n" +
-            "towlrzriicyraevq\n" +
-            "obiloewdvbrsfwjo\n" +
-            "lmeooaajlthsfltw\n" +
-            "ichygipzpykkesrw\n" +
-            "gfysloxmqdsfskvt\n" +
-            "saqzntehjldvwtsx\n" +
-            "pqddoemaufpfcaew\n" +
-            "mjrxvbvwcreaybwe\n" +
-            "ngfbrwfqnxqosoai\n" +
-            "nesyewxreiqvhald\n" +
-            "kqhqdlquywotcyfy\n" +
-            "liliptyoqujensfi\n" +
-            "nsahsaxvaepzneqq\n" +
-            "zaickulfjajhctye\n" +
-            "gxjzahtgbgbabtht\n" +
-            "koxbuopaqhlsyhrp\n" +
-            "jhzejdjidqqtjnwe\n" +
-            "dekrkdvprfqpcqki\n" +
-            "linwlombdqtdeyop\n" +
-            "dvckqqbnigdcmwmx\n" +
-            "yaxygbjpzkvnnebv\n" +
-            "rlzkdkgaagmcpxah\n" +
-            "cfzuyxivtknirqvt\n" +
-            "obivkajhsjnrxxhn\n" +
-            "lmjhayymgpseuynn\n" +
-            "bbjyewkwadaipyju\n" +
-            "lmzyhwomfypoftuu\n" +
-            "gtzhqlgltvatxack\n" +
-            "jfflcfaqqkrrltgq\n" +
-            "txoummmnzfrlrmcg\n" +
-            "ohemsbfuqqpucups\n" +
-            "imsfvowcbieotlok\n" +
-            "tcnsnccdszxfcyde\n" +
-            "qkcdtkwuaquajazz\n" +
-            "arcfnhmdjezdbqku\n" +
-            "srnocgyqrlcvlhkb\n" +
-            "mppbzvfmcdirbyfw\n" +
-            "xiuarktilpldwgwd\n" +
-            "ypufwmhrvzqmexpc\n" +
-            "itpdnsfkwgrdujmj\n" +
-            "cmpxnodtsswkyxkr\n" +
-            "wayyxtjklfrmvbfp\n" +
-            "mfaxphcnjczhbbwy\n" +
-            "sjxhgwdnqcofbdra\n" +
-            "pnxmujuylqccjvjm\n" +
-            "ivamtjbvairwjqwl\n" +
-            "deijtmzgpfxrclss\n" +
-            "bzkqcaqagsynlaer\n" +
-            "tycefobvxcvwaulz\n" +
-            "ctbhnywezxkdsswf\n" +
-            "urrxxebxrthtjvib\n" +
-            "fpfelcigwqwdjucv\n" +
-            "ngfcyyqpqulwcphb\n" +
-            "rltkzsiipkpzlgpw\n" +
-            "qfdsymzwhqqdkykc\n" +
-            "balrhhxipoqzmihj\n" +
-            "rnwalxgigswxomga\n" +
-            "ghqnxeogckshphgr\n" +
-            "lyyaentdizaumnla\n" +
-            "exriodwfzosbeoib\n" +
-            "speswfggibijfejk\n" +
-            "yxmxgfhvmshqszrq\n" +
-            "hcqhngvahzgawjga\n" +
-            "qmhlsrfpesmeksur\n" +
-            "eviafjejygakodla\n" +
-            "kvcfeiqhynqadbzv\n" +
-            "fusvyhowslfzqttg\n" +
-            "girqmvwmcvntrwau\n" +
-            "yuavizroykfkdekz\n" +
-            "jmcwohvmzvowrhxf\n" +
-            "kzimlcpavapynfue\n" +
-            "wjudcdtrewfabppq\n" +
-            "yqpteuxqgbmqfgxh\n" +
-            "xdgiszbuhdognniu\n" +
-            "jsguxfwhpftlcjoh\n" +
-            "whakkvspssgjzxre\n" +
-            "ggvnvjurlyhhijgm\n" +
-            "krvbhjybnpemeptr\n" +
-            "pqedgfojyjybfbzr\n" +
-            "jzhcrsgmnkwwtpdo\n" +
-            "yyscxoxwofslncmp\n" +
-            "gzjhnxytmyntzths\n" +
-            "iteigbnqbtpvqumi\n" +
-            "zjevfzusnjukqpfw\n" +
-            "xippcyhkfuounxqk\n" +
-            "mcnhrcfonfdgpkyh\n" +
-            "pinkcyuhjkexbmzj\n" +
-            "lotxrswlxbxlxufs\n" +
-            "fmqajrtoabpckbnu\n" +
-            "wfkwsgmcffdgaqxg\n" +
-            "qfrsiwnohoyfbidr\n" +
-            "czfqbsbmiuyusaqs\n" +
-            "ieknnjeecucghpoo\n" +
-            "cevdgqnugupvmsge\n" +
-            "gjkajcyjnxdrtuvr\n" +
-            "udzhrargnujxiclq\n" +
-            "zqqrhhmjwermjssg\n" +
-            "ggdivtmgoqajydzz\n" +
-            "wnpfsgtxowkjiivl\n" +
-            "afbhqawjbotxnqpd\n" +
-            "xjpkifkhfjeqifdn\n" +
-            "oyfggzsstfhvticp\n" +
-            "kercaetahymeawxy\n" +
-            "khphblhcgmbupmzt\n" +
-            "iggoqtqpvaebtiol\n" +
-            "ofknifysuasshoya\n" +
-            "qxuewroccsbogrbv\n" +
-            "apsbnbkiopopytgu\n" +
-            "zyahfroovfjlythh\n" +
-            "bxhjwfgeuxlviydq\n" +
-            "uvbhdtvaypasaswa\n" +
-            "qamcjzrmesqgqdiz\n" +
-            "hjnjyzrxntiycyel\n" +
-            "wkcrwqwniczwdxgq\n" +
-            "hibxlvkqakusswkx\n" +
-            "mzjyuenepwdgrkty\n" +
-            "tvywsoqslfsulses\n" +
-            "jqwcwuuisrclircv\n" +
-            "xanwaoebfrzhurct\n" +
-            "ykriratovsvxxasf\n" +
-            "qyebvtqqxbjuuwuo\n" +
-            "telrvlwvriylnder\n" +
-            "acksrrptgnhkeiaa\n" +
-            "yemwfjhiqlzsvdxf\n" +
-            "banrornfkcymmkcc\n" +
-            "ytbhxvaeiigjpcgm\n" +
-            "crepyazgxquposkn\n" +
-            "xlqwdrytzwnxzwzv\n" +
-            "xtrbfbwopxscftps\n" +
-            "kwbytzukgseeyjla\n" +
-            "qtfdvavvjogybxjg\n" +
-            "ytbmvmrcxwfkgvzw\n" +
-            "nbscbdskdeocnfzr\n" +
-            "sqquwjbdxsxhcseg\n" +
-            "ewqxhigqcgszfsuw\n" +
-            "cvkyfcyfmubzwsee\n" +
-            "dcoawetekigxgygd\n" +
-            "ohgqnqhfimyuqhvi\n" +
-            "otisopzzpvnhctte\n" +
-            "bauieohjejamzien\n" +
-            "ewnnopzkujbvhwce\n" +
-            "aeyqlskpaehagdiv\n" +
-            "pncudvivwnnqspxy\n" +
-            "ytugesilgveokxcg\n" +
-            "zoidxeelqdjesxpr\n" +
-            "ducjccsuaygfchzj\n" +
-            "smhgllqqqcjfubfc\n" +
-            "nlbyyywergronmir\n" +
-            "prdawpbjhrzsbsvj\n" +
-            "nmgzhnjhlpcplmui\n" +
-            "eflaogtjghdjmxxz\n" +
-            "qolvpngucbkprrdc\n" +
-            "ixywxcienveltgho\n" +
-            "mwnpqtocagenkxut\n" +
-            "iskrfbwxonkguywx\n" +
-            "ouhtbvcaczqzmpua\n" +
-            "srewprgddfgmdbao\n" +
-            "dyufrltacelchlvu\n" +
-            "czmzcbrkecixuwzz\n" +
-            "dtbeojcztzauofuk\n" +
-            "prrgoehpqhngfgmw\n" +
-            "baolzvfrrevxsyke\n" +
-            "zqadgxshwiarkzwh\n" +
-            "vsackherluvurqqj\n" +
-            "surbpxdulvcvgjbd\n" +
-            "wqxytarcxzgxhvtx\n" +
-            "vbcubqvejcfsgrac\n" +
-            "zqnjfeapshjowzja\n" +
-            "hekvbhtainkvbynx\n" +
-            "knnugxoktxpvoxnh\n" +
-            "knoaalcefpgtvlwm\n" +
-            "qoakaunowmsuvkus\n" +
-            "ypkvlzcduzlezqcb\n" +
-            "ujhcagawtyepyogh\n" +
-            "wsilcrxncnffaxjf\n" +
-            "gbbycjuscquaycrk\n" +
-            "aduojapeaqwivnly\n" +
-            "ceafyxrakviagcjy\n" +
-            "nntajnghicgnrlst\n" +
-            "vdodpeherjmmvbje\n" +
-            "wyyhrnegblwvdobn\n" +
-            "xlfurpghkpbzhhif\n" +
-            "xyppnjiljvirmqjo\n" +
-            "kglzqahipnddanpi\n" +
-            "omjateouxikwxowr\n" +
-            "ocifnoopfglmndcx\n" +
-            "emudcukfbadyijev\n" +
-            "ooktviixetfddfmh\n" +
-            "wtvrhloyjewdeycg\n" +
-            "cgjncqykgutfjhvb\n" +
-            "nkwvpswppeffmwad\n" +
-            "hqbcmfhzkxmnrivg\n" +
-            "mdskbvzguxvieilr\n" +
-            "anjcvqpavhdloaqh\n" +
-            "erksespdevjylenq\n" +
-            "fadxwbmisazyegup\n" +
-            "iyuiffjmcaahowhj\n" +
-            "ygkdezmynmltodbv\n" +
-            "fytneukxqkjattvh\n" +
-            "woerxfadbfrvdcnz\n" +
-            "iwsljvkyfastccoa\n" +
-            "movylhjranlorofe\n" +
-            "drdmicdaiwukemep\n" +
-            "knfgtsmuhfcvvshg\n" +
-            "ibstpbevqmdlhajn\n" +
-            "tstwsswswrxlzrqs\n" +
-            "estyydmzothggudf\n" +
-            "jezogwvymvikszwa\n" +
-            "izmqcwdyggibliet\n" +
-            "nzpxbegurwnwrnca\n" +
-            "kzkojelnvkwfublh\n" +
-            "xqcssgozuxfqtiwi\n" +
-            "tcdoigumjrgvczfv\n" +
-            "ikcjyubjmylkwlwq\n" +
-            "kqfivwystpqzvhan\n" +
-            "bzukgvyoqewniivj\n" +
-            "iduapzclhhyfladn\n" +
-            "fbpyzxdfmkrtfaeg\n" +
-            "yzsmlbnftftgwadz";
+    Day07 solver;
 
     @BeforeAll
     public static void setupBeforeClass() throws Exception {
@@ -1019,7 +19,7 @@ public class Day07Test {
 
     @BeforeEach
     public void setupBeforeEach() throws Exception {
-        solver = new Day05();
+        solver = new Day07();
 
     }
 
@@ -1028,27 +28,504 @@ public class Day07Test {
 
     }
 
+    @Disabled
     @Test
     public void Problem1() throws Exception {
 
-        Assertions.assertEquals(255, solver.solve1(myInput));
+        solver.solve1(myInput);
+        Assertions.assertEquals((short)255, solver.getCircuitValue("a"));
     }
 
+    @Disabled
     @Test
     public void Problem2() throws Exception {
 
-        Assertions.assertEquals(55, solver.solve2(myInput));
+        solver.solve2(myInput);
+        Assertions.assertEquals((short)255, solver.getCircuitValue("a"));
     }
 
     @Test
-    public void Example_1_1() throws Exception {
-        Assertions.assertEquals(3, solver.solve1("123 -> x\n" +
+    public void TestSignal() throws Exception {
+        solver.processInstruction("123 -> a");
+        Assertions.assertEquals((short)123, solver.getCircuitValue("a"));
+    }
+
+    @Test
+    public void TestAnd() throws Exception {
+        String instructions = "123 -> x\n" +
                 "456 -> y\n" +
                 "x AND y -> d\n" +
                 "x OR y -> e\n" +
                 "x LSHIFT 2 -> f\n" +
                 "y RSHIFT 2 -> g\n" +
                 "NOT x -> h\n" +
-                "NOT y -> i"));
+                "NOT y -> i";
+        solver.processInstructions(instructions.split("\n"));
+        Assertions.assertEquals((short)72, solver.getCircuitValue("d"));
     }
+
+    @Test
+    public void TestOr() throws Exception {
+        String instructions = "123 -> x\n" +
+                "456 -> y\n" +
+                "x AND y -> d\n" +
+                "x OR y -> e\n" +
+                "x LSHIFT 2 -> f\n" +
+                "y RSHIFT 2 -> g\n" +
+                "NOT x -> h\n" +
+                "NOT y -> i";
+        solver.processInstructions(instructions.split("\n"));
+        Assertions.assertEquals((short)507, solver.getCircuitValue("e"));
+    }
+
+    @Test
+    public void TestLShift() throws Exception {
+        String instructions = "123 -> x\n" +
+                "456 -> y\n" +
+                "x AND y -> d\n" +
+                "x OR y -> e\n" +
+                "x LSHIFT 2 -> f\n" +
+                "y RSHIFT 2 -> g\n" +
+                "NOT x -> h\n" +
+                "NOT y -> i";
+        solver.processInstructions(instructions.split("\n"));
+        Assertions.assertEquals((short)492, solver.getCircuitValue("f"));
+    }
+
+    @Test
+    public void TestRShift() throws Exception {
+        String instructions = "123 -> x\n" +
+                "456 -> y\n" +
+                "x AND y -> d\n" +
+                "x OR y -> e\n" +
+                "x LSHIFT 2 -> f\n" +
+                "y RSHIFT 2 -> g\n" +
+                "NOT x -> h\n" +
+                "NOT y -> i";
+        solver.processInstructions(instructions.split("\n"));
+        Assertions.assertEquals((short)114, solver.getCircuitValue("g"));
+    }
+
+    @Test
+    public void TestNOT1() throws Exception {
+        String instructions = "123 -> x\n" +
+                "456 -> y\n" +
+                "x AND y -> d\n" +
+                "x OR y -> e\n" +
+                "x LSHIFT 2 -> f\n" +
+                "y RSHIFT 2 -> g\n" +
+                "NOT x -> h\n" +
+                "NOT y -> i";
+        solver.processInstructions(instructions.split("\n"));
+        Assertions.assertEquals((short)65412, solver.getCircuitValue("h"));
+    }
+
+    @Test
+    public void TestNOT2() throws Exception {
+        String instructions = "123 -> x\n" +
+                "456 -> y\n" +
+                "x AND y -> d\n" +
+                "x OR y -> e\n" +
+                "x LSHIFT 2 -> f\n" +
+                "y RSHIFT 2 -> g\n" +
+                "NOT x -> h\n" +
+                "NOT y -> i";
+        solver.processInstructions(instructions.split("\n"));
+        Assertions.assertEquals((short)65079, solver.getCircuitValue("i"));
+    }
+
+    @Test
+    public void TestSignalX() throws Exception {
+        String instructions = "123 -> x\n" +
+                "456 -> y\n" +
+                "x AND y -> d\n" +
+                "x OR y -> e\n" +
+                "x LSHIFT 2 -> f\n" +
+                "y RSHIFT 2 -> g\n" +
+                "NOT x -> h\n" +
+                "NOT y -> i";
+        solver.processInstructions(instructions.split("\n"));
+        Assertions.assertEquals((short)123, solver.getCircuitValue("x"));
+    }
+
+    @Test
+    public void TestSignalY() throws Exception {
+        String instructions = "123 -> x\n" +
+                "456 -> y\n" +
+                "x AND y -> d\n" +
+                "x OR y -> e\n" +
+                "x LSHIFT 2 -> f\n" +
+                "y RSHIFT 2 -> g\n" +
+                "NOT x -> h\n" +
+                "NOT y -> i";
+        solver.processInstructions(instructions.split("\n"));
+        Assertions.assertEquals((short)456, solver.getCircuitValue("y"));
+    }
+
+    @Test
+    public void TestSignalZ() throws Exception {
+        String instructions = "123 -> x\n" +
+                "456 -> y\n" +
+                "y -> z\n" +
+                "x AND y -> d\n" +
+                "x OR y -> e\n" +
+                "x LSHIFT 2 -> f\n" +
+                "y RSHIFT 2 -> g\n" +
+                "NOT x -> h\n" +
+                "NOT y -> i";
+        solver.processInstructions(instructions.split("\n"));
+        Assertions.assertEquals((short)456, solver.getCircuitValue("z"));
+    }
+
+    @Test
+    public void TestSignalChain() throws Exception {
+        String instructions = "123 -> x\n" +
+                "456 -> y\n" +
+                "x LSHIFT 2 -> f\n" +
+                "f RSHIFT 2 -> g\n" +
+                "NOT x -> h\n" +
+                "NOT y -> i";
+        solver.processInstructions(instructions.split("\n"));
+        Assertions.assertEquals((short)123, solver.getCircuitValue("g"));
+    }
+
+    String myInput = "bn RSHIFT 2 -> bo\n" +
+            "lf RSHIFT 1 -> ly\n" +
+            "fo RSHIFT 3 -> fq\n" +
+            "cj OR cp -> cq\n" +
+            "fo OR fz -> ga\n" +
+            "t OR s -> u\n" +
+            "lx -> a\n" +
+            "NOT ax -> ay\n" +
+            "he RSHIFT 2 -> hf\n" +
+            "lf OR lq -> lr\n" +
+            "lr AND lt -> lu\n" +
+            "dy OR ej -> ek\n" +
+            "1 AND cx -> cy\n" +
+            "hb LSHIFT 1 -> hv\n" +
+            "1 AND bh -> bi\n" +
+            "ih AND ij -> ik\n" +
+            "c LSHIFT 1 -> t\n" +
+            "ea AND eb -> ed\n" +
+            "km OR kn -> ko\n" +
+            "NOT bw -> bx\n" +
+            "ci OR ct -> cu\n" +
+            "NOT p -> q\n" +
+            "lw OR lv -> lx\n" +
+            "NOT lo -> lp\n" +
+            "fp OR fv -> fw\n" +
+            "o AND q -> r\n" +
+            "dh AND dj -> dk\n" +
+            "ap LSHIFT 1 -> bj\n" +
+            "bk LSHIFT 1 -> ce\n" +
+            "NOT ii -> ij\n" +
+            "gh OR gi -> gj\n" +
+            "kk RSHIFT 1 -> ld\n" +
+            "lc LSHIFT 1 -> lw\n" +
+            "lb OR la -> lc\n" +
+            "1 AND am -> an\n" +
+            "gn AND gp -> gq\n" +
+            "lf RSHIFT 3 -> lh\n" +
+            "e OR f -> g\n" +
+            "lg AND lm -> lo\n" +
+            "ci RSHIFT 1 -> db\n" +
+            "cf LSHIFT 1 -> cz\n" +
+            "bn RSHIFT 1 -> cg\n" +
+            "et AND fe -> fg\n" +
+            "is OR it -> iu\n" +
+            "kw AND ky -> kz\n" +
+            "ck AND cl -> cn\n" +
+            "bj OR bi -> bk\n" +
+            "gj RSHIFT 1 -> hc\n" +
+            "iu AND jf -> jh\n" +
+            "NOT bs -> bt\n" +
+            "kk OR kv -> kw\n" +
+            "ks AND ku -> kv\n" +
+            "hz OR ik -> il\n" +
+            "b RSHIFT 1 -> v\n" +
+            "iu RSHIFT 1 -> jn\n" +
+            "fo RSHIFT 5 -> fr\n" +
+            "be AND bg -> bh\n" +
+            "ga AND gc -> gd\n" +
+            "hf OR hl -> hm\n" +
+            "ld OR le -> lf\n" +
+            "as RSHIFT 5 -> av\n" +
+            "fm OR fn -> fo\n" +
+            "hm AND ho -> hp\n" +
+            "lg OR lm -> ln\n" +
+            "NOT kx -> ky\n" +
+            "kk RSHIFT 3 -> km\n" +
+            "ek AND em -> en\n" +
+            "NOT ft -> fu\n" +
+            "NOT jh -> ji\n" +
+            "jn OR jo -> jp\n" +
+            "gj AND gu -> gw\n" +
+            "d AND j -> l\n" +
+            "et RSHIFT 1 -> fm\n" +
+            "jq OR jw -> jx\n" +
+            "ep OR eo -> eq\n" +
+            "lv LSHIFT 15 -> lz\n" +
+            "NOT ey -> ez\n" +
+            "jp RSHIFT 2 -> jq\n" +
+            "eg AND ei -> ej\n" +
+            "NOT dm -> dn\n" +
+            "jp AND ka -> kc\n" +
+            "as AND bd -> bf\n" +
+            "fk OR fj -> fl\n" +
+            "dw OR dx -> dy\n" +
+            "lj AND ll -> lm\n" +
+            "ec AND ee -> ef\n" +
+            "fq AND fr -> ft\n" +
+            "NOT kp -> kq\n" +
+            "ki OR kj -> kk\n" +
+            "cz OR cy -> da\n" +
+            "as RSHIFT 3 -> au\n" +
+            "an LSHIFT 15 -> ar\n" +
+            "fj LSHIFT 15 -> fn\n" +
+            "1 AND fi -> fj\n" +
+            "he RSHIFT 1 -> hx\n" +
+            "lf RSHIFT 2 -> lg\n" +
+            "kf LSHIFT 15 -> kj\n" +
+            "dz AND ef -> eh\n" +
+            "ib OR ic -> id\n" +
+            "lf RSHIFT 5 -> li\n" +
+            "bp OR bq -> br\n" +
+            "NOT gs -> gt\n" +
+            "fo RSHIFT 1 -> gh\n" +
+            "bz AND cb -> cc\n" +
+            "ea OR eb -> ec\n" +
+            "lf AND lq -> ls\n" +
+            "NOT l -> m\n" +
+            "hz RSHIFT 3 -> ib\n" +
+            "NOT di -> dj\n" +
+            "NOT lk -> ll\n" +
+            "jp RSHIFT 3 -> jr\n" +
+            "jp RSHIFT 5 -> js\n" +
+            "NOT bf -> bg\n" +
+            "s LSHIFT 15 -> w\n" +
+            "eq LSHIFT 1 -> fk\n" +
+            "jl OR jk -> jm\n" +
+            "hz AND ik -> im\n" +
+            "dz OR ef -> eg\n" +
+            "1 AND gy -> gz\n" +
+            "la LSHIFT 15 -> le\n" +
+            "br AND bt -> bu\n" +
+            "NOT cn -> co\n" +
+            "v OR w -> x\n" +
+            "d OR j -> k\n" +
+            "1 AND gd -> ge\n" +
+            "ia OR ig -> ih\n" +
+            "NOT go -> gp\n" +
+            "NOT ed -> ee\n" +
+            "jq AND jw -> jy\n" +
+            "et OR fe -> ff\n" +
+            "aw AND ay -> az\n" +
+            "ff AND fh -> fi\n" +
+            "ir LSHIFT 1 -> jl\n" +
+            "gg LSHIFT 1 -> ha\n" +
+            "x RSHIFT 2 -> y\n" +
+            "db OR dc -> dd\n" +
+            "bl OR bm -> bn\n" +
+            "ib AND ic -> ie\n" +
+            "x RSHIFT 3 -> z\n" +
+            "lh AND li -> lk\n" +
+            "ce OR cd -> cf\n" +
+            "NOT bb -> bc\n" +
+            "hi AND hk -> hl\n" +
+            "NOT gb -> gc\n" +
+            "1 AND r -> s\n" +
+            "fw AND fy -> fz\n" +
+            "fb AND fd -> fe\n" +
+            "1 AND en -> eo\n" +
+            "z OR aa -> ab\n" +
+            "bi LSHIFT 15 -> bm\n" +
+            "hg OR hh -> hi\n" +
+            "kh LSHIFT 1 -> lb\n" +
+            "cg OR ch -> ci\n" +
+            "1 AND kz -> la\n" +
+            "gf OR ge -> gg\n" +
+            "gj RSHIFT 2 -> gk\n" +
+            "dd RSHIFT 2 -> de\n" +
+            "NOT ls -> lt\n" +
+            "lh OR li -> lj\n" +
+            "jr OR js -> jt\n" +
+            "au AND av -> ax\n" +
+            "0 -> c\n" +
+            "he AND hp -> hr\n" +
+            "id AND if -> ig\n" +
+            "et RSHIFT 5 -> ew\n" +
+            "bp AND bq -> bs\n" +
+            "e AND f -> h\n" +
+            "ly OR lz -> ma\n" +
+            "1 AND lu -> lv\n" +
+            "NOT jd -> je\n" +
+            "ha OR gz -> hb\n" +
+            "dy RSHIFT 1 -> er\n" +
+            "iu RSHIFT 2 -> iv\n" +
+            "NOT hr -> hs\n" +
+            "as RSHIFT 1 -> bl\n" +
+            "kk RSHIFT 2 -> kl\n" +
+            "b AND n -> p\n" +
+            "ln AND lp -> lq\n" +
+            "cj AND cp -> cr\n" +
+            "dl AND dn -> do\n" +
+            "ci RSHIFT 2 -> cj\n" +
+            "as OR bd -> be\n" +
+            "ge LSHIFT 15 -> gi\n" +
+            "hz RSHIFT 5 -> ic\n" +
+            "dv LSHIFT 1 -> ep\n" +
+            "kl OR kr -> ks\n" +
+            "gj OR gu -> gv\n" +
+            "he RSHIFT 5 -> hh\n" +
+            "NOT fg -> fh\n" +
+            "hg AND hh -> hj\n" +
+            "b OR n -> o\n" +
+            "jk LSHIFT 15 -> jo\n" +
+            "gz LSHIFT 15 -> hd\n" +
+            "cy LSHIFT 15 -> dc\n" +
+            "kk RSHIFT 5 -> kn\n" +
+            "ci RSHIFT 3 -> ck\n" +
+            "at OR az -> ba\n" +
+            "iu RSHIFT 3 -> iw\n" +
+            "ko AND kq -> kr\n" +
+            "NOT eh -> ei\n" +
+            "aq OR ar -> as\n" +
+            "iy AND ja -> jb\n" +
+            "dd RSHIFT 3 -> df\n" +
+            "bn RSHIFT 3 -> bp\n" +
+            "1 AND cc -> cd\n" +
+            "at AND az -> bb\n" +
+            "x OR ai -> aj\n" +
+            "kk AND kv -> kx\n" +
+            "ao OR an -> ap\n" +
+            "dy RSHIFT 3 -> ea\n" +
+            "x RSHIFT 1 -> aq\n" +
+            "eu AND fa -> fc\n" +
+            "kl AND kr -> kt\n" +
+            "ia AND ig -> ii\n" +
+            "df AND dg -> di\n" +
+            "NOT fx -> fy\n" +
+            "k AND m -> n\n" +
+            "bn RSHIFT 5 -> bq\n" +
+            "km AND kn -> kp\n" +
+            "dt LSHIFT 15 -> dx\n" +
+            "hz RSHIFT 2 -> ia\n" +
+            "aj AND al -> am\n" +
+            "cd LSHIFT 15 -> ch\n" +
+            "hc OR hd -> he\n" +
+            "he RSHIFT 3 -> hg\n" +
+            "bn OR by -> bz\n" +
+            "NOT kt -> ku\n" +
+            "z AND aa -> ac\n" +
+            "NOT ak -> al\n" +
+            "cu AND cw -> cx\n" +
+            "NOT ie -> if\n" +
+            "dy RSHIFT 2 -> dz\n" +
+            "ip LSHIFT 15 -> it\n" +
+            "de OR dk -> dl\n" +
+            "au OR av -> aw\n" +
+            "jg AND ji -> jj\n" +
+            "ci AND ct -> cv\n" +
+            "dy RSHIFT 5 -> eb\n" +
+            "hx OR hy -> hz\n" +
+            "eu OR fa -> fb\n" +
+            "gj RSHIFT 3 -> gl\n" +
+            "fo AND fz -> gb\n" +
+            "1 AND jj -> jk\n" +
+            "jp OR ka -> kb\n" +
+            "de AND dk -> dm\n" +
+            "ex AND ez -> fa\n" +
+            "df OR dg -> dh\n" +
+            "iv OR jb -> jc\n" +
+            "x RSHIFT 5 -> aa\n" +
+            "NOT hj -> hk\n" +
+            "NOT im -> in\n" +
+            "fl LSHIFT 1 -> gf\n" +
+            "hu LSHIFT 15 -> hy\n" +
+            "iq OR ip -> ir\n" +
+            "iu RSHIFT 5 -> ix\n" +
+            "NOT fc -> fd\n" +
+            "NOT el -> em\n" +
+            "ck OR cl -> cm\n" +
+            "et RSHIFT 3 -> ev\n" +
+            "hw LSHIFT 1 -> iq\n" +
+            "ci RSHIFT 5 -> cl\n" +
+            "iv AND jb -> jd\n" +
+            "dd RSHIFT 5 -> dg\n" +
+            "as RSHIFT 2 -> at\n" +
+            "NOT jy -> jz\n" +
+            "af AND ah -> ai\n" +
+            "1 AND ds -> dt\n" +
+            "jx AND jz -> ka\n" +
+            "da LSHIFT 1 -> du\n" +
+            "fs AND fu -> fv\n" +
+            "jp RSHIFT 1 -> ki\n" +
+            "iw AND ix -> iz\n" +
+            "iw OR ix -> iy\n" +
+            "eo LSHIFT 15 -> es\n" +
+            "ev AND ew -> ey\n" +
+            "ba AND bc -> bd\n" +
+            "fp AND fv -> fx\n" +
+            "jc AND je -> jf\n" +
+            "et RSHIFT 2 -> eu\n" +
+            "kg OR kf -> kh\n" +
+            "iu OR jf -> jg\n" +
+            "er OR es -> et\n" +
+            "fo RSHIFT 2 -> fp\n" +
+            "NOT ca -> cb\n" +
+            "bv AND bx -> by\n" +
+            "u LSHIFT 1 -> ao\n" +
+            "cm AND co -> cp\n" +
+            "y OR ae -> af\n" +
+            "bn AND by -> ca\n" +
+            "1 AND ke -> kf\n" +
+            "jt AND jv -> jw\n" +
+            "fq OR fr -> fs\n" +
+            "dy AND ej -> el\n" +
+            "NOT kc -> kd\n" +
+            "ev OR ew -> ex\n" +
+            "dd OR do -> dp\n" +
+            "NOT cv -> cw\n" +
+            "gr AND gt -> gu\n" +
+            "dd RSHIFT 1 -> dw\n" +
+            "NOT gw -> gx\n" +
+            "NOT iz -> ja\n" +
+            "1 AND io -> ip\n" +
+            "NOT ag -> ah\n" +
+            "b RSHIFT 5 -> f\n" +
+            "NOT cr -> cs\n" +
+            "kb AND kd -> ke\n" +
+            "jr AND js -> ju\n" +
+            "cq AND cs -> ct\n" +
+            "il AND in -> io\n" +
+            "NOT ju -> jv\n" +
+            "du OR dt -> dv\n" +
+            "dd AND do -> dq\n" +
+            "b RSHIFT 2 -> d\n" +
+            "jm LSHIFT 1 -> kg\n" +
+            "NOT dq -> dr\n" +
+            "bo OR bu -> bv\n" +
+            "gk OR gq -> gr\n" +
+            "he OR hp -> hq\n" +
+            "NOT h -> i\n" +
+            "hf AND hl -> hn\n" +
+            "gv AND gx -> gy\n" +
+            "x AND ai -> ak\n" +
+            "bo AND bu -> bw\n" +
+            "hq AND hs -> ht\n" +
+            "hz RSHIFT 1 -> is\n" +
+            "gj RSHIFT 5 -> gm\n" +
+            "g AND i -> j\n" +
+            "gk AND gq -> gs\n" +
+            "dp AND dr -> ds\n" +
+            "b RSHIFT 3 -> e\n" +
+            "gl AND gm -> go\n" +
+            "gl OR gm -> gn\n" +
+            "y AND ae -> ag\n" +
+            "hv OR hu -> hw\n" +
+            "1674 -> b\n" +
+            "ab AND ad -> ae\n" +
+            "NOT ac -> ad\n" +
+            "1 AND ht -> hu\n" +
+            "NOT hn -> ho";
 }

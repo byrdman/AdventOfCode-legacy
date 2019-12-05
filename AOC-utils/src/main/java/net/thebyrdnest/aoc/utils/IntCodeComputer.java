@@ -1,5 +1,8 @@
 package net.thebyrdnest.aoc.utils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class IntCodeComputer {
@@ -14,8 +17,13 @@ public class IntCodeComputer {
         memory = Arrays.copyOf(values, values.length);
     }
 
-    public int program(int noun, int verb) {
+    public int runProgram() {
+        return runProgram(0, false);
+    }
+
+    public int runProgram(int inputValue, boolean diagnostic) {
         boolean bDone = false;
+        int diagnosticValue = 0;
         int parm1 = 0;
         int parm2 = 0;
         int parm3 = 0;
@@ -23,16 +31,14 @@ public class IntCodeComputer {
         int val2 = 0;
         int result = 0;
 
-        memory[1] = noun;
-        memory[2] = verb;
-
-        for (int i = 0; i < memory.length && !bDone; i+=4) {
-            String instruction = Integer.toString(memory[i]);
+        int i=0;
+        while (!bDone) {
+        //for (int i = 0; i < memory.length && !bDone; i+=4) {
             int opCode = 0;
             int mode1;
             int mode2;
             int mode3;
-            StringBuilder sb = new StringBuilder(memory[i]);
+            StringBuilder sb = new StringBuilder(Integer.toString(memory[i]));
             while (sb.length() < 5)
                 sb.insert(0, '0');
 
@@ -41,47 +47,172 @@ public class IntCodeComputer {
             mode1 = Integer.parseInt(sb.substring(2, 3));
             opCode = Integer.parseInt(sb.substring(3, 5));
 
-            /*System.out.println("i: " + i);
-            System.out.println("opCode: " + opCode);*/
-
-            if (opCode != 99) {
-                parm1 = memory[i+1];
-                parm2 = memory[i+2];
-                parm3 = memory[i+3];
-
-                if (mode1 == POSITION)
-                    val1 = memory[parm1];
-                else
-                    val1 = parm1;
-
-                if (mode1 == POSITION)
-                    val2 = memory[parm2];
-                else
-                    val2 = parm1;
-
-                /*System.out.println("parm1: " + parm1 + ", val1: " + val1);
-                System.out.println("parm2: " + parm2 + ", val2: " + val2);*/
-            }
-
             switch(opCode) {
                 case 1: // add
                     //System.out.println("Add");
+                    parm1 = memory[i+1];
+                    parm2 = memory[i+2];
+                    parm3 = memory[i+3];
+
+                    if (mode1 == POSITION)
+                        val1 = memory[parm1];
+                    else
+                        val1 = parm1;
+
+                    if (mode2 == POSITION)
+                        val2 = memory[parm2];
+                    else
+                        val2 = parm2;
+
                     result = val1 + val2;
 
                     memory[parm3] = result;
 
+                    i+=4;
+
                     break;
                 case 2: // multiply
                     //System.out.println("Multiply");
+                    parm1 = memory[i+1];
+                    parm2 = memory[i+2];
+                    parm3 = memory[i+3];
+
+                    if (mode1 == POSITION)
+                        val1 = memory[parm1];
+                    else
+                        val1 = parm1;
+
+                    if (mode2 == POSITION)
+                        val2 = memory[parm2];
+                    else
+                        val2 = parm2;
+
                     result = val1 * val2;
 
                     memory[parm3] = result;
 
-                    break;
-                case 3: // store
+                    i += 4;
 
                     break;
+                case 3: // store
+                    parm1 = memory[i+1];
+
+                    System.out.print("System ID: ");
+                    String sInput = "1";
+
+                    //Enter data using BufferReader
+                    /*BufferedReader reader =
+                            new BufferedReader(new InputStreamReader(System.in));
+
+                    // Reading data using readLine
+                    try {
+                        sInput = reader.readLine();*/
+                        memory[parm1] = inputValue; //Integer.parseInt(sInput);
+                    /*}
+                     catch (IOException ex) {
+                        sInput = "";
+                         memory[parm1] = 0;
+                    }*/
+
+                    i += 2;
+                    break;
                 case 4: // return
+                    parm1 = memory[i+1];
+
+                    if (mode1 == POSITION)
+                        val1 = memory[parm1];
+                    else
+                        val1 = parm1;
+
+                    System.out.println(val1);
+                    diagnosticValue = val1;
+                    i+=2;
+                    break;
+                case 5: //jump-if-true
+                    parm1 = memory[i+1];
+                    parm2 = memory[i+2];
+
+                    if (mode1 == POSITION)
+                        val1 = memory[parm1];
+                    else
+                        val1 = parm1;
+
+                    if (mode2 == POSITION)
+                        val2 = memory[parm2];
+                    else
+                        val2 = parm2;
+
+                    if (val1 != 0)
+                        i = val2;
+                    else
+                        i += 3;
+
+                    break;
+                case 6: //jump-if-false
+                    parm1 = memory[i+1];
+                    parm2 = memory[i+2];
+
+                    if (mode1 == POSITION)
+                        val1 = memory[parm1];
+                    else
+                        val1 = parm1;
+
+                    if (mode2 == POSITION)
+                        val2 = memory[parm2];
+                    else
+                        val2 = parm2;
+
+                    if (val1 == 0)
+                        i = val2;
+                    else
+                        i += 3;
+
+                    break;
+                case 7: // less than
+                    parm1 = memory[i+1];
+                    parm2 = memory[i+2];
+                    parm3 = memory[i+3];
+
+                    if (mode1 == POSITION)
+                        val1 = memory[parm1];
+                    else
+                        val1 = parm1;
+
+                    if (mode2 == POSITION)
+                        val2 = memory[parm2];
+                    else
+                        val2 = parm2;
+
+                    if (val1 < val2)
+                        memory[parm3] = 1;
+                    else
+                        memory[parm3] = 0;
+
+                    i += 4;
+
+                    break;
+                case 8: // equals
+                    parm1 = memory[i+1];
+                    parm2 = memory[i+2];
+                    parm3 = memory[i+3];
+
+                    if (mode1 == POSITION)
+                        val1 = memory[parm1];
+                    else
+                        val1 = parm1;
+
+                    if (mode2 == POSITION)
+                        val2 = memory[parm2];
+                    else
+                        val2 = parm2;
+
+                    if (val1 == val2)
+                        memory[parm3] = 1;
+                    else
+                        memory[parm3] = 0;
+
+                    i += 4;
+
                     break;
                 case 99: // end
                     //System.out.println("End");
@@ -94,6 +225,9 @@ public class IntCodeComputer {
             System.out.println("");*/
         }
 
-        return memory[0];
+        if (diagnostic)
+            return diagnosticValue;
+        else
+            return memory[0];
     }
 }

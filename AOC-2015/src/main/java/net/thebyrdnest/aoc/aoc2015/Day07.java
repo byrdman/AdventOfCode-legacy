@@ -14,7 +14,7 @@ public class Day07 implements DayTemplate {
             String[] parts = instruction.split("->");
             //part[0] = inputs
             //part[1] = outputs
-            
+
         }
 
         return 0;

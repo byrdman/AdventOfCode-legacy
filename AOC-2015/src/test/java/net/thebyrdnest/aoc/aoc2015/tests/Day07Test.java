@@ -28,26 +28,25 @@ public class Day07Test {
 
     }
 
-    @Disabled
     @Test
     public void Problem1() throws Exception {
 
-        solver.solve1(myInput);
-        Assertions.assertEquals((short)255, solver.getCircuitValue("a"));
+        solver.loadCircuit(myInput);
+        Assertions.assertEquals("46065", Integer.toString(solver.getCircuitValue("a")));
     }
 
-    @Disabled
     @Test
     public void Problem2() throws Exception {
 
-        solver.solve2(myInput);
-        Assertions.assertEquals((short)255, solver.getCircuitValue("a"));
+        solver.loadCircuit2(myInput, "b", "46065");
+        Assertions.assertEquals("14134", Integer.toString(solver.getCircuitValue("a")));
+
     }
 
     @Test
     public void TestSignal() throws Exception {
         solver.processInstruction("123 -> a");
-        Assertions.assertEquals((short)123, solver.getCircuitValue("a"));
+        Assertions.assertEquals((char)123, solver.getCircuitValue("a"));
     }
 
     @Test
@@ -61,7 +60,7 @@ public class Day07Test {
                 "NOT x -> h\n" +
                 "NOT y -> i";
         solver.processInstructions(instructions.split("\n"));
-        Assertions.assertEquals((short)72, solver.getCircuitValue("d"));
+        Assertions.assertEquals((char)72, solver.getCircuitValue("d"));
     }
 
     @Test
@@ -75,7 +74,7 @@ public class Day07Test {
                 "NOT x -> h\n" +
                 "NOT y -> i";
         solver.processInstructions(instructions.split("\n"));
-        Assertions.assertEquals((short)507, solver.getCircuitValue("e"));
+        Assertions.assertEquals((char)507, solver.getCircuitValue("e"));
     }
 
     @Test
@@ -89,7 +88,7 @@ public class Day07Test {
                 "NOT x -> h\n" +
                 "NOT y -> i";
         solver.processInstructions(instructions.split("\n"));
-        Assertions.assertEquals((short)492, solver.getCircuitValue("f"));
+        Assertions.assertEquals((char)492, solver.getCircuitValue("f"));
     }
 
     @Test
@@ -103,7 +102,7 @@ public class Day07Test {
                 "NOT x -> h\n" +
                 "NOT y -> i";
         solver.processInstructions(instructions.split("\n"));
-        Assertions.assertEquals((short)114, solver.getCircuitValue("g"));
+        Assertions.assertEquals((char)114, solver.getCircuitValue("g"));
     }
 
     @Test
@@ -117,7 +116,7 @@ public class Day07Test {
                 "NOT x -> h\n" +
                 "NOT y -> i";
         solver.processInstructions(instructions.split("\n"));
-        Assertions.assertEquals((short)65412, solver.getCircuitValue("h"));
+        Assertions.assertEquals((char)65412, solver.getCircuitValue("h"));
     }
 
     @Test
@@ -131,7 +130,7 @@ public class Day07Test {
                 "NOT x -> h\n" +
                 "NOT y -> i";
         solver.processInstructions(instructions.split("\n"));
-        Assertions.assertEquals((short)65079, solver.getCircuitValue("i"));
+        Assertions.assertEquals((char)65079, solver.getCircuitValue("i"));
     }
 
     @Test
@@ -145,7 +144,7 @@ public class Day07Test {
                 "NOT x -> h\n" +
                 "NOT y -> i";
         solver.processInstructions(instructions.split("\n"));
-        Assertions.assertEquals((short)123, solver.getCircuitValue("x"));
+        Assertions.assertEquals((char)123, solver.getCircuitValue("x"));
     }
 
     @Test
@@ -159,7 +158,7 @@ public class Day07Test {
                 "NOT x -> h\n" +
                 "NOT y -> i";
         solver.processInstructions(instructions.split("\n"));
-        Assertions.assertEquals((short)456, solver.getCircuitValue("y"));
+        Assertions.assertEquals((char)456, solver.getCircuitValue("y"));
     }
 
     @Test
@@ -174,7 +173,7 @@ public class Day07Test {
                 "NOT x -> h\n" +
                 "NOT y -> i";
         solver.processInstructions(instructions.split("\n"));
-        Assertions.assertEquals((short)456, solver.getCircuitValue("z"));
+        Assertions.assertEquals((char)456, solver.getCircuitValue("z"));
     }
 
     @Test
@@ -186,7 +185,7 @@ public class Day07Test {
                 "NOT x -> h\n" +
                 "NOT y -> i";
         solver.processInstructions(instructions.split("\n"));
-        Assertions.assertEquals((short)123, solver.getCircuitValue("g"));
+        Assertions.assertEquals((char)123, solver.getCircuitValue("g"));
     }
 
     String myInput = "bn RSHIFT 2 -> bo\n" +

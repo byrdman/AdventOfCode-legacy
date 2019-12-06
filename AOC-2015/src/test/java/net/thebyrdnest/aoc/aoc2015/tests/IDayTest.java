@@ -33,7 +33,7 @@ public abstract class IDayTest<T> {
     @Test
     public abstract void Problem1() throws Exception;/* {
 
-        Assertions.assertEquals(2081, solver.solve1(myInput));
+        Assertions.assertEquals(2081, solver.loadCircuit(myInput));
     }*/
 
     @Test

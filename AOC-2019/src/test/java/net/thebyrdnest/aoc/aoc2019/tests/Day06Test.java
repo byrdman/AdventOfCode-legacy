@@ -4,6 +4,8 @@ import net.thebyrdnest.aoc.aoc2019.Day06;
 import org.junit.jupiter.api.*;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 public class Day06Test {
     Day06 solver;
@@ -56,23 +58,34 @@ public class Day06Test {
     public void Example_1_4() {
         String input = "COM,B\nB,C\nC,D\nD,E\nE,F\nB,G\nG,H\nD,I\nE,J\nJ,K\nK,L";
         solver.buildSolarSystem(input.split("\n"));
-        int iTotalCount = 0;
 
         Assertions.assertEquals(42, solver.getAllOrbitCount());
     }
 
     @Test
-    public void Problem1() throws Exception {
-        solver.buildSolarSystem(myInput.split("\n"));
-        solver.listCounts();
-        Assertions.assertEquals(11193703, solver.getAllOrbitCount());
+    public void Example_2_1() {
+        String input = "COM,B\nB,C\nC,D\nD,E\nE,F\nB,G\nG,H\nD,I\nE,J\nJ,K\nK,L\nK,YOU\nI,SAN";
+
+        solver.buildSolarSystem(input.split("\n"));
+        List<String> list = solver.getOrbitalChain("YOU", "COM");
+        List<String> list2 = solver.getOrbitalChain("SAN", "COM");
+        String common = solver.findCommonPlanet("YOU", "SAN");
+
+        Assertions.assertEquals(4, solver.findOrbitChangeLength("YOU", "SAN"));
     }
 
-    @Disabled
+    @Test
+    public void Problem1() throws Exception {
+        solver.buildSolarSystem(myInput.split("\n"));
+        //solver.listCounts();
+        Assertions.assertEquals(234446, solver.getAllOrbitCount());
+    }
+
     @Test
     public void Problem2() throws Exception {
         solver.buildSolarSystem(myInput.split("\n"));
-        Assertions.assertEquals(11193703, solver.getAllOrbitCount());
+
+        Assertions.assertEquals(385, solver.findOrbitChangeLength("YOU", "SAN"));
     }
 
     String myInput = "X9V,9CS\n" +

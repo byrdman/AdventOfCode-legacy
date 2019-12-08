@@ -3,10 +3,16 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/AOC-2015" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AOC-2015/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/AOC-2016" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AOC-2016/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/AOC-2017" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AOC-2017/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/AOC-2018" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AOC-2018/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/AOC-2019" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AOC-2019/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/AOC-utils" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AOC-utils/src/main/java" charset="UTF-8" />
   </component>
 </project>

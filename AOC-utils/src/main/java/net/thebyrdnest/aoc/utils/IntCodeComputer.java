@@ -1,39 +1,99 @@
 package net.thebyrdnest.aoc.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Scanner;
 
-public class IntCodeComputer {
+public class IntCodeComputer implements Runnable {
+    Thread computerThread;
+
+    private int computerId;
     private int[] memory = {};
+    private int[] defaultMemory = {};
+    private int[] inputValues = {0,0};
+    int inputCounter = 0;
+    private int outputValue = 0;
+    private boolean bDone = false;
+    private boolean bInputReady;
+    private boolean bOutputReady;
+    private boolean bInteractive;
 
     static final int POSITION = 0;
     static final int IMMEDIATE = 1;
 
+    public IntCodeComputer() {
+
+    }
+
+    public IntCodeComputer(int computerId, int[] program) {
+        this(computerId, program, false);
+    }
+
+    public IntCodeComputer(int computerId, int[] program, boolean bInteractive) {
+        this.computerId = computerId;
+        defaultMemory = Arrays.copyOf(program, program.length);
+        resetMemory();
+        bInputReady = false;
+        bOutputReady = false;
+        this.bInteractive = bInteractive;
+    }
+
+    public void resetMemory() {
+        memory = Arrays.copyOf(defaultMemory, defaultMemory.length);
+        inputCounter = 0;
+        bDone = false;
+    }
+
+    public boolean isDone() {
+        return bDone;
+    }
+
+    public void setInputReady(boolean value) {
+        bInputReady = value;
+    }
+
+    public boolean isOutputReady() {
+        return bOutputReady;
+    }
+
+    public void setInput(int location, int value) {
+        inputValues[location] = value;
+    }
+
+    public int getOutputValue() {
+        bOutputReady=false;
+        return outputValue;
+    }
+
+    public int getMemoryValue(int index) {
+        return memory[index];
+    }
 
     public void initMemory(int[] values) {
         // gotta do a deep copy
         memory = Arrays.copyOf(values, values.length);
     }
 
-    public int runProgram() {
-        return runProgram(0, false);
+    public void start() {
+        System.out.println("Computer Started - " + computerId);
+        if (computerThread == null) {
+            computerThread = new Thread(this, Integer.toString(computerId));
+            computerThread.start();
+        }
     }
 
-    public int runProgram(int inputValue, boolean diagnostic) {
-        boolean bDone = false;
-        int diagnosticValue = 0;
+    public void run() {
+        System.out.println("Run Program - " + computerId);
+        bDone = false;
         int parm1 = 0;
         int parm2 = 0;
         int parm3 = 0;
         int val1 = 0;
         int val2 = 0;
         int result = 0;
+        int loopNum = 0;
 
         int i=0;
         while (!bDone) {
-        //for (int i = 0; i < memory.length && !bDone; i+=4) {
             int opCode = 0;
             int mode1;
             int mode2;
@@ -95,25 +155,28 @@ public class IntCodeComputer {
 
                     break;
                 case 3: // store
+                    System.out.println(computerId + ": input loop: " + ++loopNum);
                     parm1 = memory[i+1];
-
-                    System.out.print("System ID: ");
-                    String sInput = "1";
-
-                    //Enter data using BufferReader
-                    /*BufferedReader reader =
-                            new BufferedReader(new InputStreamReader(System.in));
-
-                    // Reading data using readLine
-                    try {
-                        sInput = reader.readLine();*/
-                        memory[parm1] = inputValue; //Integer.parseInt(sInput);
-                    /*}
-                     catch (IOException ex) {
-                        sInput = "";
-                         memory[parm1] = 0;
-                    }*/
-
+                    if (bInteractive == true) {
+                        System.out.print("Input: ");
+                        Scanner in = new Scanner(System.in);
+                        String s = in.nextLine();
+                        memory[parm1] = Integer.parseInt(s);
+                    } else {
+                        while (!bInputReady) {
+                            try {
+                                Thread.sleep(1);
+                            } catch (InterruptedException ex) {
+                                System.out.println(computerId + " sleep exception");
+                            }
+                        }
+                        memory[parm1] = inputValues[inputCounter];
+                        if (inputCounter == 0)
+                            inputCounter++;
+                        else
+                            bInputReady=false;
+                    }
+                    System.out.println(computerId + ": Input - " + memory[parm1]);
                     i += 2;
                     break;
                 case 4: // return
@@ -124,8 +187,15 @@ public class IntCodeComputer {
                     else
                         val1 = parm1;
 
-                    System.out.println(val1);
-                    diagnosticValue = val1;
+                    outputValue = val1;
+                    bOutputReady = true;
+                    try {
+                        Thread.sleep(1);
+                    } catch (InterruptedException ex) {
+                        System.out.println(computerId + " sleep exception");
+                    }
+                    System.out.println(computerId + ": output - " + outputValue);
+
                     i+=2;
                     break;
                 case 5: //jump-if-true
@@ -215,19 +285,17 @@ public class IntCodeComputer {
 
                     break;
                 case 99: // end
-                    //System.out.println("End");
+                    System.out.println(computerId + ": End");
                     bDone = true;
                     break;
             }
-
-
-            /*System.out.println("pos3: " + pos3 + ", result: " + result);
-            System.out.println("");*/
         }
+    }
 
-        if (diagnostic)
-            return diagnosticValue;
-        else
-            return memory[0];
+    public static void main(String[] args) {
+        int[] pgm1 = {3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5};
+        int[] pgm = {3,8,1001,8,10,8,105,1,0,0,21,34,51,64,73,98,179,260,341,422,99999,3,9,102,4,9,9,1001,9,4,9,4,9,99,3,9,1001,9,4,9,1002,9,3,9,1001,9,5,9,4,9,99,3,9,101,5,9,9,102,5,9,9,4,9,99,3,9,101,5,9,9,4,9,99,3,9,1002,9,5,9,1001,9,3,9,102,2,9,9,101,5,9,9,1002,9,2,9,4,9,99,3,9,1001,9,1,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,101,1,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,2,9,9,4,9,99,3,9,101,1,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,102,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,101,1,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,99,3,9,101,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,101,2,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,102,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,2,9,9,4,9,99,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,2,9,9,4,9,3,9,1001,9,2,9,4,9,99,3,9,1001,9,1,9,4,9,3,9,101,1,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,1001,9,1,9,4,9,3,9,101,1,9,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,99};
+        IntCodeComputer cpu = new IntCodeComputer(Integer.parseInt(args[0]), pgm, true);
+        cpu.run();
     }
 }

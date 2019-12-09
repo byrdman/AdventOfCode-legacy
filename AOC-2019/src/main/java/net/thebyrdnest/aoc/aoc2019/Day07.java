@@ -10,7 +10,7 @@ public class Day07 {
     List<IntCodeComputer> amps = new ArrayList<>();
 
     public String maxPhase = "";
-    private int[] initialProgram = {};
+    private long[] initialProgram = {};
     
     private static int AMP_A = 0;
     private static int AMP_B = 1;
@@ -18,10 +18,10 @@ public class Day07 {
     private static int AMP_D = 3;
     private static int AMP_E = 4;
 
-    int[] ampInput = {0,0,0,0,0,0};
+    long[] ampInput = {0,0,0,0,0,0};
 
 
-    public Day07(int[] program) {
+    public Day07(long[] program) {
         initialProgram = Arrays.copyOf(program, program.length);
         for (int i=0; i < 5; i++) {
             IntCodeComputer amp = new IntCodeComputer(i, program);
@@ -31,10 +31,6 @@ public class Day07 {
     }
 
     public void resetComputers() {
-        /*for (IntCodeComputer computer : amps) {
-            computer.resetMemory();
-            computer.run();
-        }*/
         amps.clear();
         for (int i=0; i < 5; i++) {
             IntCodeComputer amp = new IntCodeComputer(i, initialProgram);
@@ -49,16 +45,31 @@ public class Day07 {
         }
     }
 
-    public int getAmpOutput(int ampId, int phase, int signal) {
-        int inputs[] = {phase, signal};
-        amps.get(ampId).setInput(0, phase);
-        amps.get(ampId).setInput(1, signal);
+    public long getAmpOutput(int ampId, int phase, long signal) {
+        long inputs[] = {phase, signal};
         try {
-            amps.get(ampId).run();
+            IntCodeComputer amp = amps.get(ampId);
+            amp.run();
 
-            while (!amps.get(ampId).isDone()) {
-                    wait(500);
+            amp.setInput(phase);
+            amp.setInputReady(true);
+
+            while(amp.isInputReady()) {
+                try {
+                    wait(1);
+                } catch (Exception e) {
+
+                }
             }
+
+            amp.setInput(signal);
+            amp.setInputReady(true);
+
+            while (!amp.isDone()) {
+                wait(1);
+            }
+
+
         } catch (Exception ex) {
                 // do nothing;
         }
@@ -66,54 +77,52 @@ public class Day07 {
         return amps.get(ampId).getOutputValue();
     }
 
-    public int getThrusterInput(int[] phase) {
-        int ampId=0;
-        while (ampInput[5] == 0){
-            ampInput[ampId+1] = getAmpOutput(ampId, phase[ampId], ampInput[ampId]);
-            ampId = (ampId+1) % 5;
-        }
-
-        return ampInput[5];
-    }
-
-    public int getThrusterInput_feedbackloop(int[] phases) {
+    public long getThrusterInput(int[] phases) {
         IntCodeComputer amp = amps.get(0);
 
         //set phase on all amps
         for (int i=0; i < 5; i++) {
             amp = amps.get(i);
-            amp.setInput(0, phases[i]);
+            amp.setInput(phases[i]);
+            amp.setInputReady(true);
+            while(amp.isInputReady()) {
+                try {
+                    wait(1);
+                } catch (Exception e) {
+
+                }
+            }
         }
         
         // give input to 1st amp
         amp = amps.get(AMP_A);
-        amp.setInput(1, 0);
+        amp.setInput(0);
         amp.setInputReady(true);
         
         // loop until amp e finishes
         while (!amps.get(AMP_E).isDone()) {
             if (amps.get(AMP_A).isOutputReady()) {
-                amps.get(AMP_B).setInput(1, amps.get(AMP_A).getOutputValue());
+                amps.get(AMP_B).setInput(amps.get(AMP_A).getOutputValue());
                 amps.get(AMP_B).setInputReady(true);
             }
 
             if (amps.get(AMP_B).isOutputReady()) {
-                amps.get(AMP_C).setInput(1, amps.get(AMP_B).getOutputValue());
+                amps.get(AMP_C).setInput(amps.get(AMP_B).getOutputValue());
                 amps.get(AMP_C).setInputReady(true);
             }
 
             if (amps.get(AMP_C).isOutputReady()) {
-                amps.get(AMP_D).setInput(1, amps.get(AMP_C).getOutputValue());
+                amps.get(AMP_D).setInput(amps.get(AMP_C).getOutputValue());
                 amps.get(AMP_D).setInputReady(true);
             }
 
             if (amps.get(AMP_D).isOutputReady()) {
-                amps.get(AMP_E).setInput(1, amps.get(AMP_D).getOutputValue());
+                amps.get(AMP_E).setInput(amps.get(AMP_D).getOutputValue());
                 amps.get(AMP_E).setInputReady(true);
             }
 
             if (amps.get(AMP_E).isOutputReady()) {
-                amps.get(AMP_A).setInput(1, amps.get(AMP_E).getOutputValue());
+                amps.get(AMP_A).setInput(amps.get(AMP_E).getOutputValue());
                 amps.get(AMP_A).setInputReady(true);
             }
         }
@@ -122,8 +131,8 @@ public class Day07 {
         return amps.get(AMP_E).getOutputValue();
     }
 
-    public int findMaxThrusterSignal(boolean feedback) {
-        int iMaxThrustSignal = 0;
+    public long findMaxThrusterSignal(boolean feedback) {
+        long iMaxThrustSignal = 0;
 
         for (int a = 0; a < 5; a++) {
             for (int b = 0; b < 5; b++) {
@@ -141,7 +150,7 @@ public class Day07 {
                                             e != b &&
                                             e != a) {
                                             int[] phases = {a,b,c,d,e};
-                                            int signal = 0;
+                                            long signal = 0;
 
                                             if (feedback == true) {
                                                 phases[0] += 5;
@@ -155,7 +164,7 @@ public class Day07 {
                                             resetComputers();
 
                                             if (feedback)
-                                                signal = getThrusterInput_feedbackloop(phases);
+                                                signal = getThrusterInput(phases);
                                             else
                                                 signal = getThrusterInput(phases);
 

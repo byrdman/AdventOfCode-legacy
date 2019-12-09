@@ -32,14 +32,12 @@ public class Day05Test {
     @Test
     public void Problem1() throws Exception {
         long[] memory = Arrays.copyOf(memStart, memStart.length);
-        long[] inputs = {1};
-        Assertions.assertEquals(11193703, solver.solve1(memory, inputs));
+        Assertions.assertEquals(11193703, solver.solve1(memory, 1l));
     }
 
     @Test
     public void Problem2() throws Exception {
         long[] memory = Arrays.copyOf(memStart, memStart.length);
-        long[] inputs = {5};
-        Assertions.assertEquals(12410607, solver.solve1(memory, inputs));
+        Assertions.assertEquals(12410607, solver.solve1(memory, 5l));
     }
 }

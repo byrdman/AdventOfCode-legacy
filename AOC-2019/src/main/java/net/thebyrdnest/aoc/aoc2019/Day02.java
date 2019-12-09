@@ -6,6 +6,7 @@ public class Day02 {
     public long solve1(long[] mem) {
         IntCodeComputer intCodeComputer = new IntCodeComputer(1, mem);
         intCodeComputer.run();
+
         while (!intCodeComputer.isDone()) {
             try {
                 wait(500);

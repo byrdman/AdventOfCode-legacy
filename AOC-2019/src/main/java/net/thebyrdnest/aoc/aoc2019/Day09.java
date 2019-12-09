@@ -9,7 +9,7 @@ public class Day09 {
     IntCodeComputer computer;
     public long solve1(long[] program) {
         computer = new IntCodeComputer(0, program);
-        computer.setInput(1);
+        computer.setInput(1l);
         computer.setInputReady(true);
         computer.run();
         return computer.getOutputValue();

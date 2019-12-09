@@ -46,7 +46,7 @@ public class Day08Test {
         String answer = solver.solve2(myInput, 25, 6);
         Assertions.assertEquals(correct, answer);
 
-        char[] cComposit = answer.toCharArray()
+        char[] cComposit = answer.toCharArray();
         for (int y=0; y<6; y++) {
             for (int x=0; x<25; x++) {
                 if (cComposit[y*25+x] == '1')

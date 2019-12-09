@@ -47,6 +47,11 @@ public class Day12Test {
     public void Problem_1() {
         Assertions.assertEquals(119433, solver.sumNumbers(myInput.split("\n")));
     }
+
+    @Test
+    public void Problem_2() {
+        solver.solve2(myInput);
+    }
     
     String myInput = "{\n" +
             "\"e\": {\n" +

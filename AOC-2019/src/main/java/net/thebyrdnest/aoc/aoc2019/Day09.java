@@ -7,9 +7,10 @@ import java.util.Arrays;
 
 public class Day09 {
     IntCodeComputer computer;
-    public long solve1(long[] program) {
+
+    public long BOOST(long[] program, long input) {
         computer = new IntCodeComputer(0, program);
-        computer.setInput(1l);
+        computer.setInput(input);
         computer.setInputReady(true);
         computer.run();
         return computer.getOutputValue();

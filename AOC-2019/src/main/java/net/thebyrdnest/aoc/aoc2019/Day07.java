@@ -20,7 +20,6 @@ public class Day07 {
 
     long[] ampInput = {0,0,0,0,0,0};
 
-
     public Day07(long[] program) {
         initialProgram = Arrays.copyOf(program, program.length);
         for (int i=0; i < 5; i++) {
@@ -49,7 +48,7 @@ public class Day07 {
         long inputs[] = {phase, signal};
         try {
             IntCodeComputer amp = amps.get(ampId);
-            amp.run();
+            amp.start();
 
             amp.setInput(phase);
             amp.setInputReady(true);

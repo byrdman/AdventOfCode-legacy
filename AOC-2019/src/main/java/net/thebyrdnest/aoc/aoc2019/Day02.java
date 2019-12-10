@@ -5,7 +5,7 @@ import net.thebyrdnest.aoc.utils.IntCodeComputer;
 public class Day02 {
     public long solve1(long[] mem) {
         IntCodeComputer intCodeComputer = new IntCodeComputer(1, mem);
-        intCodeComputer.run();
+        intCodeComputer.start();
 
         while (!intCodeComputer.isDone()) {
             try {

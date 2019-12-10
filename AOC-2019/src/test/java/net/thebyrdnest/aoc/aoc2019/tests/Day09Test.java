@@ -55,7 +55,7 @@ public class Day09Test {
                 "0: output - 0\r\n" +
                 "0: output - 99\r\n");
 
-        solver.solve1(input);
+        solver.BOOST(input, 1l);
 
         final String standardOutput = myOut.toString();
 
@@ -66,13 +66,20 @@ public class Day09Test {
     public void Example2() {
         Day09 solver = new Day09();
         long[] input = {104,1125899906842624l,99};
-        Assertions.assertEquals(1125899906842624l, solver.solve1(input));
+        Assertions.assertEquals(1125899906842624l, solver.BOOST(input, 1l));
     }
 
     @Test
     public void Problem1() {
         Day09 solver = new Day09();
-        Assertions.assertEquals(14902, solver.solve1(myInput));
+        Assertions.assertEquals(2870072642l, solver.BOOST(myInput, 1l));
+
+    }
+
+    @Test
+    public void Problem2() {
+        Day09 solver = new Day09();
+        Assertions.assertEquals(58534, solver.BOOST(myInput, 2l));
 
     }
 

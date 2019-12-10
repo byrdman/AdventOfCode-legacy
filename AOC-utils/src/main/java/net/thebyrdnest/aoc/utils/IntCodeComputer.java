@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class IntCodeComputer implements Runnable {
     Thread computerThread;
 
@@ -122,71 +124,79 @@ public class IntCodeComputer implements Runnable {
             switch(opCode) {
                 case 1: // add
                     //System.out.println("Add");
-                    parm1 = memory.get(i+1);
-                    parm2 = memory.get(i+2);
-                    parm3 = memory.get(i+3);
+                    parm1 = memory.get(i + 1);
+                    parm2 = memory.get(i + 2);
+                    parm3 = memory.get(i + 3);
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
-                    else if(mode1 == RELATIVE)
-                        val1 = getMemoryValue(relativeBase+parm1);
-                    else
+                    else if (mode1 == IMMEDIATE)
                         val1 = parm1;
+                    else if (mode1 == RELATIVE)
+                        val1 = getMemoryValue(relativeBase + parm1);
+                    else
+                        exit(11);
 
                     if (mode2 == POSITION)
                         val2 = getMemoryValue(parm2);
-                    else if(mode1 == RELATIVE)
-                        val2 = getMemoryValue(relativeBase+parm2);
-                    else
+                    else if (mode2 == IMMEDIATE)
                         val2 = parm2;
+                    else if (mode2 == RELATIVE)
+                        val2 = getMemoryValue(relativeBase + parm2);
+                    else
+                        exit(12);
 
                     result = val1 + val2;
 
-                    if (mode3 == POSITION)
+                    if (mode3 == POSITION || mode3 == IMMEDIATE)
                         memory.put(parm3, result);
                     else if (mode3 == RELATIVE)
                         memory.put(relativeBase + parm3, result);
                     else
-                        memory.put(getMemoryValue(parm3), result);
+                        exit(13);
 
-                    i+=4;
+                    i += 4;
 
                     break;
                 case 2: // multiply
                     //System.out.println("Multiply");
-                    parm1 = getMemoryValue(i+1);
-                    parm2 = getMemoryValue(i+2);
-                    parm3 = getMemoryValue(i+3);
+                    parm1 = getMemoryValue(i + 1);
+                    parm2 = getMemoryValue(i + 2);
+                    parm3 = getMemoryValue(i + 3);
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
-                    else if(mode1 == RELATIVE)
-                        val1 = getMemoryValue(relativeBase+parm1);
-                    else
+                    else if (mode1 == IMMEDIATE)
                         val1 = parm1;
+                    else if (mode1 == RELATIVE)
+                        val1 = getMemoryValue(relativeBase + parm1);
+                    else
+                        exit(21);
 
                     if (mode2 == POSITION)
                         val2 = getMemoryValue(parm2);
-                    else if(mode1 == RELATIVE)
-                        val2 = getMemoryValue(relativeBase+parm2);
-                    else
+                    else if (mode2 == IMMEDIATE)
                         val2 = parm2;
+                    else if (mode2 == RELATIVE)
+                        val2 = getMemoryValue(relativeBase + parm2);
+                    else
+                        exit(22);
 
                     result = val1 * val2;
 
-                    if (mode3 == POSITION)
+                    if (mode3 == POSITION || mode3 == IMMEDIATE)
                         memory.put(parm3, result);
                     else if (mode3 == RELATIVE)
                         memory.put(relativeBase + parm3, result);
                     else
-                        memory.put(getMemoryValue(parm3), result);
+                        exit(23);
 
                     i += 4;
 
                     break;
                 case 3: // store
                     //System.out.println(computerId + ": input loop: " + ++loopNum);
-                    parm1 = getMemoryValue(i+1);
+                    parm1 = getMemoryValue(i + 1);
                     while (!bInputReady) {
                         try {
                             Thread.sleep(1);
@@ -195,10 +205,16 @@ public class IntCodeComputer implements Runnable {
                         }
                     }
 
-                    if (mode3 == POSITION || mode3 == IMMEDIATE)
+                    if (mode1 == POSITION || mode1 == IMMEDIATE) {
                         memory.put(parm1, inputValue);
-                    else
+                        //memory.put(getMemoryValue(parm1), inputValue);
+                    }
+                    /*else if (mode1 == IMMEDIATE)
+                        memory.put(parm1, inputValue);*/
+                    else if (mode1 == RELATIVE)
                         memory.put(relativeBase + parm1, inputValue);
+                    else
+                        exit(31);
 
                     bInputReady = false;
 
@@ -210,10 +226,12 @@ public class IntCodeComputer implements Runnable {
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
+                    else if (mode1 == IMMEDIATE)
+                        val1 = parm1;
                     else if(mode1 == RELATIVE)
                         val1 = getMemoryValue(relativeBase+parm1);
                     else
-                        val1 = parm1;
+                        exit(41);
 
                     outputValue = val1;
                     bOutputReady = true;
@@ -232,17 +250,21 @@ public class IntCodeComputer implements Runnable {
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
+                    else if (mode1 == IMMEDIATE)
+                        val1 = parm1;
                     else if(mode1 == RELATIVE)
                         val1 = getMemoryValue(relativeBase+parm1);
                     else
-                        val1 = parm1;
+                        exit(51);
 
                     if (mode2 == POSITION)
                         val2 = getMemoryValue(parm2);
-                    else if(mode1 == RELATIVE)
+                    else if (mode2 == IMMEDIATE)
+                        val2 = parm2;
+                    else if(mode2 == RELATIVE)
                         val2 = getMemoryValue(relativeBase+parm2);
                     else
-                        val2 = parm2;
+                        exit(52);
 
                     if (val1 != 0)
                         i = val2;
@@ -256,17 +278,21 @@ public class IntCodeComputer implements Runnable {
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
+                    else if (mode1 == IMMEDIATE)
+                        val1 = parm1;
                     else if(mode1 == RELATIVE)
                         val1 = getMemoryValue(relativeBase+parm1);
                     else
-                        val1 = parm1;
+                        exit(61);
 
                     if (mode2 == POSITION)
                         val2 = getMemoryValue(parm2);
-                    else if(mode1 == RELATIVE)
+                    else if (mode2 == IMMEDIATE)
+                        val2 = parm2;
+                    else if(mode2 == RELATIVE)
                         val2 = getMemoryValue(relativeBase+parm2);
                     else
-                        val2 = parm2;
+                        exit(62);
 
                     if (val1 == 0)
                         i = val2;
@@ -281,29 +307,35 @@ public class IntCodeComputer implements Runnable {
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
+                    else if (mode1 == IMMEDIATE)
+                        val1 = parm1;
                     else if(mode1 == RELATIVE)
                         val1 = getMemoryValue(relativeBase+parm1);
                     else
-                        val1 = parm1;
+                        exit(71);
 
                     if (mode2 == POSITION)
                         val2 = getMemoryValue(parm2);
-                    else if(mode1 == RELATIVE)
+                    else if (mode2 == IMMEDIATE)
+                        val2 = parm2;
+                    else if(mode2 == RELATIVE)
                         val2 = getMemoryValue(relativeBase+parm2);
                     else
-                        val2 = parm2;
+                        exit(72);
 
                     if (val1 < val2)
                         result = 1l;
                     else
                         result = 0;
 
-                    if (mode3 == POSITION)
-                        memory.put(parm3, 1l);
+                    if (mode3 == POSITION || mode3 == IMMEDIATE)
+                        /*memory.put(getMemoryValue(parm3), result);
+                    else if (mode3 == IMMEDIATE)*/
+                        memory.put(parm3, result);
                     else if (mode3 == RELATIVE)
                         memory.put(relativeBase + parm3, result);
                     else
-                        memory.put(getMemoryValue(parm3), result);
+                        exit(73);
 
                     i += 4;
 
@@ -315,29 +347,35 @@ public class IntCodeComputer implements Runnable {
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
+                    else if (mode1 == IMMEDIATE)
+                        val1 = parm1;
                     else if(mode1 == RELATIVE)
                         val1 = getMemoryValue(relativeBase+parm1);
                     else
-                        val1 = parm1;
+                        exit(81);
 
                     if (mode2 == POSITION)
                         val2 = getMemoryValue(parm2);
-                    else if(mode1 == RELATIVE)
+                    else if (mode2 == IMMEDIATE)
+                        val2 = parm2;
+                    else if(mode2 == RELATIVE)
                         val2 = getMemoryValue(relativeBase+parm2);
                     else
-                        val2 = parm2;
+                        exit(82);
 
                     if (val1 == val2)
                         result = 1l;
                     else
                         result = 0;
 
-                    if (mode3 == POSITION)
-                        memory.put(parm3, 1l);
+                    if (mode3 == POSITION || mode3 == IMMEDIATE)
+                        /*memory.put(getMemoryValue(parm3), result);
+                    else if (mode3 == IMMEDIATE)*/
+                        memory.put(parm3, result);
                     else if (mode3 == RELATIVE)
                         memory.put(relativeBase + parm3, result);
                     else
-                        memory.put(getMemoryValue(parm3), result);
+                        exit(83);
 
                     i += 4;
                     break;
@@ -346,10 +384,12 @@ public class IntCodeComputer implements Runnable {
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
+                    else if (mode1 == IMMEDIATE)
+                        val1 = parm1;
                     else if(mode1 == RELATIVE)
                         val1 = getMemoryValue(relativeBase+parm1);
                     else
-                        val1 = parm1;
+                        exit(91);
 
                     relativeBase += val1;
                     i += 2;
@@ -360,12 +400,5 @@ public class IntCodeComputer implements Runnable {
                     break;
             }
         }
-    }
-
-    public static void main(String[] args) {
-        long[] pgm1 = {3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5};
-        long[] pgm = {3,8,1001,8,10,8,105,1,0,0,21,34,51,64,73,98,179,260,341,422,99999,3,9,102,4,9,9,1001,9,4,9,4,9,99,3,9,1001,9,4,9,1002,9,3,9,1001,9,5,9,4,9,99,3,9,101,5,9,9,102,5,9,9,4,9,99,3,9,101,5,9,9,4,9,99,3,9,1002,9,5,9,1001,9,3,9,102,2,9,9,101,5,9,9,1002,9,2,9,4,9,99,3,9,1001,9,1,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,101,1,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,2,9,9,4,9,99,3,9,101,1,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,102,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,101,1,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,99,3,9,101,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,101,2,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,102,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,2,9,9,4,9,99,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,2,9,9,4,9,3,9,1001,9,2,9,4,9,99,3,9,1001,9,1,9,4,9,3,9,101,1,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,1001,9,1,9,4,9,3,9,101,1,9,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,99};
-        IntCodeComputer cpu = new IntCodeComputer(Integer.parseInt(args[0]), pgm, true);
-        cpu.run();
     }
 }

@@ -46,58 +46,42 @@ public class Day13Test {
                 "David would gain 41 happiness units by sitting next to Carol.").split("\n");
         solver.loadData(data);
 
-        ArrayList<String> table = new ArrayList<>();
-
-        table.add("Bob");
-        table.add("Carol");
-        table.add("David");
-        table.add("Alice");
-
-        int happyness = solver.calcHappyness(table);
+        int happyness = solver.calcHappyness("BCDA");
 
         Assertions.assertEquals(330, happyness);
-    }
 
-    @Test
-    public void Example_3() {
-        String[] data = ("Alice would gain 54 happiness units by sitting next to Bob.\n" +
-                "Alice would lose 79 happiness units by sitting next to Carol.\n" +
-                "Alice would lose 2 happiness units by sitting next to David.\n" +
-                "Bob would gain 83 happiness units by sitting next to Alice.\n" +
-                "Bob would lose 7 happiness units by sitting next to Carol.\n" +
-                "Bob would lose 63 happiness units by sitting next to David.\n" +
-                "Carol would lose 62 happiness units by sitting next to Alice.\n" +
-                "Carol would gain 60 happiness units by sitting next to Bob.\n" +
-                "Carol would gain 55 happiness units by sitting next to David.\n" +
-                "David would gain 46 happiness units by sitting next to Alice.\n" +
-                "David would lose 7 happiness units by sitting next to Bob.\n" +
-                "David would gain 41 happiness units by sitting next to Carol.").split("\n");
-        solver.loadData(data);
 
-        ArrayList<String> allGuests = new ArrayList<>();
-        for (String guestName : solver.guests.keySet())
-            allGuests.add(guestName);
-
-        solver.buildAllTables(allGuests, 0, solver.guests.size()-1);
-
-        StringBuilder sb = new StringBuilder();
-        for (ArrayList<String> table : solver.allTables)
-            sb.append(solver.printTable(table) + "\n");
-
-        System.out.println(sb.toString());
     }
 
     @Test
     public void Problem_1() {
         solver.loadData(myInput.split("\n"));
         // 579 is too low
-        Assertions.assertEquals(119433, solver.solve1());
+        Assertions.assertEquals(733, solver.solve1());
     }
 
-    /*@Test
+    @Test
     public void Problem_2() {
-        solver.solve2(myInput);
-    }*/
+        myInput += "\nSam would gain 0 happiness units by sitting next to Alice.\n" +
+                "Sam would gain 0 happiness units by sitting next to Bob.\n" +
+                "Sam would gain 0 happiness units by sitting next to Carol.\n" +
+                "Sam would gain 0 happiness units by sitting next to David.\n" +
+                "Sam would gain 0 happiness units by sitting next to Eric.\n" +
+                "Sam would gain 0 happiness units by sitting next to Frank.\n" +
+                "Sam would gain 0 happiness units by sitting next to George.\n" +
+                "Sam would gain 0 happiness units by sitting next to Mallory.\n" +
+                "Alice would gain 0 happiness units by sitting next to Sam.\n" +
+                "Bob would gain 0 happiness units by sitting next to Sam.\n" +
+                "Carol would gain 0 happiness units by sitting next to Sam.\n" +
+                "David would gain 0 happiness units by sitting next to Sam.\n" +
+                "Eric would gain 0 happiness units by sitting next to Sam.\n" +
+                "Frank would gain 0 happiness units by sitting next to Sam.\n" +
+                "George would gain 0 happiness units by sitting next to Sam.\n" +
+                "Mallory would gain 0 happiness units by sitting next to Sam.";
+        solver.loadData(myInput.split("\n"));
+        // 579 is too low
+        Assertions.assertEquals(725, solver.solve1());
+    }
 
     String myInput = "Alice would gain 2 happiness units by sitting next to Bob.\n" +
             "Alice would gain 26 happiness units by sitting next to Carol.\n" +

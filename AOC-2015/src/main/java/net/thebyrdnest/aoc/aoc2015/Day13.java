@@ -6,18 +6,12 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Day13 {
     class Person {
         private String person_name;
-        private int happyness;
         private Map<String, Integer> happynessChange;
-        private String leftNeighbor;
-        private String rightNeighbor;
 
         public Person(String person_name) {
             this.person_name = person_name;
@@ -56,6 +50,9 @@ David would lose 7 happiness units by sitting next to Bob.
 David would gain 41 happiness units by sitting next to Carol.
      */
     public Map<String, Person> guests = new HashMap<>();
+    public ArrayList<String> allGuests;
+    public Set<String> allTables;
+    public Map<String, String> nameMap;
 
     public void loadData(String[] list) {
         for (String record : list) {
@@ -70,38 +67,107 @@ David would gain 41 happiness units by sitting next to Carol.
                 guest.addHappynessChange(parts[10].substring(0, parts[10].length()-1), 0 - Integer.parseInt(parts[3]));
             guests.put(parts[0], guest);
         }
+
+        nameMap = new HashMap<>();
+        allGuests = new ArrayList<>();
+        for (String guestName : guests.keySet()) {
+            allGuests.add(guestName);
+            nameMap.put(guestName.substring(0, 1), guestName);
+        }
     }
 
-
-
-    public int calcHappyness(ArrayList<String> table) {
+    public int calcHappyness(String table) {
         int happynessIndex = 0;
-        for (int i=0; i < table.size()-1; i++) {
-            String personName = table.get(i);
+        for (int i=0; i < table.length()-1; i++) {
+            String personName = nameMap.get(table.substring(i, i+1));
             Person person1 = guests.get(personName);
-            Person person2 = guests.get(table.get(i+1));
+            Person person2 = guests.get(nameMap.get(table.substring(i+1, i+2)));
 
             happynessIndex += person2.getHappynessChange(personName);
             happynessIndex += person1.getHappynessChange(person2.getPerson_name());
         }
 
-        Person person1 = guests.get(table.get(table.size()-1));
-        Person person2 = guests.get(table.get(0));
+        Person person1 = guests.get(nameMap.get(table.substring(table.length()-1, table.length())));
+        Person person2 = guests.get(nameMap.get(table.substring(0, 1)));
         happynessIndex += person1.getHappynessChange(person2.getPerson_name());
         happynessIndex += person2.getHappynessChange(person1.getPerson_name());
 
         return happynessIndex;
     }
 
-    public int solve1() {
-        ArrayList<String> allGuests = new ArrayList<>();
-        for (String guestName : guests.keySet())
-            allGuests.add(guestName);
+     void Permutation(String str, String ans)
+    {
+        // If string is empty
+        if (str.length() == 0) {
 
-        buildAllTables(allGuests, 0, guests.size()-1);
+            // Add the generated permutation to the
+            // set in order to avoid duplicates
+            allTables.add(ans);
+            return;
+        }
+
+        for (int i = 0; i < str.length(); i++) {
+
+            // ith character of str
+            char ch = str.charAt(i);
+
+            // Rest of the string after excluding
+            // the ith character
+            String ros = str.substring(0, i)
+                    + str.substring(i + 1);
+
+            // Recurvise call
+            Permutation(ros, ans + ch);
+        }
+    }
+
+    public void buildAllTables(ArrayList<String> allGuests) {
+        String sGuests = "";
+        for (String guestName : allGuests) {
+            sGuests += guestName.substring(0, 1);
+        }
+
+        Permutation(sGuests, "");
+    }
+
+    public int solve1() {
+        allTables = new HashSet<>();
+        nameMap = new HashMap<>();
+
+        ArrayList<String> allGuests = new ArrayList<>();
+        for (String guestName : guests.keySet()) {
+            allGuests.add(guestName);
+            nameMap.put(guestName.substring(0, 1), guestName);
+        }
+
+        buildAllTables(allGuests);
 
         int maxHappyness = 0;
-        for (ArrayList<String> table : allTables) {
+        for (String table : allTables) {
+            int happyness = calcHappyness(table);
+            if (happyness > maxHappyness)
+                maxHappyness = happyness;
+
+            //printTable(table);
+        }
+
+        return maxHappyness;
+    }
+
+    public int solve2() {
+        allTables = new HashSet<>();
+        nameMap = new HashMap<>();
+
+        ArrayList<String> allGuests = new ArrayList<>();
+        for (String guestName : guests.keySet()) {
+            allGuests.add(guestName);
+            nameMap.put(guestName.substring(0, 1), guestName);
+        }
+
+        buildAllTables(allGuests);
+
+        int maxHappyness = 0;
+        for (String table : allTables) {
             int happyness = calcHappyness(table);
             if (happyness > maxHappyness)
                 maxHappyness = happyness;
@@ -125,35 +191,5 @@ David would gain 41 happiness units by sitting next to Carol.
         }
 
         return sb;
-    }
-
-
-    public ArrayList<ArrayList<String >> allTables = new ArrayList<>();
-
-    public void buildAllTables(ArrayList<String> guests, int left, int right) {
-
-        if (left == right) {
-            allTables.add(guests);
-        } else {
-            for (int i=left; i <= right; i++) {
-                guests = swap(guests, left, right);
-                buildAllTables(guests, left+1, right);
-            }
-        }
-    }
-
-    public ArrayList<String> swap(ArrayList<String> oldArray, int i, int j)
-    {
-        ArrayList<String> newArray = new ArrayList<>();
-        for (int k=0; k < oldArray.size(); k++) {
-            if (k == i)
-                newArray.add(oldArray.get(j));
-            else if (k == j)
-                newArray.add(oldArray.get(i));
-            else
-                newArray.add(oldArray.get(k));
-        }
-
-        return newArray;
     }
 }

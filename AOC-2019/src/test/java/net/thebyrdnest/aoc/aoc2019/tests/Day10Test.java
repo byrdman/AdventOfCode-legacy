@@ -121,11 +121,30 @@ public class Day10Test {
                 "#.#.#.#####.####.###\n" +
                 "###.##.####.##.#..##").split("\n");
 
-        Assertions.assertEquals(210, solver.solve1(input));
+        double solution = solver.solve1(input);
+        System.out.println(solver.printBest());
+        Assertions.assertEquals(210, solution);
     }
 
     @Test
     public void Example_2_1() {
+        Day10 solver = new Day10();
+        String[] input = (
+                ".#....#####...#..\n" +
+                "##...##.#####..##\n" +
+                "##...#...#.#####.\n" +
+                "..#.....#...###..\n" +
+                "..#.#.....#....##"
+                ).split("\n");
+
+
+        double solution = solver.solve2(input);
+        System.out.println(solver.printBest()); // should be (8,3)
+        Assertions.assertEquals(802, solution);
+    }
+
+    @Test
+    public void Example_2_2() {
         Day10 solver = new Day10();
         String[] input = (
                 ".#..##.###...#######\n" +
@@ -149,7 +168,9 @@ public class Day10Test {
                         "#.#.#.#####.####.###\n" +
                         "###.##.####.##.#..##").split("\n");
 
-        Assertions.assertEquals(802, solver.solve2(input));
+        double solution = solver.solve2(input);
+        System.out.println(solver.printBest());
+        Assertions.assertEquals(802, solution);
     }
 
     @Test

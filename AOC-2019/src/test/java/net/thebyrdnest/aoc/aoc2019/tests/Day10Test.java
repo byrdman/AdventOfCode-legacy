@@ -125,17 +125,44 @@ public class Day10Test {
     }
 
     @Test
+    public void Example_2_1() {
+        Day10 solver = new Day10();
+        String[] input = (
+                ".#..##.###...#######\n" +
+                        "##.############..##.\n" +
+                        ".#.######.########.#\n" +
+                        ".###.#######.####.#.\n" +
+                        "#####.##.#.##.###.##\n" +
+                        "..#####..#.#########\n" +
+                        "####################\n" +
+                        "#.####....###.#.#.##\n" +
+                        "##.#################\n" +
+                        "#####.##.###..####..\n" +
+                        "..######..##.#######\n" +
+                        "####.##.####...##..#\n" +
+                        ".#####..#.######.###\n" +
+                        "##...#.##########...\n" +
+                        "#.##########.#######\n" +
+                        ".####.#.###.###.#.##\n" +
+                        "....##.##.###..#####\n" +
+                        ".#.#.###########.###\n" +
+                        "#.#.#.#####.####.###\n" +
+                        "###.##.####.##.#..##").split("\n");
+
+        Assertions.assertEquals(802, solver.solve2(input));
+    }
+
+    @Test
     public void Problem1() {
         Day10 solver = new Day10();
-        Assertions.assertEquals(2870072642l, solver.solve1(myInput));
+        Assertions.assertEquals(280, solver.solve1(myInput));
 
     }
 
-    @Disabled
     @Test
     public void Problem2() {
         Day10 solver = new Day10();
-        Assertions.assertEquals(58534, solver.solve2(myInput));
+        Assertions.assertEquals(280, solver.solve2(myInput));
 
     }
 

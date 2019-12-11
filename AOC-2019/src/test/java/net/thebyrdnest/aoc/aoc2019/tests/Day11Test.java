@@ -1,9 +1,9 @@
 package net.thebyrdnest.aoc.aoc2019.tests;
 
-import net.thebyrdnest.aoc.aoc2019.Robot;
+import net.thebyrdnest.aoc.aoc2019.Day11;
 import org.junit.jupiter.api.*;
 
-public class RobotTest {
+public class Day11Test {
 
 
     @BeforeAll
@@ -35,7 +35,7 @@ public class RobotTest {
             for (int j=0; j < maxSize; j++)
                 hull[i][j] = '.';
 
-        Robot hullPainter = new Robot();
+        Day11 hullPainter = new Day11();
         int squares = hullPainter.paintHull(hull, maxSize/2, maxSize/2);
         Assertions.assertEquals(5, squares);
     }

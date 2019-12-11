@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.*;
 
-public class Robot {
+public class Day11 {
 
     long[] program = {3,8,1005,8,324,1106,0,11,0,0,0,104,1,104,0,3,8,102,-1,8,10,101,1,10,10,4,10,1008,8,0,10,4,10,1002,8,1,29,2,1102,17,10,3,8,102,-1,8,10,1001,10,1,10,4,10,1008,8,1,10,4,10,
             102,1,8,55,2,4,6,10,1,1006,10,10,1,6,14,10,3,8,1002,8,-1,10,101,1,10,10,4,10,1008,8,1,10,4,10,101,0,8,89,3,8,102,-1,8,10,1001,10,1,10,4,10,108,0,8,10,4,10,1002,8,1,110,1,104,8,10,3,
@@ -26,7 +26,7 @@ public class Robot {
     char currDir = 'N';
     Set<String> panels;
 
-    public Robot() {
+    public Day11() {
         panels = new HashSet<>();
         brain = new IntCodeComputer(0, program);
         brain.start();

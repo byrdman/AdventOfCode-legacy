@@ -64,17 +64,32 @@ public class IntCodeComputer implements Runnable {
         bInputReady = value;
     }
 
-    public boolean isInputReady() { return bInputReady;}
+    public boolean isInputReady() {
+        return bInputReady;}
 
     public boolean isOutputReady() {
         return bOutputReady;
     }
 
     public void setInput(long value) {
+        while (bInputReady) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                System.out.println(computerId + " sleep exception");
+            }
+        }
         inputValue = value;
     }
 
     public long getOutputValue() {
+        while (!bOutputReady) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                System.out.println(computerId + " sleep exception");
+            }
+        }
         bOutputReady=false;
         return outputValue;
     }
@@ -233,6 +248,14 @@ public class IntCodeComputer implements Runnable {
                     else
                         exit(41);
 
+                    while (bOutputReady) {
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException ex) {
+                            System.out.println(computerId + " sleep exception");
+                        }
+                    }
+
                     outputValue = val1;
                     bOutputReady = true;
                     try {
@@ -240,7 +263,7 @@ public class IntCodeComputer implements Runnable {
                     } catch (InterruptedException ex) {
                         System.out.println(computerId + " sleep exception");
                     }
-                    System.out.println(computerId + ": output - " + outputValue);
+                    //System.out.println(computerId + ": output - " + outputValue);
 
                     i+=2;
                     break;

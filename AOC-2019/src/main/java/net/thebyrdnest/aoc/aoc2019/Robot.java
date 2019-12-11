@@ -24,8 +24,10 @@ public class Robot {
     IntCodeComputer brain;
     int panelsPainted = 0;
     char currDir = 'N';
+    Set<String> panels;
 
     public Robot() {
+        panels = new HashSet<>();
         brain = new IntCodeComputer(0, program);
         brain.start();
     }
@@ -41,29 +43,17 @@ public class Robot {
 
         brain.setInputReady(true);
 
-        while (!brain.isOutputReady()) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException ex) {
-                // b
-            }
+        if (!brain.isDone()) {
+            if (brain.getOutputValue() == 0)
+                return '#';
+            else
+                return '.';
+        } else {
+            return currentColor;
         }
-
-        if (brain.getOutputValue() == 0)
-            return '#';
-        else
-            return '.';
     }
 
     public char getMove() {
-        while (!brain.isOutputReady()) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException ex) {
-                // a
-            }
-        }
-
         long move = brain.getOutputValue();
 
         if (move == 1)
@@ -97,17 +87,28 @@ public class Robot {
 
     }
 
+    public void printHull(char[][] hull) {
+        for (int i=0; i<hull[0].length; i++) {
+            for (int j = 0; j < hull[0].length; j++) {
+                System.out.print(hull[i][j]);
+            }
+            System.out.println("");
+        }
+    }
+
     public int paintHull(char[][] hull, int startX, int startY) {
         int x = startX;
         int y = startY;
+        currDir = 'N';
 
         do {
             hull[x][y] = paintSquare(hull[x][y]);
+            panels.add("(" + x + "," + y + ")");
+            printHull(hull);
+            System.out.println("");
 
             // get move
             char move = getMove();
-            char[] dir = {'W', 'N', 'E', 'S', 'W'};
-            char currDir = 'N';
 
             turn(move);
 
@@ -127,6 +128,7 @@ public class Robot {
             }
         } while (!brain.isDone());
 
-        return panelsPainted;
+        //return panelsPainted;
+        return panels.size();
     }
 }

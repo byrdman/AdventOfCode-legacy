@@ -26,15 +26,17 @@ public class RobotTest {
 
     }
 
+    @Disabled
     @Test
     public void Problem1() {
-        char[][] hull = new char[1000][1000];
-        for (int i=0; i < 1000; i++)
-            for (int j=0; j < 1000; j++)
-                hull[i][j] = ' ';
+        int maxSize = 10;
+        char[][] hull = new char[maxSize][maxSize];
+        for (int i=0; i < maxSize; i++)
+            for (int j=0; j < maxSize; j++)
+                hull[i][j] = '.';
 
         Robot hullPainter = new Robot();
-        int squares = hullPainter.paintHull(hull, 500, 500);
+        int squares = hullPainter.paintHull(hull, maxSize/2, maxSize/2);
         Assertions.assertEquals(5, squares);
     }
 }

@@ -51,6 +51,7 @@ public class Day03Tests {
         Assertions.assertEquals(6, solver.solve1(49));
     }
 
+    @Disabled
     @Test
     public void Example2_1() throws Exception {
         Assertions.assertEquals(2, solver.solve2(2));
@@ -61,6 +62,7 @@ public class Day03Tests {
         Assertions.assertEquals(326, solver.solve1(361527));
     }
 
+    @Disabled
     @Test
     public void Problem_2() throws Exception {
         Assertions.assertEquals(226, solver.solve2(361527));

@@ -26,14 +26,13 @@ public class Day11Test {
 
     }
 
-    @Disabled
     @Test
     public void Problem1() {
-        int maxSize = 10;
+        int maxSize = 20;
         char[][] hull = new char[maxSize][maxSize];
         for (int i=0; i < maxSize; i++)
             for (int j=0; j < maxSize; j++)
-                hull[i][j] = '.';
+                hull[i][j] = ' ';
 
         Day11 hullPainter = new Day11();
         int squares = hullPainter.paintHull(hull, maxSize/2, maxSize/2);

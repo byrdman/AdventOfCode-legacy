@@ -35,7 +35,12 @@ public class Day10 {
     }
 
     public double clockwiseAngle(double degree) {
-        return ((3600 - (degree +3600) % 3600) % 3600 + 900) % 3600;
+        //return ((3600 - (degree +3600) % 3600) % 3600 + 900) % 3600;
+        if (degree >= 0)
+            return degree;
+        else {
+            return degree + 3600;
+        }
     }
 
     public int countVisible(char[][] grid, int maxX, int maxY, int x0, int y0) {
@@ -43,7 +48,7 @@ public class Day10 {
         for (int x=0; x < maxX; x++) {
             for (int y=0; y < maxY; y++) {
                 if (!(x == x0 && y == y0) && grid[x][y] == '#') {
-                    double angle = angleBetweenPoints(x0, y0, x, y);
+                    double angle = angleBetweenPoints(0, 0, x-x0, y-y0);
                     angles.add(angle);
                 }
             }
@@ -90,7 +95,6 @@ public class Day10 {
             zapped = false;
         }
     }
-
     public double solve2(String[] sInput) {
 
         int maxX = sInput[0].length();
@@ -104,11 +108,12 @@ public class Day10 {
         int x;
         int y;
 
-        Map<Double, TreeMap<Integer, Asteroid>> astroids = new HashMap<>();
+        Map<Double, TreeMap<Integer, Asteroid>> astroids = new TreeMap<>();
         for (y=0; y < maxY; y++) {
             for (x = 0; x < maxX; x++) {
                 if (!(x==bestX && y==bestY) && grid[x][y] == '#') {
-                    double angle = clockwiseAngle(angleBetweenPoints(bestX, bestY, x, y));
+                    //double angle = clockwiseAngle(angleBetweenPoints(0, 0, x-bestX, y-bestY));
+                    double angle = clockwiseAngle(angleBetweenPoints(0, 0, x - bestX, (y - bestY) * -1));
                     int manhattan = Math.abs(x-bestX) + Math.abs(y-bestY);
 
                     TreeMap<Integer, Asteroid> hmData = astroids.get(angle);
@@ -125,7 +130,7 @@ public class Day10 {
         Asteroid point = new Asteroid(0,0);
         List<Double> hitList = new ArrayList<>();
         boolean bFoundOne = false;
-        while (astroids.size() > 0 && !bFoundOne) {
+        while (!bFoundOne) {
             bFoundOne = false;
             for (Double key : astroids.keySet()) {
                 TreeMap<Integer, Asteroid> hmData = astroids.get(key);

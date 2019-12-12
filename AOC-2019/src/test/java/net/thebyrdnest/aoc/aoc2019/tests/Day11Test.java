@@ -28,14 +28,15 @@ public class Day11Test {
 
     @Test
     public void Problem1() {
-        int maxSize = 20;
+        int maxSize = 1000;
         char[][] hull = new char[maxSize][maxSize];
         for (int i=0; i < maxSize; i++)
             for (int j=0; j < maxSize; j++)
-                hull[i][j] = ' ';
+                hull[i][j] = '.';
 
         Day11 hullPainter = new Day11();
         int squares = hullPainter.paintHull(hull, maxSize/2, maxSize/2);
+        //2571 is too high
         Assertions.assertEquals(5, squares);
     }
 }

@@ -72,25 +72,14 @@ public class IntCodeComputer implements Runnable {
     }
 
     public void setInput(long value) {
-        while (bInputReady) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException ex) {
-                System.out.println(computerId + " sleep exception");
-            }
-        }
         inputValue = value;
     }
 
+    public void setOutputReady(boolean value) {
+        bOutputReady = value;
+    }
+
     public long getOutputValue() {
-        while (!bOutputReady) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException ex) {
-                System.out.println(computerId + " sleep exception");
-            }
-        }
-        bOutputReady=false;
         return outputValue;
     }
 
@@ -213,11 +202,11 @@ public class IntCodeComputer implements Runnable {
                     //System.out.println(computerId + ": input loop: " + ++loopNum);
                     parm1 = getMemoryValue(i + 1);
                     while (!bInputReady) {
-                        try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException ex) {
+                        //try {
+                            Thread.yield();
+                        /*} catch (InterruptedException ex) {
                             System.out.println(computerId + " sleep exception");
-                        }
+                        }*/
                     }
 
                     if (mode1 == POSITION || mode1 == IMMEDIATE) {
@@ -249,11 +238,12 @@ public class IntCodeComputer implements Runnable {
                         exit(41);
 
                     while (bOutputReady) {
-                        try {
-                            Thread.sleep(1);
+                        /*try {
+                            Thread.sleep(50);
                         } catch (InterruptedException ex) {
                             System.out.println(computerId + " sleep exception");
-                        }
+                        }*/
+                        Thread.yield();
                     }
 
                     outputValue = val1;

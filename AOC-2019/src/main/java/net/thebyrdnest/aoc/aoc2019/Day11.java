@@ -33,21 +33,37 @@ public class Day11 {
     }
 
     public char paintSquare(char currentColor) {
-        if (currentColor == ' ')
-            panelsPainted++;
-
-        if (currentColor == '#')
-            brain.setInput(1);
+        /*while (brain.isInputReady() && !brain.isDone()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                //
+            }
+        }*/
+        if (currentColor == '#') //white
+            brain.setInput(1L);
         else
-            brain.setInput(0);
+            brain.setInput(0L);
 
         brain.setInputReady(true);
 
         if (!brain.isDone()) {
-            if (brain.getOutputValue() == 0)
-                return '#';
-            else
+            while (!brain.isOutputReady() && !brain.isDone()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    //
+                }
+            }
+
+            if (brain.getOutputValue() == 0) {
+                brain.setOutputReady(false);
                 return '.';
+            }
+            else{
+                brain.setOutputReady(false);
+                return '#';
+            }
         } else {
             return currentColor;
         }
@@ -104,8 +120,9 @@ public class Day11 {
         do {
             hull[x][y] = paintSquare(hull[x][y]);
             panels.add("(" + x + "," + y + ")");
-            printHull(hull);
-            System.out.println("");
+            System.out.println("(" + x + "," + y + ") " + hull[x][y]);
+            //printHull(hull);
+            //SSystem.out.println("");
 
             // get move
             char move = getMove();

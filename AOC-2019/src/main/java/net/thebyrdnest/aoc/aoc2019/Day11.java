@@ -25,6 +25,11 @@ public class Day11 {
     int panelsPainted = 0;
     char currDir = 'N';
     Set<String> panels;
+    int minX = 99999;
+    int minY = 99999;
+    int maxX = 0;
+    int maxY = 0;
+
 
     public Day11() {
         panels = new HashSet<>();
@@ -103,15 +108,6 @@ public class Day11 {
 
     }
 
-    public void printHull(char[][] hull) {
-        for (int i=0; i<hull[0].length; i++) {
-            for (int j = 0; j < hull[0].length; j++) {
-                System.out.print(hull[i][j]);
-            }
-            System.out.println("");
-        }
-    }
-
     public int paintHull(char[][] hull, int startX, int startY) {
         int x = startX;
         int y = startY;
@@ -120,6 +116,7 @@ public class Day11 {
         do {
             hull[x][y] = paintSquare(hull[x][y]);
             panels.add("(" + x + "," + y + ")");
+            panelsPainted++;
             System.out.println("(" + x + "," + y + ") " + hull[x][y]);
             //printHull(hull);
             //SSystem.out.println("");
@@ -143,9 +140,34 @@ public class Day11 {
                     x++;
                     break;
             }
+
+            if (x < minX)
+                minX = x;
+            if (x > maxX)
+                maxX = x;
+            if (y < minY)
+                minY = y;
+            if (y > maxY)
+                maxY = y;
         } while (!brain.isDone());
 
         //return panelsPainted;
+        System.out.println("X: " + minX + ", " + maxX);
+        System.out.println("Y: " + minY + ", " + maxY);
+        System.out.println("panelsPainted: " + panelsPainted);
+        System.out.println("unique panels painted: " + panels.size());
+
+        printResult(hull);
+
         return panels.size();
+    }
+
+    public void printResult(char[][] hull) {
+        for (int y=minY; y<=maxY; y++) {
+            for (int x=minX; x<=maxX; x++) {
+                System.out.print(hull[x][y]);
+            }
+            System.out.println("");
+        }
     }
 }

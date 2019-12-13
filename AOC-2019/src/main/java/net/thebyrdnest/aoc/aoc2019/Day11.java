@@ -42,10 +42,17 @@ public class Day11 {
     public char getPanelColor(int x, int y) {
         Point point = new Point(x, y);
         Character hullColor = hull.get(point);
-        if (hullColor == null)
+        if (hullColor == null) {
+            //System.out.println("(" + x + ", " + y + ") new");
             return '.';
+        }
         else
             return hullColor;
+    }
+
+    public void setPanelColor(int x, int y, char color) {
+        Point point = new Point(x, y);
+        hull.put(point, color);
     }
 
     public char paintSquare(char currentColor) {
@@ -56,7 +63,7 @@ public class Day11 {
 
         brain.setInputReady(true);
 
-        if (!brain.isDone()) {
+        //if (!brain.isDone()) {
             while (!brain.isOutputReady() && !brain.isDone()) {
                 try {
                     Thread.sleep(1);
@@ -73,12 +80,20 @@ public class Day11 {
                 brain.setOutputReady(false);
                 return '#'; //white
             }
-        } else {
+        /*} else {
             return currentColor;
-        }
+        }*/
     }
 
     public char getMove() {
+        while (!brain.isOutputReady() && !brain.isDone()) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                //
+            }
+        }
+
         long move = brain.getOutputValue();
         brain.setOutputReady(false);
 
@@ -114,26 +129,33 @@ public class Day11 {
     }
 
     
-    public int paintHull(char[][] hull, int startX, int startY) {
-        int x = startX;
-        int y = startY;
+    public int paintHull() {
+        /*int x = startX;
+        int y = startY;*/
+        int x=0;
+        int y=0;
         currDir = 'N';
+        Point currPoint;
+        char currColor;
 
         do {
-            hull[y][x] = paintSquare(hull[y][x]);
-            if (panels.size() % 100 == 0)
-                printResult(hull);
+            currPoint = new Point(x, y);
+            currColor = getPanelColor(x, y);
+            hull.put(currPoint, paintSquare(currColor));
+            if (panels.size() % 100 == 0) {
+                printHull();
+                int temp = 0;
+            }
 
-            panels.add("(" + y + "," + x + ")");
+            panels.add("(" + x + "," + y + ")");
             panelsPainted++;
-
-            //printHull(hull);
-            //SSystem.out.println("");
 
             // get move
             char move = getMove();
+
+            //System.out.print("(" + x + "," + y + ") " + currColor + " " + hull.get(currPoint) + " " + move + " " + currDir + " ");
+
             turn(move);
-            System.out.print("(" + y + "," + x + ") " + hull[y][x] + " " + move + " " + currDir + " ");
 
             switch (currDir) {
                 case 'N':
@@ -150,7 +172,7 @@ public class Day11 {
                     break;
             }
 
-            System.out.println(currDir);
+           // System.out.println(currDir);
 
             if (x < minX)
                 minX = x;
@@ -168,20 +190,28 @@ public class Day11 {
         System.out.println("panelsPainted: " + panelsPainted);
         System.out.println("unique panels painted: " + panels.size());
 
-        printResult(hull);
+        printHull();
 
         return panels.size();
     }
 
-    public void printResult(char[][] hull) {
+    public String printHull() {
+        StringBuilder sb = new StringBuilder();
+        System.out.println("X: " + minX + ", " + maxX);
+        System.out.println("Y: " + minY + ", " + maxY);
         System.out.println("Unique Panels: " + panels.size());
-
+        System.out.println("Total Panels: " + panelsPainted);
+        Point currPoint;
         for (int y=minY; y<=maxY; y++) {
             for (int x=minX; x<=maxX; x++) {
-                System.out.print(hull[x][y]);
+                sb.append(getPanelColor(x, y));
             }
+            sb.append("\n");
             System.out.println("");
+
         }
-        System.out.println("");
+        System.out.println(sb.toString());
+
+        return sb.toString();
     }
 }

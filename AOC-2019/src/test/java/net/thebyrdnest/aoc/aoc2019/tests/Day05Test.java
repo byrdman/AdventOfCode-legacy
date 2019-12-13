@@ -29,12 +29,14 @@ public class Day05Test {
 
     }
 
+    @Disabled
     @Test
     public void Problem1() throws Exception {
         long[] memory = Arrays.copyOf(memStart, memStart.length);
         Assertions.assertEquals(11193703, solver.solve1(memory, 1l));
     }
 
+    @Disabled
     @Test
     public void Problem2() throws Exception {
         long[] memory = Arrays.copyOf(memStart, memStart.length);

@@ -126,8 +126,11 @@ public class Day10Test {
         Assertions.assertEquals(210, solution);
     }
 
+    @Disabled
     @Test
     public void Example_2_1() {
+        // disabled because solver2 returns the 200th astroid, but there aren't 200 in this example
+
         Day10 solver = new Day10();
         String[] input = (
                 ".#....#####...#..\n" +
@@ -183,7 +186,7 @@ public class Day10Test {
     @Test
     public void Problem2() {
         Day10 solver = new Day10();
-        Assertions.assertEquals(280, solver.solve2(myInput));
+        Assertions.assertEquals(706, solver.solve2(myInput));
 
     }
 

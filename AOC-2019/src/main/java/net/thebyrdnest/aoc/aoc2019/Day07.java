@@ -50,6 +50,14 @@ public class Day07 {
             IntCodeComputer amp = amps.get(ampId);
             amp.start();
 
+            while(amp.isInputReady()) {
+                try {
+                    wait(1);
+                } catch (Exception e) {
+
+                }
+            }
+
             amp.setInput(phase);
             amp.setInputReady(true);
 
@@ -71,6 +79,14 @@ public class Day07 {
 
         } catch (Exception ex) {
                 // do nothing;
+        }
+
+        while (!amps.get(ampId).isOutputReady()) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                //
+            }
         }
 
         return amps.get(ampId).getOutputValue();
@@ -95,39 +111,58 @@ public class Day07 {
         
         // give input to 1st amp
         amp = amps.get(AMP_A);
+        while(amp.isInputReady()) {
+            try {
+                wait(1);
+            } catch (Exception e) {
+
+            }
+        }
         amp.setInput(0);
         amp.setInputReady(true);
+        long outputFromE = 0l;
         
         // loop until amp e finishes
         while (!amps.get(AMP_E).isDone()) {
-            if (amps.get(AMP_A).isOutputReady()) {
+            if (amps.get(AMP_A).isOutputReady() && !amps.get(AMP_B).isInputReady()) {
                 amps.get(AMP_B).setInput(amps.get(AMP_A).getOutputValue());
+                amps.get(AMP_A).setOutputReady(false);
                 amps.get(AMP_B).setInputReady(true);
             }
 
-            if (amps.get(AMP_B).isOutputReady()) {
+            if (amps.get(AMP_B).isOutputReady() && !amps.get(AMP_C).isInputReady()) {
                 amps.get(AMP_C).setInput(amps.get(AMP_B).getOutputValue());
+                amps.get(AMP_B).setOutputReady(false);
                 amps.get(AMP_C).setInputReady(true);
             }
 
-            if (amps.get(AMP_C).isOutputReady()) {
+            if (amps.get(AMP_C).isOutputReady() && !amps.get(AMP_D).isInputReady()) {
                 amps.get(AMP_D).setInput(amps.get(AMP_C).getOutputValue());
+                amps.get(AMP_C).setOutputReady(false);
                 amps.get(AMP_D).setInputReady(true);
             }
 
-            if (amps.get(AMP_D).isOutputReady()) {
+            if (amps.get(AMP_D).isOutputReady() && !amps.get(AMP_E).isInputReady()) {
                 amps.get(AMP_E).setInput(amps.get(AMP_D).getOutputValue());
+                amps.get(AMP_D).setOutputReady(false);
                 amps.get(AMP_E).setInputReady(true);
             }
 
-            if (amps.get(AMP_E).isOutputReady()) {
+            if (amps.get(AMP_E).isOutputReady() && !amps.get(AMP_A).isInputReady()) {
                 amps.get(AMP_A).setInput(amps.get(AMP_E).getOutputValue());
+                outputFromE = amps.get(AMP_E).getOutputValue();
+                amps.get(AMP_E).setOutputReady(false);
                 amps.get(AMP_A).setInputReady(true);
+            }
+
+            try {
+                wait(1);
+            } catch (Exception e) {
+
             }
         }
 
-        //grab the output from AMP_E
-        return amps.get(AMP_E).getOutputValue();
+        return outputFromE;
     }
 
     public long findMaxThrusterSignal(boolean feedback) {

@@ -30,6 +30,7 @@ public class Day09Test {
 
     }
 
+    @Disabled
     @Test
     public void Example1() {
         Day09 solver = new Day09();

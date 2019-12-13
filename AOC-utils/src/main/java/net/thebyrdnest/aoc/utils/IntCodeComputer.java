@@ -202,19 +202,12 @@ public class IntCodeComputer implements Runnable {
                     //System.out.println(computerId + ": input loop: " + ++loopNum);
                     parm1 = getMemoryValue(i + 1);
                     while (!bInputReady) {
-                        //try {
-                            Thread.yield();
-                        /*} catch (InterruptedException ex) {
-                            System.out.println(computerId + " sleep exception");
-                        }*/
+                        Thread.yield();
                     }
 
                     if (mode1 == POSITION || mode1 == IMMEDIATE) {
                         memory.put(parm1, inputValue);
-                        //memory.put(getMemoryValue(parm1), inputValue);
                     }
-                    /*else if (mode1 == IMMEDIATE)
-                        memory.put(parm1, inputValue);*/
                     else if (mode1 == RELATIVE)
                         memory.put(relativeBase + parm1, inputValue);
                     else
@@ -238,11 +231,6 @@ public class IntCodeComputer implements Runnable {
                         exit(41);
 
                     while (bOutputReady) {
-                        /*try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException ex) {
-                            System.out.println(computerId + " sleep exception");
-                        }*/
                         Thread.yield();
                     }
 

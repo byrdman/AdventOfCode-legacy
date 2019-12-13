@@ -73,7 +73,7 @@ public class Day08Test {
         }
 
         Assertions.assertEquals(1350, iCodeCount - iMemCount);
-        Assertions.assertEquals(100, iEncodingCount - iCodeCount);
+        Assertions.assertEquals(2085, iEncodingCount - iCodeCount);
     }
 
     String myInput = "\"qxfcsmh\"\n" +

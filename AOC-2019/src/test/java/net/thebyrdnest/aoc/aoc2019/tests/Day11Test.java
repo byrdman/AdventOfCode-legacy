@@ -29,13 +29,13 @@ public class Day11Test {
     @Test
     public void Problem1() {
         int maxSize = 1000;
-        char[][] hull = new char[1000][1000];
-        for (int i=0; i < 1000; i++)
-            for (int j=0; j < 1000; j++)
+        char[][] hull = new char[2000][2000];
+        for (int i=0; i < 2000; i++)
+            for (int j=0; j < 2000; j++)
                 hull[i][j] = '.';
 
         Day11 hullPainter = new Day11();
-        int squares = hullPainter.paintHull(hull, 100, 900);
+        int squares = hullPainter.paintHull(hull, 100, 1100);
         //1723 is too low, 2571 is too high, 2472 is incorrect
         Assertions.assertEquals(5, squares);
     }

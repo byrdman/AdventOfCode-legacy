@@ -22,6 +22,7 @@ public class Day11 {
             22102,1,-1,1,21102,1,633,0,106,0,508,21202,-2,-1,-2,22201,-4,-2,-4,109,-5,2105,1,0};
 
     IntCodeComputer brain;
+    HashMap<Point, Character> hull;
     int panelsPainted = 0;
     char currDir = 'N';
     Set<String> panels;
@@ -32,19 +33,22 @@ public class Day11 {
 
 
     public Day11() {
+        hull = new HashMap<>();
         panels = new HashSet<>();
         brain = new IntCodeComputer(0, program);
         brain.start();
     }
 
+    public char getPanelColor(int x, int y) {
+        Point point = new Point(x, y);
+        Character hullColor = hull.get(point);
+        if (hullColor == null)
+            return '.';
+        else
+            return hullColor;
+    }
+
     public char paintSquare(char currentColor) {
-        /*while (brain.isInputReady() && !brain.isDone()) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ex) {
-                //
-            }
-        }*/
         if (currentColor == '#') //white
             brain.setInput(1L);
         else
@@ -55,19 +59,19 @@ public class Day11 {
         if (!brain.isDone()) {
             while (!brain.isOutputReady() && !brain.isDone()) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1);
                 } catch (InterruptedException ex) {
                     //
                 }
             }
 
-            if (brain.getOutputValue() == 0) {
+            if (brain.getOutputValue() == 0) { // 0 = black, 1 = white
                 brain.setOutputReady(false);
-                return '.';
+                return '.'; //black
             }
             else{
                 brain.setOutputReady(false);
-                return '#';
+                return '#'; //white
             }
         } else {
             return currentColor;
@@ -76,8 +80,9 @@ public class Day11 {
 
     public char getMove() {
         long move = brain.getOutputValue();
+        brain.setOutputReady(false);
 
-        if (move == 1)
+        if (move == 0)
             return 'L';
         else
             return 'R';
@@ -108,23 +113,27 @@ public class Day11 {
 
     }
 
+    
     public int paintHull(char[][] hull, int startX, int startY) {
         int x = startX;
         int y = startY;
         currDir = 'N';
 
         do {
-            hull[x][y] = paintSquare(hull[x][y]);
-            panels.add("(" + x + "," + y + ")");
+            hull[y][x] = paintSquare(hull[y][x]);
+            if (panels.size() % 100 == 0)
+                printResult(hull);
+
+            panels.add("(" + y + "," + x + ")");
             panelsPainted++;
-            System.out.println("(" + x + "," + y + ") " + hull[x][y]);
+
             //printHull(hull);
             //SSystem.out.println("");
 
             // get move
             char move = getMove();
-
             turn(move);
+            System.out.print("(" + y + "," + x + ") " + hull[y][x] + " " + move + " " + currDir + " ");
 
             switch (currDir) {
                 case 'N':
@@ -140,6 +149,8 @@ public class Day11 {
                     x++;
                     break;
             }
+
+            System.out.println(currDir);
 
             if (x < minX)
                 minX = x;
@@ -163,11 +174,14 @@ public class Day11 {
     }
 
     public void printResult(char[][] hull) {
+        System.out.println("Unique Panels: " + panels.size());
+
         for (int y=minY; y<=maxY; y++) {
             for (int x=minX; x<=maxX; x++) {
                 System.out.print(hull[x][y]);
             }
             System.out.println("");
         }
+        System.out.println("");
     }
 }

@@ -109,6 +109,7 @@ public class Day12Test {
                 "<x=3, y=5, z=-1>").split("\n")));
     }
 
+    @Disabled
     @Test
     public void Example2_2() {
         Day12 solver = new Day12();

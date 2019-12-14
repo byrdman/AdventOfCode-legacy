@@ -33,4 +33,11 @@ public class Day13Test {
         int paddles = solver.solve1();
         Assertions.assertEquals(1747, paddles);
     }
+
+    @Test
+    public void Problem2() {
+        int[] joystickMoves = {-1, 0, 1};
+        Day13 solver = new Day13();
+        solver.solve2(joystickMoves);
+    }
 }

@@ -16,6 +16,8 @@ public class Day13 {
     IntCodeComputer brain;
     int[] tileTypes = new int[5];
     int tileCount = 0;
+    int maxY = -1;
+    int maxX = -1;
 
     private class Tile {
         Point point;
@@ -39,10 +41,39 @@ public class Day13 {
 
     HashMap<Point, Tile> screen;
 
-
-
     public Day13() {
 
+    }
+
+    public String outputScreen() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Score: " + score + "\n");
+
+        for (int y=0; y <= maxY; y++) {
+            for (int x=0; x <= maxX; x++) {
+                switch(getScreenTile(x, y)) {
+                    case 0:
+                        sb.append(" ");
+                        break;
+                    case 1:
+                        sb.append("@"); // wall
+                        break;
+                    case 2:
+                        sb.append("#"); // block
+                        break;
+                    case 3:
+                        sb.append("-"); // horizontal paddle
+                        break;
+                    case 4:
+                        sb.append("*"); // ball
+                        break;
+                    default:
+                        sb.append("?"); // unknown
+                }
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     public int getScreenTile(int x, int y) {
@@ -70,6 +101,8 @@ public class Day13 {
         }
 
         x = Integer.parseInt(Long.toString(brain.getOutputValue()));
+        if (x > maxX)
+            maxX = x;
         brain.setOutputReady(false);
 
         while (!brain.isOutputReady() && !brain.isDone()) {
@@ -81,6 +114,8 @@ public class Day13 {
         }
 
         y = Integer.parseInt(Long.toString(brain.getOutputValue()));
+        if (y > maxY)
+            maxY = y;
         brain.setOutputReady(false);
 
         while (!brain.isOutputReady() && !brain.isDone()) {
@@ -104,21 +139,33 @@ public class Day13 {
         screen = new HashMap<>();
     }
 
-    int[] joystickMoves = {-1, 0, 1};
-    public void solve2() {
+
+    public void solve2(int[] joystickMoves) {
         screen = new HashMap<>();
 
-        brain = new IntCodeComputer(0, program);
+        brain = new IntCodeComputer(0, program2);
         brain.start();
 
         while (!brain.isDone()) {
+            boolean bGotScore = false;
 
-            Tile tile = getNextTile();
-            Point point = tile.getPoint();
-            if (point.getX() == -1 && point.getY() == 0)
-                score = tile.getValue();
-            else
-                screen.put(point, tile);
+            while (!bGotScore) {
+                Tile tile = getNextTile();
+                Point point = tile.getPoint();
+                if (point.getX() == -1 && point.getY() == 0) {
+                    score = tile.getValue();
+                    bGotScore = true;
+                } else {
+                    screen.put(point, tile);
+                }
+            }
+
+            System.out.println(outputScreen());
+
+            // provide next joystick move
+            brain.setInput(-1);
+            brain.setInputReady(true);
+
         }
     }
 

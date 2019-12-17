@@ -97,7 +97,7 @@ public class Day12Test {
     public void Problem1() {
 
         Day12 solver = new Day12();
-        Assertions.assertEquals(1, solver.solve1(myData, 1000));
+        Assertions.assertEquals(6220, solver.solve1(myData, 1000));
     }
 
     @Test

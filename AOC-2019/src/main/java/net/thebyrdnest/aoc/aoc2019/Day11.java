@@ -73,11 +73,11 @@ public class Day11 {
             }
 
             if (brain.getOutputValue() == 0) { // 0 = black, 1 = white
-                brain.setOutputReady(false);
+                //brain.setOutputReady(false);
                 return '.'; //black
             }
             else{
-                brain.setOutputReady(false);
+                //brain.setOutputReady(false);
                 return '#'; //white
             }
         /*} else {
@@ -86,16 +86,18 @@ public class Day11 {
     }
 
     public char getMove() {
-        while (!brain.isOutputReady() && !brain.isDone()) {
-            try {
+        //while (!brain.isOutputReady() && !brain.isDone()) {
+        while (!brain.isOutputReady()) {
+            Thread.yield();
+            /*try {
                 Thread.sleep(1);
             } catch (InterruptedException ex) {
                 //
-            }
+            }*/
         }
 
         long move = brain.getOutputValue();
-        brain.setOutputReady(false);
+        //brain.setOutputReady(false);
 
         if (move == 0)
             return 'L';

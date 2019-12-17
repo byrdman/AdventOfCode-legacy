@@ -3,7 +3,7 @@ package net.thebyrdnest.aoc.aoc2019;
 import net.thebyrdnest.aoc.utils.IntCodeComputer;
 
 public class Day05 {
-    public long solve1(long[] mem, long input) {
+    public String solve1(long[] mem, long input) {
         IntCodeComputer intCodeComputer = new IntCodeComputer(1, mem);
         intCodeComputer.start();
 
@@ -12,12 +12,17 @@ public class Day05 {
 
         while (!intCodeComputer.isDone()) {
             try {
-                wait(500);
+                //wait(500);
+                Thread.yield();
             } catch (Exception ex) {
                 // do nothing;
             }
         }
 
-        return intCodeComputer.getOutputValue();
+        StringBuilder sb = new StringBuilder();
+        while (intCodeComputer.isOutputReady()) {
+            sb.append("output: " + intCodeComputer.getOutputValue() + "\n");
+        }
+        return sb.toString();
     }
 }

@@ -30,39 +30,6 @@ public class Day09Test {
 
     }
 
-    @Disabled
-    @Test
-    public void Example1() {
-        Day09 solver = new Day09();
-        long[] input = {109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99};
-        final ByteArrayOutputStream myOut = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(myOut));
-
-        StringBuilder sbExpected = new StringBuilder("Run Program - 0\r\n" +
-                "0: output - 109\r\n" +
-                "0: output - 1\r\n" +
-                "0: output - 204\r\n" +
-                "0: output - -1\r\n" +
-                "0: output - 1001\r\n" +
-                "0: output - 100\r\n" +
-                "0: output - 1\r\n" +
-                "0: output - 100\r\n" +
-                "0: output - 1008\r\n" +
-                "0: output - 100\r\n" +
-                "0: output - 16\r\n" +
-                "0: output - 101\r\n" +
-                "0: output - 1006\r\n" +
-                "0: output - 101\r\n" +
-                "0: output - 0\r\n" +
-                "0: output - 99\r\n");
-
-        solver.BOOST(input, 1l);
-
-        final String standardOutput = myOut.toString();
-
-        Assertions.assertEquals(sbExpected.toString(), standardOutput);
-    }
-
     @Test
     public void Example2() {
         Day09 solver = new Day09();

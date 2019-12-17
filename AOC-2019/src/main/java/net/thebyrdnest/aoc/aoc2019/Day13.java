@@ -62,7 +62,7 @@ public class Day13 {
                         sb.append("#"); // block
                         break;
                     case 3:
-                        sb.append("-"); // horizontal paddle
+                        sb.append("="); // horizontal paddle
                         break;
                     case 4:
                         sb.append("*"); // ball
@@ -103,7 +103,7 @@ public class Day13 {
         x = Integer.parseInt(Long.toString(brain.getOutputValue()));
         if (x > maxX)
             maxX = x;
-        brain.setOutputReady(false);
+        //brain.setOutputReady(false);
 
         while (!brain.isOutputReady() && !brain.isDone()) {
             try {
@@ -116,7 +116,7 @@ public class Day13 {
         y = Integer.parseInt(Long.toString(brain.getOutputValue()));
         if (y > maxY)
             maxY = y;
-        brain.setOutputReady(false);
+        //brain.setOutputReady(false);
 
         while (!brain.isOutputReady() && !brain.isDone()) {
             try {
@@ -127,7 +127,7 @@ public class Day13 {
         }
 
         tileType = Integer.parseInt(Long.toString(brain.getOutputValue()));
-        brain.setOutputReady(false);
+        //brain.setOutputReady(false);
 
         tileTypes[tileType]++;
         tileCount++;

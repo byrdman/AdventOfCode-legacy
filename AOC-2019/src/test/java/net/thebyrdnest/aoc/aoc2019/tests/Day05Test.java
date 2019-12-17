@@ -29,17 +29,24 @@ public class Day05Test {
 
     }
 
-    @Disabled
     @Test
     public void Problem1() throws Exception {
         long[] memory = Arrays.copyOf(memStart, memStart.length);
-        Assertions.assertEquals(11193703, solver.solve1(memory, 1l));
+        Assertions.assertEquals("output: 0\n" +
+                "output: 0\n" +
+                "output: 0\n" +
+                "output: 0\n" +
+                "output: 0\n" +
+                "output: 0\n" +
+                "output: 0\n" +
+                "output: 0\n" +
+                "output: 0\n" +
+                "output: 11193703\n", solver.solve1(memory, 1l));
     }
 
-    @Disabled
     @Test
     public void Problem2() throws Exception {
         long[] memory = Arrays.copyOf(memStart, memStart.length);
-        Assertions.assertEquals(12410607, solver.solve1(memory, 5l));
+        Assertions.assertEquals("output: 12410607\n", solver.solve1(memory, 5l));
     }
 }

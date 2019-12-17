@@ -124,34 +124,34 @@ public class Day07 {
         
         // loop until amp e finishes
         while (!amps.get(AMP_E).isDone()) {
-            if (amps.get(AMP_A).isOutputReady() && !amps.get(AMP_B).isInputReady()) {
+            if (amps.get(AMP_A).isOutputReady() /*&& !amps.get(AMP_B).isInputReady()*/) {
                 amps.get(AMP_B).setInput(amps.get(AMP_A).getOutputValue());
-                amps.get(AMP_A).setOutputReady(false);
+                //amps.get(AMP_A).setOutputReady(false);
                 amps.get(AMP_B).setInputReady(true);
             }
 
-            if (amps.get(AMP_B).isOutputReady() && !amps.get(AMP_C).isInputReady()) {
+            if (amps.get(AMP_B).isOutputReady() /*&& !amps.get(AMP_C).isInputReady()*/) {
                 amps.get(AMP_C).setInput(amps.get(AMP_B).getOutputValue());
-                amps.get(AMP_B).setOutputReady(false);
+                //amps.get(AMP_B).setOutputReady(false);
                 amps.get(AMP_C).setInputReady(true);
             }
 
-            if (amps.get(AMP_C).isOutputReady() && !amps.get(AMP_D).isInputReady()) {
+            if (amps.get(AMP_C).isOutputReady() /*&& !amps.get(AMP_D).isInputReady()*/) {
                 amps.get(AMP_D).setInput(amps.get(AMP_C).getOutputValue());
-                amps.get(AMP_C).setOutputReady(false);
+                //amps.get(AMP_C).setOutputReady(false);
                 amps.get(AMP_D).setInputReady(true);
             }
 
-            if (amps.get(AMP_D).isOutputReady() && !amps.get(AMP_E).isInputReady()) {
+            if (amps.get(AMP_D).isOutputReady() /*&& !amps.get(AMP_E).isInputReady()*/) {
                 amps.get(AMP_E).setInput(amps.get(AMP_D).getOutputValue());
-                amps.get(AMP_D).setOutputReady(false);
+                //amps.get(AMP_D).setOutputReady(false);
                 amps.get(AMP_E).setInputReady(true);
             }
 
-            if (amps.get(AMP_E).isOutputReady() && !amps.get(AMP_A).isInputReady()) {
-                amps.get(AMP_A).setInput(amps.get(AMP_E).getOutputValue());
+            if (amps.get(AMP_E).isOutputReady() /*&& !amps.get(AMP_A).isInputReady()*/) {
                 outputFromE = amps.get(AMP_E).getOutputValue();
-                amps.get(AMP_E).setOutputReady(false);
+                amps.get(AMP_A).setInput(outputFromE);
+                //amps.get(AMP_E).setOutputReady(false);
                 amps.get(AMP_A).setInputReady(true);
             }
 

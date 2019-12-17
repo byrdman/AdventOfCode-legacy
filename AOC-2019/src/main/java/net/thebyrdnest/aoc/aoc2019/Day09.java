@@ -10,9 +10,13 @@ public class Day09 {
 
     public long BOOST(long[] program, long input) {
         computer = new IntCodeComputer(0, program);
+        computer.start();
         computer.setInput(input);
         computer.setInputReady(true);
-        computer.run();
+        //computer.run();
+        while(!computer.isOutputReady())
+            Thread.yield();
+
         return computer.getOutputValue();
     }
 }

@@ -1,5 +1,6 @@
 package net.thebyrdnest.aoc.utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -13,11 +14,10 @@ public class IntCodeComputer implements Runnable {
     private HashMap<Long, Long> memory;
     private long relativeBase = 0;
     private long[] defaultMemory = {};
-    private long inputValue = 0;
-    int inputCounter = 0;
-    private long outputValue = 0;
+    ArrayList<Long> inputQueue;
+    ArrayList<Long> outputQueue;
+
     private boolean bDone = false;
-    private boolean bInputReady;
     private boolean bOutputReady;
     private boolean bInteractive;
 
@@ -26,8 +26,7 @@ public class IntCodeComputer implements Runnable {
     static final int RELATIVE = 2;
 
     public IntCodeComputer() {
-        computerId = 0;
-        memory = new HashMap<>();
+        this(0, null, false);
     }
 
     public IntCodeComputer(int computerId, long[] program) {
@@ -39,8 +38,7 @@ public class IntCodeComputer implements Runnable {
         memory = new HashMap<>();
         defaultMemory = Arrays.copyOf(program, program.length);
         resetMemory();
-        bInputReady = false;
-        bOutputReady = false;
+
         this.bInteractive = bInteractive;
     }
 
@@ -52,7 +50,8 @@ public class IntCodeComputer implements Runnable {
             counter++;
         }
         relativeBase = 0;
-        inputCounter = 0;
+        inputQueue = new ArrayList<>();
+        outputQueue = new ArrayList<>();
         bDone = false;
     }
 
@@ -61,26 +60,34 @@ public class IntCodeComputer implements Runnable {
     }
 
     public void setInputReady(boolean value) {
-        bInputReady = value;
+        //bInputReady = value;
     }
 
     public boolean isInputReady() {
-        return bInputReady;}
+        return (inputQueue.size() > 0);
+    }
 
     public boolean isOutputReady() {
-        return bOutputReady;
+        return (outputQueue.size() > 0);
     }
 
     public void setInput(long value) {
-        inputValue = value;
-    }
-
-    public void setOutputReady(boolean value) {
-        bOutputReady = value;
+        inputQueue.add(value);
     }
 
     public long getOutputValue() {
-        return outputValue;
+        while (outputQueue.size() == 0) {
+            try {
+                wait(1);
+                Thread.yield();
+            } catch (InterruptedException ex) {
+                Thread.yield();
+            }
+        }
+
+        long returnValue = outputQueue.get(0);
+        outputQueue.remove(0);
+        return returnValue;
     }
 
     public long getMemoryValue(long index) {
@@ -201,9 +208,12 @@ public class IntCodeComputer implements Runnable {
                 case 3: // store
                     //System.out.println(computerId + ": input loop: " + ++loopNum);
                     parm1 = getMemoryValue(i + 1);
-                    while (!bInputReady) {
+                    while (inputQueue.size() == 0) {
                         Thread.yield();
                     }
+
+                    long inputValue = inputQueue.get(0);
+                    inputQueue.remove(0);
 
                     if (mode1 == POSITION || mode1 == IMMEDIATE) {
                         memory.put(parm1, inputValue);
@@ -212,10 +222,6 @@ public class IntCodeComputer implements Runnable {
                         memory.put(relativeBase + parm1, inputValue);
                     else
                         exit(31);
-
-                    bInputReady = false;
-
-                    //System.out.println(computerId + ": Input - " + memory[parm1]);
                     i += 2;
                     break;
                 case 4: // return
@@ -230,18 +236,18 @@ public class IntCodeComputer implements Runnable {
                     else
                         exit(41);
 
-                    while (bOutputReady) {
+                    /*while (bOutputReady) {
                         Thread.yield();
-                    }
+                    }*/
 
-                    outputValue = val1;
+                    outputQueue.add(val1);
                     bOutputReady = true;
                     try {
                         Thread.sleep(1);
                     } catch (InterruptedException ex) {
                         System.out.println(computerId + " sleep exception");
                     }
-                    //System.out.println(computerId + ": output - " + outputValue);
+                    //System.out.println(computerId + ": output - " + val1);
 
                     i+=2;
                     break;

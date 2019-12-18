@@ -30,12 +30,24 @@ public class Day11 {
     int maxX = 0;
     int maxY = 0;
     boolean bDebug = false;
+    ArrayList<Long> outputQueue = new ArrayList<>();
 
     public Day11() {
         hull = new HashMap<>();
         panels = new HashSet<>();
         brain = new IntCodeComputer(0, program);
+        brain.setOutputQueue(outputQueue);
         brain.start();
+    }
+
+    public boolean isOutputReady() {
+        return (outputQueue.size() > 0);
+    }
+
+    public long getOutputValue() {
+        Long returnValue = outputQueue.get(0);
+        outputQueue.remove(0);
+        return returnValue;
     }
 
     public void setDebugFlag(boolean flag) {
@@ -70,15 +82,16 @@ public class Day11 {
             brain.setInput(0L);
 
         if (!brain.isDone()) {
-            while (!brain.isOutputReady() && !brain.isDone()) {
-                try {
+            while (!isOutputReady() && !brain.isDone()) {
+                Thread.yield();
+                /*try {
                     Thread.sleep(1);
                 } catch (InterruptedException ex) {
                     System.err.println("11-1 sleep error");
-                }
+                }*/
             }
 
-            if (brain.getOutputValue() == 0) { // 0 = black, 1 = white
+            if (getOutputValue() == 0) { // 0 = black, 1 = white
                 return '.'; //black
             }
             else{
@@ -90,16 +103,17 @@ public class Day11 {
     }
 
     public char getMove() {
-        while (!brain.isOutputReady() && !brain.isDone()) {
-            try {
+        while (!isOutputReady() && !brain.isDone()) {
+            Thread.yield();
+            /*try {
                 Thread.sleep(1);
             } catch (InterruptedException ex) {
                 System.err.println("11-2 sleep error");
-            }
+            }*/
         }
 
         if (!brain.isDone()) {
-            long move = brain.getOutputValue();
+            long move = getOutputValue();
 
             if (move == 0)
                 return 'L';

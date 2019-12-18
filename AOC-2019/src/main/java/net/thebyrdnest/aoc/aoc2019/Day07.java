@@ -112,32 +112,38 @@ public class Day07 {
         
         // loop until amp e finishes
         while (!amps.get(AMP_E).isDone()) {
-            if (amps.get(AMP_A).isOutputReady() /*&& !amps.get(AMP_B).isInputReady()*/) {
-                amps.get(AMP_B).setInput(amps.get(AMP_A).getOutputValue());
+            while (!amps.get(AMP_A).isOutputReady()) {
+                // do nothing
+            }
+            amps.get(AMP_B).setInput(amps.get(AMP_A).getOutputValue());
+
+            while (!amps.get(AMP_B).isOutputReady()) {
+                // do nothing
+            }
+            amps.get(AMP_C).setInput(amps.get(AMP_B).getOutputValue());
+
+            while (!amps.get(AMP_C).isOutputReady()) {
+                // do nothing
+            }
+            amps.get(AMP_D).setInput(amps.get(AMP_C).getOutputValue());
+
+            while (!amps.get(AMP_D).isOutputReady()) {
+                // do nothing
+            }
+            amps.get(AMP_E).setInput(amps.get(AMP_D).getOutputValue());
+
+            while (!amps.get(AMP_E).isOutputReady()) {
+                // do nothing
             }
 
-            if (amps.get(AMP_B).isOutputReady() /*&& !amps.get(AMP_C).isInputReady()*/) {
-                amps.get(AMP_C).setInput(amps.get(AMP_B).getOutputValue());
-            }
+            outputFromE = amps.get(AMP_E).getOutputValue();
+            amps.get(AMP_A).setInput(outputFromE);
 
-            if (amps.get(AMP_C).isOutputReady() /*&& !amps.get(AMP_D).isInputReady()*/) {
-                amps.get(AMP_D).setInput(amps.get(AMP_C).getOutputValue());
-            }
-
-            if (amps.get(AMP_D).isOutputReady() /*&& !amps.get(AMP_E).isInputReady()*/) {
-                amps.get(AMP_E).setInput(amps.get(AMP_D).getOutputValue());
-            }
-
-            if (amps.get(AMP_E).isOutputReady() /*&& !amps.get(AMP_A).isInputReady()*/) {
-                outputFromE = amps.get(AMP_E).getOutputValue();
-                amps.get(AMP_A).setInput(outputFromE);
-            }
-
-            try {
+            /*try {
                 Thread.sleep(1);
             } catch (Exception e) {
                 System.err.println("07 - Thread.sleep error");
-            }
+            }*/
         }
 
         return outputFromE;

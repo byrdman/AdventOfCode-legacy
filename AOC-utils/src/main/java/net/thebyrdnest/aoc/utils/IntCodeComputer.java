@@ -15,7 +15,7 @@ public class IntCodeComputer implements Runnable {
     private long[] defaultMemory = {};
     ArrayList<Long> inputQueue;
     ArrayList<Long> outputQueue;
-
+    int outputCount = 0;
     private boolean bDone = false;
     private boolean bInteractive;
 
@@ -62,6 +62,11 @@ public class IntCodeComputer implements Runnable {
     }
 
     public boolean isOutputReady() {
+        // cleanup outputQueue
+        while (outputQueue.size() > 0 && outputQueue.contains(null)) {
+            outputQueue.remove(null);
+        }
+
         return (outputQueue.size() > 0);
     }
 
@@ -70,36 +75,17 @@ public class IntCodeComputer implements Runnable {
     }
 
     int iCount = 0;
+
     public long getOutputValue() {
-        while (outputQueue.size() == 0) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException ex) {
-                System.err.println("IC-1 - sleep error");
-            }
-        }
-
-        iCount++;
-        while (outputQueue.get(0) == null){
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException ex) {
-                System.err.println("IC-1 - sleep error");
-            }
-        }
-
-        long returnValue = -1;
-        int index = 0;
-        while (returnValue == -1) {
-            try {
-                returnValue = outputQueue.get(index);
-                outputQueue.remove(index);
-            } catch (Exception e) {
-                index++;
-            }
-        }
+        Long returnValue = outputQueue.get(0);
+        outputQueue.remove(0);
+        outputCount--;
 
         return returnValue;
+    }
+
+    public void setOutputQueue(ArrayList<Long> list) {
+        outputQueue = list;
     }
 
     public long getMemoryValue(long index) {
@@ -241,24 +227,22 @@ public class IntCodeComputer implements Runnable {
                     i += 2;
                     break;
                 case 4: // return
+                    iCount++;
                     parm1 = getMemoryValue(i+1);
+                    Long val = 0L;
 
                     if (mode1 == POSITION)
-                        val1 = getMemoryValue(parm1);
+                        val = getMemoryValue(parm1);
                     else if (mode1 == IMMEDIATE)
-                        val1 = parm1;
+                        val = parm1;
                     else if(mode1 == RELATIVE)
-                        val1 = getMemoryValue(relativeBase+parm1);
+                        val = getMemoryValue(relativeBase+parm1);
                     else
                         exit(41);
 
-                    outputQueue.add(val1);
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException ex) {
-                        System.out.println(computerId + " sleep exception");
-                    }
-                    //System.out.println(computerId + ": output - " + val1);
+                    outputQueue.add(val);
+                    outputCount++;
+                    //System.out.println(val);
 
                     i+=2;
                     break;

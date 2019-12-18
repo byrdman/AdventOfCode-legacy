@@ -3,7 +3,6 @@ package net.thebyrdnest.aoc.aoc2019;
 import net.thebyrdnest.aoc.utils.IntCodeComputer;
 
 import java.awt.*;
-import java.util.List;
 import java.util.*;
 
 public class Day11 {
@@ -30,7 +29,7 @@ public class Day11 {
     int minY = 99999;
     int maxX = 0;
     int maxY = 0;
-
+    boolean bDebug = false;
 
     public Day11() {
         hull = new HashMap<>();
@@ -39,11 +38,20 @@ public class Day11 {
         brain.start();
     }
 
+    public void setDebugFlag(boolean flag) {
+        bDebug = flag;
+    }
+
+    private void debugOutput(String value) {
+        if (bDebug)
+            System.out.println(value);
+    }
+
     public char getPanelColor(int x, int y) {
         Point point = new Point(x, y);
         Character hullColor = hull.get(point);
         if (hullColor == null) {
-            //System.out.println("(" + x + ", " + y + ") new");
+            debugOutput("(" + x + ", " + y + ") new");
             return '.';
         }
         else
@@ -61,48 +69,45 @@ public class Day11 {
         else
             brain.setInput(0L);
 
-        brain.setInputReady(true);
-
-        //if (!brain.isDone()) {
+        if (!brain.isDone()) {
             while (!brain.isOutputReady() && !brain.isDone()) {
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException ex) {
-                    //
+                    System.err.println("11-1 sleep error");
                 }
             }
 
             if (brain.getOutputValue() == 0) { // 0 = black, 1 = white
-                //brain.setOutputReady(false);
                 return '.'; //black
             }
             else{
-                //brain.setOutputReady(false);
                 return '#'; //white
             }
-        /*} else {
+        } else {
             return currentColor;
-        }*/
+        }
     }
 
     public char getMove() {
-        //while (!brain.isOutputReady() && !brain.isDone()) {
-        while (!brain.isOutputReady()) {
-            Thread.yield();
-            /*try {
+        while (!brain.isOutputReady() && !brain.isDone()) {
+            try {
                 Thread.sleep(1);
             } catch (InterruptedException ex) {
-                //
-            }*/
+                System.err.println("11-2 sleep error");
+            }
         }
 
-        long move = brain.getOutputValue();
-        //brain.setOutputReady(false);
+        if (!brain.isDone()) {
+            long move = brain.getOutputValue();
 
-        if (move == 0)
-            return 'L';
-        else
-            return 'R';
+            if (move == 0)
+                return 'L';
+            else
+                return 'R';
+        } else {
+            return ' ';
+        }
     }
 
     public void turn(char turnDir) {
@@ -132,8 +137,6 @@ public class Day11 {
 
     
     public int paintHull() {
-        /*int x = startX;
-        int y = startY;*/
         int x=0;
         int y=0;
         currDir = 'N';
@@ -146,7 +149,6 @@ public class Day11 {
             hull.put(currPoint, paintSquare(currColor));
             if (panels.size() % 100 == 0) {
                 printHull();
-                int temp = 0;
             }
 
             panels.add("(" + x + "," + y + ")");
@@ -155,7 +157,7 @@ public class Day11 {
             // get move
             char move = getMove();
 
-            //System.out.print("(" + x + "," + y + ") " + currColor + " " + hull.get(currPoint) + " " + move + " " + currDir + " ");
+            debugOutput("(" + x + "," + y + ") " + currColor + " " + hull.get(currPoint) + " " + move + " " + currDir + " ");
 
             turn(move);
 
@@ -203,14 +205,12 @@ public class Day11 {
         System.out.println("Y: " + minY + ", " + maxY);
         System.out.println("Unique Panels: " + panels.size());
         System.out.println("Total Panels: " + panelsPainted);
-        Point currPoint;
         for (int y=minY; y<=maxY; y++) {
             for (int x=minX; x<=maxX; x++) {
                 sb.append(getPanelColor(x, y));
             }
             sb.append("\n");
             System.out.println("");
-
         }
         System.out.println(sb.toString());
 

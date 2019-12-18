@@ -51,29 +51,19 @@ public class Day07 {
             amp.start();
 
             while(amp.isInputReady()) {
-                try {
-                    wait(1);
-                } catch (Exception e) {
-
-                }
+                Thread.sleep(1);
             }
 
             amp.setInput(phase);
-            amp.setInputReady(true);
 
             while(amp.isInputReady()) {
-                try {
-                    wait(1);
-                } catch (Exception e) {
-
-                }
+                Thread.sleep(1);
             }
 
             amp.setInput(signal);
-            amp.setInputReady(true);
 
             while (!amp.isDone()) {
-                wait(1);
+                Thread.sleep(1);
             }
 
 
@@ -85,7 +75,7 @@ public class Day07 {
             try {
                 Thread.sleep(1);
             } catch (InterruptedException ex) {
-                //
+                System.err.println("07-1 sleep error");
             }
         }
 
@@ -99,10 +89,9 @@ public class Day07 {
         for (int i=0; i < 5; i++) {
             amp = amps.get(i);
             amp.setInput(phases[i]);
-            amp.setInputReady(true);
             while(amp.isInputReady()) {
                 try {
-                    wait(1);
+                    Thread.sleep(1);
                 } catch (Exception e) {
 
                 }
@@ -113,52 +102,41 @@ public class Day07 {
         amp = amps.get(AMP_A);
         while(amp.isInputReady()) {
             try {
-                wait(1);
+                Thread.sleep(1);
             } catch (Exception e) {
 
             }
         }
         amp.setInput(0);
-        amp.setInputReady(true);
         long outputFromE = 0l;
         
         // loop until amp e finishes
         while (!amps.get(AMP_E).isDone()) {
             if (amps.get(AMP_A).isOutputReady() /*&& !amps.get(AMP_B).isInputReady()*/) {
                 amps.get(AMP_B).setInput(amps.get(AMP_A).getOutputValue());
-                //amps.get(AMP_A).setOutputReady(false);
-                amps.get(AMP_B).setInputReady(true);
             }
 
             if (amps.get(AMP_B).isOutputReady() /*&& !amps.get(AMP_C).isInputReady()*/) {
                 amps.get(AMP_C).setInput(amps.get(AMP_B).getOutputValue());
-                //amps.get(AMP_B).setOutputReady(false);
-                amps.get(AMP_C).setInputReady(true);
             }
 
             if (amps.get(AMP_C).isOutputReady() /*&& !amps.get(AMP_D).isInputReady()*/) {
                 amps.get(AMP_D).setInput(amps.get(AMP_C).getOutputValue());
-                //amps.get(AMP_C).setOutputReady(false);
-                amps.get(AMP_D).setInputReady(true);
             }
 
             if (amps.get(AMP_D).isOutputReady() /*&& !amps.get(AMP_E).isInputReady()*/) {
                 amps.get(AMP_E).setInput(amps.get(AMP_D).getOutputValue());
-                //amps.get(AMP_D).setOutputReady(false);
-                amps.get(AMP_E).setInputReady(true);
             }
 
             if (amps.get(AMP_E).isOutputReady() /*&& !amps.get(AMP_A).isInputReady()*/) {
                 outputFromE = amps.get(AMP_E).getOutputValue();
                 amps.get(AMP_A).setInput(outputFromE);
-                //amps.get(AMP_E).setOutputReady(false);
-                amps.get(AMP_A).setInputReady(true);
             }
 
             try {
-                wait(1);
+                Thread.sleep(1);
             } catch (Exception e) {
-
+                System.err.println("07 - Thread.sleep error");
             }
         }
 

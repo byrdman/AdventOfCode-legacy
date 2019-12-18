@@ -3,7 +3,6 @@ package net.thebyrdnest.aoc.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import static java.lang.System.exit;
 
@@ -18,7 +17,6 @@ public class IntCodeComputer implements Runnable {
     ArrayList<Long> outputQueue;
 
     private boolean bDone = false;
-    private boolean bOutputReady;
     private boolean bInteractive;
 
     static final int POSITION = 0;
@@ -59,10 +57,6 @@ public class IntCodeComputer implements Runnable {
         return bDone;
     }
 
-    public void setInputReady(boolean value) {
-        //bInputReady = value;
-    }
-
     public boolean isInputReady() {
         return (inputQueue.size() > 0);
     }
@@ -75,18 +69,36 @@ public class IntCodeComputer implements Runnable {
         inputQueue.add(value);
     }
 
+    int iCount = 0;
     public long getOutputValue() {
         while (outputQueue.size() == 0) {
             try {
-                wait(1);
-                Thread.yield();
+                Thread.sleep(1);
             } catch (InterruptedException ex) {
-                Thread.yield();
+                System.err.println("IC-1 - sleep error");
             }
         }
 
-        long returnValue = outputQueue.get(0);
-        outputQueue.remove(0);
+        iCount++;
+        while (outputQueue.get(0) == null){
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                System.err.println("IC-1 - sleep error");
+            }
+        }
+
+        long returnValue = -1;
+        int index = 0;
+        while (returnValue == -1) {
+            try {
+                returnValue = outputQueue.get(index);
+                outputQueue.remove(index);
+            } catch (Exception e) {
+                index++;
+            }
+        }
+
         return returnValue;
     }
 
@@ -209,7 +221,11 @@ public class IntCodeComputer implements Runnable {
                     //System.out.println(computerId + ": input loop: " + ++loopNum);
                     parm1 = getMemoryValue(i + 1);
                     while (inputQueue.size() == 0) {
-                        Thread.yield();
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException ex) {
+                            System.err.println("IC-2 - sleep error");
+                        }
                     }
 
                     long inputValue = inputQueue.get(0);
@@ -236,12 +252,7 @@ public class IntCodeComputer implements Runnable {
                     else
                         exit(41);
 
-                    /*while (bOutputReady) {
-                        Thread.yield();
-                    }*/
-
                     outputQueue.add(val1);
-                    bOutputReady = true;
                     try {
                         Thread.sleep(1);
                     } catch (InterruptedException ex) {

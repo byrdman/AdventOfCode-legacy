@@ -8,14 +8,12 @@ public class Day05 {
         intCodeComputer.start();
 
         intCodeComputer.setInput(input);
-        intCodeComputer.setInputReady(true);
 
         while (!intCodeComputer.isDone()) {
             try {
-                //wait(500);
-                Thread.yield();
-            } catch (Exception ex) {
-                // do nothing;
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                System.err.println("05-1 - wait error");
             }
         }
 

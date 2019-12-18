@@ -12,10 +12,14 @@ public class Day09 {
         computer = new IntCodeComputer(0, program);
         computer.start();
         computer.setInput(input);
-        computer.setInputReady(true);
         //computer.run();
-        while(!computer.isOutputReady())
-            Thread.yield();
+        while(!computer.isOutputReady()) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                System.err.println("09-1 sleep error");
+            }
+        }
 
         return computer.getOutputValue();
     }

@@ -164,7 +164,6 @@ public class Day13 {
 
             // provide next joystick move
             brain.setInput(-1);
-            brain.setInputReady(true);
 
         }
     }

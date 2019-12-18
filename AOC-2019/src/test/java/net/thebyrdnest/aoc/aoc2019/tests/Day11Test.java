@@ -30,6 +30,7 @@ public class Day11Test {
     public void Problem1() {
 
         Day11 hullPainter = new Day11();
+        //hullPainter.setDebugFlag(true);
         int squares = hullPainter.paintHull();
         //1723 is too low, 2571 is too high, 2472 is incorrect
         Assertions.assertEquals(1747, squares);

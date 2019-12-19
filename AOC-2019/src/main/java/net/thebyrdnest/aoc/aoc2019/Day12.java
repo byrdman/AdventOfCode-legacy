@@ -1,11 +1,8 @@
 package net.thebyrdnest.aoc.aoc2019;
 
-import net.thebyrdnest.aoc.utils.IntCodeComputer;
 import net.thebyrdnest.aoc.utils.Moon;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 

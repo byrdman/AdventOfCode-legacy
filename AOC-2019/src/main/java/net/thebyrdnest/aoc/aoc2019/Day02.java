@@ -1,13 +1,14 @@
 package net.thebyrdnest.aoc.aoc2019;
 
 import net.thebyrdnest.aoc.utils.IntCodeComputer;
+import net.thebyrdnest.aoc.utils.IntCodeComputerCPU;
 
 public class Day02 {
     public long solve1(long[] mem) {
-        IntCodeComputer intCodeComputer = new IntCodeComputer(1, mem);
-        intCodeComputer.start();
+        IntCodeComputerCPU intCodeComputerCPU = new IntCodeComputerCPU("1", mem);
+        intCodeComputerCPU.start();
 
-        while (!intCodeComputer.isDone()) {
+        while (!intCodeComputerCPU.isDone()) {
             try {
                 wait(500);
             } catch (Exception ex) {
@@ -15,7 +16,7 @@ public class Day02 {
             }
         }
 
-        return intCodeComputer.getMemoryValue(0);
+        return intCodeComputerCPU.getMemoryValue(0);
     }
 
     public int solve2(long[] mem, long target) {
@@ -36,5 +37,20 @@ public class Day02 {
             }
         }
         return -1;
+    }
+
+    public long solve1b(long[] mem) {
+        IntCodeComputer intCodeComputer = new IntCodeComputer("1");
+        intCodeComputer.bootComputer(mem);
+
+        while (!intCodeComputer.isDone()) {
+            try {
+                wait(500);
+            } catch (Exception ex) {
+                // do nothing;
+            }
+        }
+
+        return intCodeComputer.getMemoryValue(0);
     }
 }

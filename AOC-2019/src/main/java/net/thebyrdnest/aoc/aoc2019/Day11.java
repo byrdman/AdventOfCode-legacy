@@ -1,6 +1,6 @@
 package net.thebyrdnest.aoc.aoc2019;
 
-import net.thebyrdnest.aoc.utils.IntCodeComputer;
+import net.thebyrdnest.aoc.utils.IntCodeComputerCPU;
 
 import java.awt.*;
 import java.util.*;
@@ -20,7 +20,7 @@ public class Day11 {
             1106,0,641,21201,-4,0,1,21201,-3,-1,2,21202,-2,2,3,21102,592,1,0,1106,0,550,21201,1,0,-4,21101,0,1,-1,2207,-4,-2,10,1006,10,611,21101,0,0,-1,22202,-2,-1,-2,2107,0,-3,10,1006,10,633,
             22102,1,-1,1,21102,1,633,0,106,0,508,21202,-2,-1,-2,22201,-4,-2,-4,109,-5,2105,1,0};
 
-    IntCodeComputer brain;
+    IntCodeComputerCPU brain;
     HashMap<Point, Character> hull;
     int panelsPainted = 0;
     char currDir = 'N';
@@ -35,7 +35,7 @@ public class Day11 {
     public Day11() {
         hull = new HashMap<>();
         panels = new HashSet<>();
-        brain = new IntCodeComputer(0, program);
+        brain = new IntCodeComputerCPU(0, program);
         brain.setOutputQueue(outputQueue);
         brain.start();
     }
@@ -81,47 +81,40 @@ public class Day11 {
         else
             brain.setInput(0L);
 
-        if (!brain.isDone()) {
-            while (!isOutputReady() && !brain.isDone()) {
-                Thread.yield();
-                /*try {
-                    Thread.sleep(1);
-                } catch (InterruptedException ex) {
-                    System.err.println("11-1 sleep error");
-                }*/
+        while (!isOutputReady() ) {
+            //Thread.yield();
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                System.err.println("11-1 sleep error");
             }
+        }
 
-            if (getOutputValue() == 0) { // 0 = black, 1 = white
-                return '.'; //black
-            }
-            else{
-                return '#'; //white
-            }
-        } else {
-            return currentColor;
+        long paintColor = getOutputValue();
+        if (paintColor == 0) { // 0 = black, 1 = white
+            return '.'; //black
+        }
+        else {
+            return '#'; //white
         }
     }
 
     public char getMove() {
         while (!isOutputReady() && !brain.isDone()) {
-            Thread.yield();
-            /*try {
+            //Thread.yield();
+            try {
                 Thread.sleep(1);
             } catch (InterruptedException ex) {
                 System.err.println("11-2 sleep error");
-            }*/
+            }
         }
 
-        if (!brain.isDone()) {
-            long move = getOutputValue();
+        long move = getOutputValue();
 
-            if (move == 0)
-                return 'L';
-            else
-                return 'R';
-        } else {
-            return ' ';
-        }
+        if (move == 0)
+            return 'L';
+        else
+            return 'R';
     }
 
     public void turn(char turnDir) {

@@ -43,7 +43,7 @@ public class Day07Test {
     public void Example1_1b() {
         long[] pgm = {3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0};
         Day07 solver = new Day07(pgm);
-        int[] sequence = {4,3,2,1,0};
+        long[] sequence = {4,3,2,1,0};
         long output = solver.getThrusterInput(sequence);
         Assertions.assertEquals(43210, output);
     }
@@ -85,7 +85,7 @@ public class Day07Test {
     public void Example2_1b() {
         long[] pgm = {3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5};
         Day07 solver = new Day07(pgm);
-        int[] sequence = {9,8,7,6,5};
+        long[] sequence = {9,8,7,6,5};
         Assertions.assertEquals(139629729, solver.getThrusterInput(sequence));
     }
 

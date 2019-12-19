@@ -1,9 +1,6 @@
 package net.thebyrdnest.aoc.aoc2019;
 
-import net.thebyrdnest.aoc.utils.IntCodeComputer;
-
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
 

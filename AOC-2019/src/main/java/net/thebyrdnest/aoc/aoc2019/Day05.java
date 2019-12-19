@@ -2,12 +2,15 @@ package net.thebyrdnest.aoc.aoc2019;
 
 import net.thebyrdnest.aoc.utils.IntCodeComputer;
 
+import java.util.ArrayList;
+
 public class Day05 {
     public String solve1(long[] mem, long input) {
-        IntCodeComputer intCodeComputer = new IntCodeComputer(1, mem);
-        intCodeComputer.start();
+        ArrayList<Long> outputQueue = new ArrayList<>();
+        IntCodeComputer intCodeComputer = new IntCodeComputer("1");
+        intCodeComputer.bootComputer(mem);
 
-        intCodeComputer.setInput(input);
+        intCodeComputer.setInputValue(input);
 
         while (!intCodeComputer.isDone()) {
             try {

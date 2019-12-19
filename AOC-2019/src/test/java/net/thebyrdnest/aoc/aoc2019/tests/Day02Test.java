@@ -43,4 +43,12 @@ public class Day02Test {
     public void Problem2() throws Exception {
         Assertions.assertEquals(6533, day02.solve2(values, 19690720));
     }
+
+    @Test
+    public void Problem1b() {
+        long[] memory = Arrays.copyOf(values, values.length);
+        memory[1] = 12;
+        memory[2] = 2;
+        Assertions.assertEquals(3790689, day02.solve1b(memory));
+    }
 }

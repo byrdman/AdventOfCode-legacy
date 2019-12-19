@@ -1,5 +1,6 @@
 package net.thebyrdnest.aoc.aoc2019;
 
+import net.thebyrdnest.aoc.utils.IntCodeComputer;
 import net.thebyrdnest.aoc.utils.IntCodeComputerCPU;
 
 import java.awt.*;
@@ -20,7 +21,7 @@ public class Day11 {
             1106,0,641,21201,-4,0,1,21201,-3,-1,2,21202,-2,2,3,21102,592,1,0,1106,0,550,21201,1,0,-4,21101,0,1,-1,2207,-4,-2,10,1006,10,611,21101,0,0,-1,22202,-2,-1,-2,2107,0,-3,10,1006,10,633,
             22102,1,-1,1,21102,1,633,0,106,0,508,21202,-2,-1,-2,22201,-4,-2,-4,109,-5,2105,1,0};
 
-    IntCodeComputerCPU brain;
+    IntCodeComputer brain;
     HashMap<Point, Character> hull;
     int panelsPainted = 0;
     char currDir = 'N';
@@ -35,9 +36,8 @@ public class Day11 {
     public Day11() {
         hull = new HashMap<>();
         panels = new HashSet<>();
-        brain = new IntCodeComputerCPU(0, program);
-        brain.setOutputQueue(outputQueue);
-        brain.start();
+        brain = new IntCodeComputer("0");
+        brain.bootComputer(program);
     }
 
     public boolean isOutputReady() {
@@ -77,9 +77,9 @@ public class Day11 {
 
     public char paintSquare(char currentColor) {
         if (currentColor == '#') //white
-            brain.setInput(1L);
+            brain.setInputValue(1L);
         else
-            brain.setInput(0L);
+            brain.setInputValue(0L);
 
         while (!isOutputReady() ) {
             //Thread.yield();

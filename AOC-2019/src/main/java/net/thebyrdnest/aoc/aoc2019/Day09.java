@@ -1,15 +1,16 @@
 package net.thebyrdnest.aoc.aoc2019;
 
+import net.thebyrdnest.aoc.utils.IntCodeComputer;
 import net.thebyrdnest.aoc.utils.IntCodeComputerCPU;
 
 public class Day09 {
-    IntCodeComputerCPU computer;
+    IntCodeComputer computer;
 
     public long BOOST(long[] program, long input) {
-        computer = new IntCodeComputerCPU("0", program);
-        computer.start();
-        computer.setInput(input);
-        //computer.run();
+        computer = new IntCodeComputer("0");
+        computer.bootComputer(program);
+        computer.setInputValue(input);
+
         while(!computer.isOutputReady()) {
             try {
                 Thread.sleep(1);

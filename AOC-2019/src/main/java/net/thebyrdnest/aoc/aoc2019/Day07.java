@@ -79,12 +79,7 @@ public class Day07 {
             amp = amps.get(i);
             amp.setInputValue(phases[i]);
         }
-        
-        // give input to 1st amp
-        amp = amps.get(0);
-        amp.setInputValue(0L);
-        long outputFromE = 0l;
-        
+
         // loop until amp e finishes
         IntCodeComputer amp_a = amps.get(AMP_A);
         IntCodeComputer amp_b = amps.get(AMP_B);
@@ -92,29 +87,53 @@ public class Day07 {
         IntCodeComputer amp_d = amps.get(AMP_D);
         IntCodeComputer amp_e = amps.get(AMP_E);
 
-        while (!amps.get(AMP_E).isDone()) {
+        // give input to 1st amp
+        amp_a.setInputValue(0L);
+        long outputFromE = 0l;
+
+        while (!amp_e.isDone()) {
             while (!amp_a.isOutputReady()) {
-                // do nothing
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException ex) {
+                    System.err.println("07-1 sleep error");
+                }
             }
             amp_b.setInputValue(amp_a.getOutputValue());
 
             while (!amp_b.isOutputReady()) {
-                // do nothing
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException ex) {
+                    System.err.println("07-1 sleep error");
+                }
             }
             amp_c.setInputValue(amp_b.getOutputValue());
 
             while (!amp_c.isOutputReady()) {
-                // do nothing
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException ex) {
+                    System.err.println("07-1 sleep error");
+                }
             }
             amp_d.setInputValue(amp_c.getOutputValue());
 
             while (!amp_d.isOutputReady()) {
-                // do nothing
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException ex) {
+                    System.err.println("07-1 sleep error");
+                }
             }
             amp_e.setInputValue(amp_d.getOutputValue());
 
             while (!amp_e.isOutputReady()) {
-                // do nothing
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException ex) {
+                    System.err.println("07-1 sleep error");
+                }
             }
 
             outputFromE = amp_e.getOutputValue();

@@ -13,7 +13,8 @@ public class Day09 {
 
         while(!computer.isOutputReady()) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(10);
+                //System.out.println("BOOST: waiting on input");
             } catch (InterruptedException ex) {
                 System.err.println("09-1 sleep error");
             }

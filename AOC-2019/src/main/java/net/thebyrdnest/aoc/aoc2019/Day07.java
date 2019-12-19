@@ -93,46 +93,51 @@ public class Day07 {
 
         while (!amp_e.isDone()) {
             while (!amp_a.isOutputReady()) {
+                //System.out.println("gTI a: waiting on output");
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 } catch (InterruptedException ex) {
-                    System.err.println("07-1 sleep error");
+                    System.err.println("07-a sleep error");
                 }
             }
             amp_b.setInputValue(amp_a.getOutputValue());
 
             while (!amp_b.isOutputReady()) {
+                //System.out.println("gTI a: waiting on output");
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 } catch (InterruptedException ex) {
-                    System.err.println("07-1 sleep error");
+                    System.err.println("07-b sleep error");
                 }
             }
             amp_c.setInputValue(amp_b.getOutputValue());
 
             while (!amp_c.isOutputReady()) {
+                //System.out.println("gTI c: waiting on output");
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 } catch (InterruptedException ex) {
-                    System.err.println("07-1 sleep error");
+                    System.err.println("07-c sleep error");
                 }
             }
             amp_d.setInputValue(amp_c.getOutputValue());
 
             while (!amp_d.isOutputReady()) {
+                //System.out.println("gTI d: waiting on output");
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 } catch (InterruptedException ex) {
-                    System.err.println("07-1 sleep error");
+                    System.err.println("07-d sleep error");
                 }
             }
             amp_e.setInputValue(amp_d.getOutputValue());
 
             while (!amp_e.isOutputReady()) {
+                //System.out.println("gTI e: waiting on output");
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 } catch (InterruptedException ex) {
-                    System.err.println("07-1 sleep error");
+                    System.err.println("07-e sleep error");
                 }
             }
 

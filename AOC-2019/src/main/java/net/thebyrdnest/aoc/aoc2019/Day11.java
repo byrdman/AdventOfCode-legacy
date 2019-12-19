@@ -40,16 +40,6 @@ public class Day11 {
         brain.bootComputer(program);
     }
 
-    public boolean isOutputReady() {
-        return (outputQueue.size() > 0);
-    }
-
-    public long getOutputValue() {
-        Long returnValue = outputQueue.get(0);
-        outputQueue.remove(0);
-        return returnValue;
-    }
-
     public void setDebugFlag(boolean flag) {
         bDebug = flag;
     }
@@ -81,16 +71,15 @@ public class Day11 {
         else
             brain.setInputValue(0L);
 
-        while (!isOutputReady() ) {
-            //Thread.yield();
+        while (!brain.isOutputReady() ) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(100);
             } catch (InterruptedException ex) {
                 System.err.println("11-1 sleep error");
             }
         }
 
-        long paintColor = getOutputValue();
+        long paintColor = brain.getOutputValue();
         if (paintColor == 0) { // 0 = black, 1 = white
             return '.'; //black
         }
@@ -100,16 +89,15 @@ public class Day11 {
     }
 
     public char getMove() {
-        while (!isOutputReady() && !brain.isDone()) {
-            //Thread.yield();
+        while (!brain.isOutputReady() && !brain.isDone()) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(100);
             } catch (InterruptedException ex) {
                 System.err.println("11-2 sleep error");
             }
         }
 
-        long move = getOutputValue();
+        long move = brain.getOutputValue();
 
         if (move == 0)
             return 'L';
@@ -141,7 +129,6 @@ public class Day11 {
         }
 
     }
-
     
     public int paintHull() {
         int x=0;
@@ -154,7 +141,7 @@ public class Day11 {
             currPoint = new Point(x, y);
             currColor = getPanelColor(x, y);
             hull.put(currPoint, paintSquare(currColor));
-            if (panels.size() % 100 == 0) {
+            if (panels.size() % 50 == 0) {
                 printHull();
             }
 
@@ -217,7 +204,6 @@ public class Day11 {
                 sb.append(getPanelColor(x, y));
             }
             sb.append("\n");
-            System.out.println("");
         }
         System.out.println(sb.toString());
 

@@ -8,8 +8,7 @@ import static java.lang.System.exit;
 
 public class IntCodeComputerCPU extends Thread {
     String computerId;
-    private HashMap<Long, Long> memory;
-    private long[] defaultMemory;
+    private HashMap<Long, Long> ram;
     private long relativeBase = 0;
     ArrayList<Long> inputQueue;
     ArrayList<Long> outputQueue;
@@ -23,45 +22,23 @@ public class IntCodeComputerCPU extends Thread {
         this("CPU-001", null, null, null);
     }
 
-    public IntCodeComputerCPU(int computerId, long[] program, ArrayList<Long> inputQueue, ArrayList<Long> outputQueue) {
-
+    public IntCodeComputerCPU(String computerId, HashMap<Long, Long> ram) {
+        this(computerId, ram, new ArrayList<>(), new ArrayList<>());
     }
 
-    public IntCodeComputerCPU(String computerId, long[] program, ArrayList<Long> inputQueue, ArrayList<Long> outputQueue) {
-        //this(program, null, null);
-    }
-
-    public IntCodeComputerCPU(int computerId, long[] program) {
-        this(Integer.toString(computerId), program);
-    }
-
-    public IntCodeComputerCPU(String computerId, long[] program) {
+    public IntCodeComputerCPU(String computerId, HashMap<Long, Long> ram, ArrayList<Long> inputQueue, ArrayList<Long> outputQueue){
         this.computerId = computerId;
-        memory = new HashMap<>();
-        defaultMemory = Arrays.copyOf(program, program.length);
+        this.ram = ram;
+        this.inputQueue = inputQueue;
+        this.outputQueue = outputQueue;
         resetMemory();
-
-        if (inputQueue == null)
-            this.inputQueue = new ArrayList<>();
-        else
-            this.inputQueue = inputQueue;
-
-        if (outputQueue == null)
-            this.outputQueue = new ArrayList<>();
-        else
-            this.outputQueue = outputQueue;
     }
 
     public void resetMemory() {
-        memory = new HashMap<>();
-        long counter = 0;
-        for (long mem_byte : defaultMemory) {
-            memory.put(counter, mem_byte);
-            counter++;
-        }
+
         relativeBase = 0;
-        inputQueue = new ArrayList<>();
-        outputQueue = new ArrayList<>();
+        inputQueue.clear();
+        outputQueue.clear();
         bDone = false;
     }
 
@@ -69,44 +46,12 @@ public class IntCodeComputerCPU extends Thread {
         return bDone;
     }
 
-    public boolean isInputReady() {
-        return (inputQueue.size() > 0);
-    }
-
-    public boolean isOutputReady() {
-        // cleanup outputQueue
-        /*while (outputQueue.size() > 0 && outputQueue.contains(null)) {
-            outputQueue.remove(null);
-        }*/
-
-        return (outputQueue.size() > 0);
-    }
-
-    public void setInput(long value) {
-        inputQueue.add(value);
-    }
-
-    public long getOutputValue() {
-        Long returnValue = outputQueue.get(0);
-        outputQueue.remove(0);
-
-        return returnValue;
-    }
-
-    public void setMemoryValue(long index, long value) {
-        memory.put(index, value);
-    }
-
     public long getMemoryValue(long index) {
-        Long memVal = memory.get(index);
+        Long memVal = ram.get(index);
         if (memVal == null)
             return 0;
         else
             return memVal.longValue();
-    }
-
-    public void setOutputQueue(ArrayList<Long> list) {
-        outputQueue = list;
     }
 
     public void run() {
@@ -123,9 +68,9 @@ public class IntCodeComputerCPU extends Thread {
         long val2 = 0;
         long result;
 
-        long i=0;
+        long iMemPointer=0;
         while (!bDone) {
-            StringBuilder sb = new StringBuilder(Long.toString(memory.get(i)));
+            StringBuilder sb = new StringBuilder(Long.toString(ram.get(iMemPointer)));
             while (sb.length() < 5)
                 sb.insert(0, '0');
 
@@ -137,9 +82,9 @@ public class IntCodeComputerCPU extends Thread {
             switch(opCode) {
                 case 1: // add
                     //System.out.println("Add");
-                    parm1 = memory.get(i + 1);
-                    parm2 = memory.get(i + 2);
-                    parm3 = memory.get(i + 3);
+                    parm1 = ram.get(iMemPointer + 1);
+                    parm2 = ram.get(iMemPointer + 2);
+                    parm3 = ram.get(iMemPointer + 3);
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
@@ -162,20 +107,20 @@ public class IntCodeComputerCPU extends Thread {
                     result = val1 + val2;
 
                     if (mode3 == POSITION || mode3 == IMMEDIATE)
-                        memory.put(parm3, result);
+                        ram.put(parm3, result);
                     else if (mode3 == RELATIVE)
-                        memory.put(relativeBase + parm3, result);
+                        ram.put(relativeBase + parm3, result);
                     else
                         exit(13);
 
-                    i += 4;
+                    iMemPointer += 4;
 
                     break;
                 case 2: // multiply
                     //System.out.println("Multiply");
-                    parm1 = getMemoryValue(i + 1);
-                    parm2 = getMemoryValue(i + 2);
-                    parm3 = getMemoryValue(i + 3);
+                    parm1 = getMemoryValue(iMemPointer + 1);
+                    parm2 = getMemoryValue(iMemPointer + 2);
+                    parm3 = getMemoryValue(iMemPointer + 3);
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
@@ -198,40 +143,40 @@ public class IntCodeComputerCPU extends Thread {
                     result = val1 * val2;
 
                     if (mode3 == POSITION || mode3 == IMMEDIATE)
-                        memory.put(parm3, result);
+                        ram.put(parm3, result);
                     else if (mode3 == RELATIVE)
-                        memory.put(relativeBase + parm3, result);
+                        ram.put(relativeBase + parm3, result);
                     else
                         exit(23);
 
-                    i += 4;
+                    iMemPointer += 4;
 
                     break;
                 case 3: // store
-                    //System.out.println(computerId + ": input loop: " + ++loopNum);
-                    parm1 = getMemoryValue(i + 1);
+                    parm1 = getMemoryValue(iMemPointer + 1);
                     while (inputQueue.size() == 0) {
-                        /*try {
-                            Thread.sleep(1);
+                        try {
+                            //System.out.println(computerId + ": waiting on input");
+                            Thread.sleep(100);
                         } catch (InterruptedException ex) {
                             System.err.println("IC-2 - sleep error");
-                        }*/
+                        }
                     }
 
                     long inputValue = inputQueue.get(0);
                     inputQueue.remove(0);
 
                     if (mode1 == POSITION || mode1 == IMMEDIATE) {
-                        memory.put(parm1, inputValue);
+                        ram.put(parm1, inputValue);
                     }
                     else if (mode1 == RELATIVE)
-                        memory.put(relativeBase + parm1, inputValue);
+                        ram.put(relativeBase + parm1, inputValue);
                     else
                         exit(31);
-                    i += 2;
+                    iMemPointer += 2;
                     break;
                 case 4: // return
-                    parm1 = getMemoryValue(i+1);
+                    parm1 = getMemoryValue(iMemPointer+1);
                     Long val = 0L;
 
                     if (mode1 == POSITION)
@@ -247,11 +192,11 @@ public class IntCodeComputerCPU extends Thread {
                     //outputCount++;
                     //System.out.println(val);
 
-                    i+=2;
+                    iMemPointer+=2;
                     break;
                 case 5: //jump-if-true
-                    parm1 = getMemoryValue(i+1);
-                    parm2 = getMemoryValue(i+2);
+                    parm1 = getMemoryValue(iMemPointer+1);
+                    parm2 = getMemoryValue(iMemPointer+2);
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
@@ -272,14 +217,14 @@ public class IntCodeComputerCPU extends Thread {
                         exit(52);
 
                     if (val1 != 0)
-                        i = val2;
+                        iMemPointer = val2;
                     else
-                        i += 3;
+                        iMemPointer += 3;
 
                     break;
                 case 6: //jump-if-false
-                    parm1 = getMemoryValue(i+1);
-                    parm2 = getMemoryValue(i+2);
+                    parm1 = getMemoryValue(iMemPointer+1);
+                    parm2 = getMemoryValue(iMemPointer+2);
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
@@ -300,15 +245,15 @@ public class IntCodeComputerCPU extends Thread {
                         exit(62);
 
                     if (val1 == 0)
-                        i = val2;
+                        iMemPointer = val2;
                     else
-                        i += 3;
+                        iMemPointer += 3;
 
                     break;
                 case 7: // less than
-                    parm1 = getMemoryValue(i+1);
-                    parm2 = getMemoryValue(i+2);
-                    parm3 = getMemoryValue(i+3);
+                    parm1 = getMemoryValue(iMemPointer+1);
+                    parm2 = getMemoryValue(iMemPointer+2);
+                    parm3 = getMemoryValue(iMemPointer+3);
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
@@ -336,19 +281,19 @@ public class IntCodeComputerCPU extends Thread {
                     if (mode3 == POSITION || mode3 == IMMEDIATE)
                         /*memory.put(getMemoryValue(parm3), result);
                     else if (mode3 == IMMEDIATE)*/
-                        memory.put(parm3, result);
+                        ram.put(parm3, result);
                     else if (mode3 == RELATIVE)
-                        memory.put(relativeBase + parm3, result);
+                        ram.put(relativeBase + parm3, result);
                     else
                         exit(73);
 
-                    i += 4;
+                    iMemPointer += 4;
 
                     break;
                 case 8: // equals
-                    parm1 = getMemoryValue(i+1);
-                    parm2 = getMemoryValue(i+2);
-                    parm3 = getMemoryValue(i+3);
+                    parm1 = getMemoryValue(iMemPointer+1);
+                    parm2 = getMemoryValue(iMemPointer+2);
+                    parm3 = getMemoryValue(iMemPointer+3);
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
@@ -376,16 +321,16 @@ public class IntCodeComputerCPU extends Thread {
                     if (mode3 == POSITION || mode3 == IMMEDIATE)
                         /*memory.put(getMemoryValue(parm3), result);
                     else if (mode3 == IMMEDIATE)*/
-                        memory.put(parm3, result);
+                        ram.put(parm3, result);
                     else if (mode3 == RELATIVE)
-                        memory.put(relativeBase + parm3, result);
+                        ram.put(relativeBase + parm3, result);
                     else
                         exit(83);
 
-                    i += 4;
+                    iMemPointer += 4;
                     break;
                 case 9: // change relative base
-                    parm1 = getMemoryValue(i+1);
+                    parm1 = getMemoryValue(iMemPointer+1);
 
                     if (mode1 == POSITION)
                         val1 = getMemoryValue(parm1);
@@ -397,7 +342,7 @@ public class IntCodeComputerCPU extends Thread {
                         exit(91);
 
                     relativeBase += val1;
-                    i += 2;
+                    iMemPointer += 2;
                     break;
                 case 99: // end
                     //System.out.println(computerId + ": End");

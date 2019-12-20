@@ -51,7 +51,13 @@ public class IntCodeComputer {
     }
 
     public long getOutputValue() {
-        Long returnValue = outputQueue.get(0);
+        Long returnValue = null;
+        while (outputQueue.get(0) == null)
+            outputQueue.remove(0);
+
+        do {
+            returnValue = outputQueue.get(0);
+        } while (returnValue == null);
         outputQueue.remove(0);
 
         return returnValue;
